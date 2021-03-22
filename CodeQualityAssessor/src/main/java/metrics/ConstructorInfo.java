@@ -22,7 +22,7 @@ public class ConstructorInfo extends VoidVisitorAdapter<List<ArrayList<String>>>
 	public void visit(ConstructorDeclaration c, List<ArrayList<String>> collector) {
 		super.visit(c, collector);
 
-		id++;
+		this.id++;
 
 		ArrayList<String> temp = new ArrayList<String>();
 		// get class name

@@ -26,7 +26,7 @@ public class MethodInfoCollector extends VoidVisitorAdapter<List<ArrayList<Strin
 	public void visit(MethodDeclaration md, List<ArrayList<String>> collector) { 
 		super.visit(md, collector);
 	
-		id++;
+		this.id++;
 		
 		ArrayList<String> temp = new ArrayList<String>();
 		

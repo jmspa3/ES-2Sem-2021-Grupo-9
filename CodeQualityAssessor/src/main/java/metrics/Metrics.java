@@ -44,13 +44,18 @@ public class Metrics {
 	private List<ArrayList<String>> getMetrics(String path, int id) throws FileNotFoundException {
 		CompilationUnit cu = StaticJavaParser.parse(new File(path));
 
-		// get method information of lines of each one
 		List<ArrayList<String>> consAndMethodInfo = new ArrayList<ArrayList<String>>();
+
+		// get constructors information
 		VoidVisitor<List<ArrayList<String>>> constructorCollector = new ConstructorInfo(cu, id);
-		VoidVisitor<List<ArrayList<String>>> methodCollector = new MethodInfoCollector(cu, id + 1);
 		constructorCollector.visit(cu, consAndMethodInfo);
+
+		// get methods information
+		VoidVisitor<List<ArrayList<String>>> methodCollector = new MethodInfoCollector(cu,
+				id + consAndMethodInfo.size());
 		methodCollector.visit(cu, consAndMethodInfo);
-		
+
+		// add the number of methods to the Arraylist
 		consAndMethodInfo.forEach(n -> n.add(Integer.toString(consAndMethodInfo.size())));
 		return consAndMethodInfo;
 	}
@@ -60,11 +65,7 @@ public class Metrics {
 		int count = 0;
 		for (String p : pathnames) {
 			showMetrics(getMetrics(p, count));
-			int last = getMetrics(p, count).size() - 1;
-			if (last >= 0) {
-				count = Integer.parseInt(getMetrics(p, count).get(last).get(0));
-			}
-			// count = Integer.parseInt(getMetrics(p, count).get(0).get(0));
+			count += getMetrics(p, count).size();
 		}
 	}
 
@@ -73,16 +74,15 @@ public class Metrics {
 		int count = 0;
 		for (String p : pathnames) {
 			getMetrics(p, count);
-			count = Integer.parseInt(getMetrics(p, count).get(getMetrics(p, count).size() - 1).get(0));
+			count += getMetrics(p, count).size();
 		}
 	}
 
 	// just for testing (to be removed)
 	public static void main(String[] args) throws FileNotFoundException {
 
-		Metrics tm = new Metrics("D:\\Eclipse-Workspace\\jasml_0.10");
+		Metrics tm = new Metrics("/Users/nunodias/Documents/Eclipse_Workspace/jasml_0.10");
 		tm.runTroughJavaFilesPrint();
 		// tm.runTroughJavaFiles();
-
 	}
 }
