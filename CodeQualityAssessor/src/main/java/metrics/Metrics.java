@@ -12,10 +12,12 @@ import com.github.javaparser.ast.visitor.VoidVisitor;
 public class Metrics {
 
 	private ArrayList<String> pathnames;
+	private List<ArrayList<String>> methodList;
 
 	// Constructor
 	public Metrics(String path) {
 		this.pathnames = new ArrayList<String>();
+		this.methodList = new ArrayList<ArrayList<String>>();
 		findJavaFilePaths(new File(path));
 	}
 
@@ -31,13 +33,6 @@ public class Metrics {
 				}
 			}
 		}
-	}
-
-	// print metrics (to be removed)
-	private void showMetrics(List<ArrayList<String>> methodList) throws FileNotFoundException {
-		methodList.forEach(n -> System.out.println("method id: " + n.get(0) + "\n" + "package: " + n.get(1) + "\n"
-				+ "class: " + n.get(2) + "\n" + "LOC_class: " + n.get(3) + "\n" + "method: " + n.get(4) + "\n"
-				+ "LOC_method: " + n.get(5) + "\n" + "NOM_class: " + n.get(6) + "\n"));
 	}
 
 	// return an list of arraylists with the metrics and information for each method
@@ -60,28 +55,31 @@ public class Metrics {
 		return consAndMethodInfo;
 	}
 
-	// prints metrics for every java file (to be removed)
-	public void runTroughJavaFilesPrint() throws FileNotFoundException {
+	// returns metrics for every java file
+	public List<ArrayList<String>> runTroughJavaFiles() throws FileNotFoundException {
 		int count = 0;
 		for (String p : pathnames) {
-			showMetrics(getMetrics(p, count));
+			this.methodList.addAll(getMetrics(p, count));
 			count += getMetrics(p, count).size();
 		}
+		return methodList;
 	}
 
-	// returns metrics for every java file
-	public void runTroughJavaFiles() throws FileNotFoundException {
-		int count = 0;
-		for (String p : pathnames) {
-			getMetrics(p, count);
-			count += getMetrics(p, count).size();
-		}
+	// print metrics (to be removed)
+	private void showMetrics(List<ArrayList<String>> methodList) throws FileNotFoundException {
+		methodList.forEach(n -> System.out.println("method id: " + n.get(0) + "\n" + "package: " + n.get(1) + "\n"
+				+ "class: " + n.get(2) + "\n" + "LOC_class: " + n.get(3) + "\n" + "method: " + n.get(4) + "\n"
+				+ "LOC_method: " + n.get(5) + "\n" + "NOM_class: " + n.get(6) + "\n"));
+	}
+
+	// prints metrics for every java file (to be removed)
+	public void runTroughJavaFilesPrint() throws FileNotFoundException {
+		showMetrics(runTroughJavaFiles());
 	}
 
 	// just for testing (to be removed)
 	public static void main(String[] args) throws FileNotFoundException {
-
-		Metrics tm = new Metrics("/Users/nunodias/Documents/Eclipse_Workspace/jasml_0.10");
+		Metrics tm = new Metrics("D:\\Eclipse-Workspace\\jasml_0.10");
 		tm.runTroughJavaFilesPrint();
 		// tm.runTroughJavaFiles();
 	}
