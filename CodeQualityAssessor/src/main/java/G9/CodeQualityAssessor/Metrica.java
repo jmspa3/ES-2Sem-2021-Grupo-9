@@ -7,7 +7,40 @@ public class Metrica {
 	private int WMC_CLASS;
 	private int LOC_method;
 	private int CYCLO_method;
+	private int packages;
+	private int methods;
+	private int classes; 
 	
+	public int getMethods() {
+		return methods;
+	}
+
+
+	public void setMethods(int methods) {
+		this.methods = methods;
+	}
+
+
+	public int getClasses() {
+		return classes;
+	}
+
+
+	public void setClasses(int classes) {
+		this.classes = classes;
+	}
+
+
+	public int getPackages() {
+		return packages;
+	}
+
+
+	public void setPackages(int packages) {
+		this.packages = packages;
+	}
+
+
 	public Metrica() {
 
 	} 

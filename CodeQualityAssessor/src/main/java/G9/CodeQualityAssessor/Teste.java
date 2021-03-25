@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.poi.*;
@@ -23,17 +24,18 @@ public class Teste {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		ContentExcel getContentFromExcelSheets = new ContentExcel(); 
-		List<Metrica> extractedMetricaData = new ArrayList<Metrica>(); 
+		//List<Metrica> extractedMetricaData = new ArrayList<Metrica>(); 
 		try {
-			extractedMetricaData = getContentFromExcelSheets.readBooksFromExcelFile("excelFileContents.xlsx"); 
+			getContentFromExcelSheets.readBooksFromExcelFile("C:\\Users\\carol\\Downloads\\Code_Smells1.xlsx"); 
+			getContentFromExcelSheets.numberTotalPackages();
 			
 		}catch(IOException e) {
 			e.printStackTrace();
 		}
 		
-		for (int i=0; i < extractedMetricaData.size(); i++) {
+		/*for (int i=0; i < extractedMetricaData.size(); i++) {
 			System.out.println(extractedMetricaData.get(i).toString());
-		}
+		}*/
 	}
 	
 	private Object getCellValue(Cell cell) {
@@ -86,7 +88,7 @@ public class Teste {
 		return listmetric;
 	}
 	
-	public void writeExcel(List<Metrica> metricas, String excelFilePath) throws IOException {
+	/*public void writeExcel(List<Metrica> metricas, String excelFilePath) throws IOException {
 	    Workbook workbook = new HSSFWorkbook();
 	    Sheet sheet = workbook.createSheet();
 	    excelFilePath = excelFilePath + "_metrics";
@@ -100,9 +102,9 @@ public class Teste {
 	    try (FileOutputStream outputStream = new FileOutputStream(excelFilePath)) {
 	        workbook.write(outputStream);
 	    }
-	}
+	}*/
 	
-	private void writeBook(Metrica m, Row row) {
+	/*private void writeBook(Metrica m, Row row) {
 	    Cell cell = row.createCell(1);
 	    cell.setCellValue(m.getNOM_CLASS());
 	 
@@ -117,7 +119,7 @@ public class Teste {
 	    
 	    cell = row.createCell(5);
 	    cell.setCellValue(m.getCYCLO_method());  
-	}
+	}*/
 	
 	/*private void createHeaderRow(Sheet sheet) {
 		 
@@ -148,5 +150,5 @@ public class Teste {
 	    cellPrice.setCellStyle(cellStyle);
 	    cellPrice.setCellValue("CYCLO_method");
 	}*/
-
+	
 }
