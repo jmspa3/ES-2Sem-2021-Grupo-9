@@ -66,22 +66,22 @@ public class Metrics {
 		return methodList;
 	}
 
-//	// print metrics (to be removed)
-//	private void showMetrics(List<ArrayList<String>> methodList) throws FileNotFoundException {
-//		methodList.forEach(n -> System.out.println("method id: " + n.get(0) + "\n" + "package: " + n.get(1) + "\n"
-//				+ "class: " + n.get(2) + "\n" + "LOC_class: " + n.get(3) + "\n" + "method: " + n.get(4) + "\n"
-//				+ "LOC_method: " + n.get(5) + "\n" + "NOM_class: " + n.get(6) + "\n"));
-//	}
+	// print metrics (to be removed)
+	private void showMetrics(List<ArrayList<String>> methodList) throws FileNotFoundException {
+		methodList.forEach(n -> System.out.println("method id: " + n.get(0) + "\n" + "package: " + n.get(1) + "\n"
+				+ "class: " + n.get(2) + "\n" + "LOC_class: " + n.get(3) + "\n" + "method: " + n.get(4) + "\n"
+				+ "LOC_method: " + n.get(5) + "\n" + "NOM_class: " + n.get(6) + "\n"));
+	}
 
-//	// prints metrics for every java file (to be removed)
-//	public void runTroughJavaFilesPrint() throws FileNotFoundException {
-//		showMetrics(runTroughJavaFiles());
-//	}
+	// prints metrics for every java file (to be removed)
+	public void runTroughJavaFilesPrint() throws FileNotFoundException {
+		showMetrics(runTroughJavaFiles());
+	}
 
-//	// just for testing (to be removed)
-//	public static void main(String[] args) throws FileNotFoundException {
-//		Metrics tm = new Metrics("D:\\Eclipse-Workspace\\jasml_0.10");
-//		tm.runTroughJavaFilesPrint();
-//		// tm.runTroughJavaFiles();
-//	}
+	// just for testing (to be removed)
+	public static void main(String[] args) throws FileNotFoundException {
+		Metrics tm = new Metrics("/Users/nunodias/Documents/GitHub/ES-2Sem-2021-Grupo-9/CodeQualityAssessor");
+		tm.runTroughJavaFilesPrint();
+		tm.runTroughJavaFiles();
+	}
 }

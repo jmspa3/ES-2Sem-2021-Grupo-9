@@ -35,7 +35,7 @@ public class ConstructorInfo extends VoidVisitorAdapter<List<ArrayList<String>>>
 
 		// get package name
 		String packageName;
-		if (!cu.getPackageDeclaration().isEmpty()) {
+		if (!cu.getPackageDeclaration().equals("")) {
 			int iend = cu.getPackageDeclaration().get().toString().split(" ")[1].indexOf(";");
 			packageName = cu.getPackageDeclaration().get().toString().split(" ")[1].substring(0, iend);
 		} else {
