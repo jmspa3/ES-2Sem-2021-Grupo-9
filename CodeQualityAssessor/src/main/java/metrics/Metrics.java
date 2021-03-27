@@ -80,8 +80,8 @@ public class Metrics {
 
 	// just for testing (to be removed)
 	public static void main(String[] args) throws FileNotFoundException {
-		Metrics tm = new Metrics("/Users/nunodias/Documents/GitHub/ES-2Sem-2021-Grupo-9/CodeQualityAssessor");
+		Metrics tm = new Metrics("/Users/nunodias/Documents/jasml_0.10/src");
 		tm.runTroughJavaFilesPrint();
-		tm.runTroughJavaFiles();
+		//tm.runTroughJavaFiles();
 	}
 }
