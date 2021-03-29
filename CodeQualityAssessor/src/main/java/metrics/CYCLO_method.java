@@ -28,12 +28,10 @@ import com.github.javaparser.symbolsolver.JavaSymbolSolver;
 import javassist.compiler.ast.AssignExpr;
 
 public class CYCLO_method {
-
-	private static int i =0;
 	
 	public static void main(String[] args) {
 		try {
-			File file = new File("C:\\Users\\Daniel\\Desktop\\jasml\\src\\com\\jasml\\compiler\\SourceCodeParser.java");
+			File file = new File("C:\\Users\\Daniel\\git\\ES-2Sem-2021-Grupo-9\\CodeQualityAssessor\\src\\main\\java\\test\\testFile1.java");
 			
 			List<Metric> fileMetrics = new ArrayList<Metric>();
 			
@@ -82,6 +80,7 @@ public class CYCLO_method {
 				fileMetrics.add(i);
 				System.out.println(i);
 			}
+			
 							
 		}catch (Exception e) {
 			System.out.println("Something Went Terribly Wrong");

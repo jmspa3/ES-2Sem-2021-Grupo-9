@@ -45,7 +45,6 @@ public class Metric {
 		this.count++;
 	}
 	
-	
 	public String toString() {
 		return "package: "+m_package+"\n"+"class: "+m_class+"\n"+"method: "+m_method+"\n"+"count: "+count;
 	}

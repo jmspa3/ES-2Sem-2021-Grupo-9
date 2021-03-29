@@ -1,5 +1,6 @@
 package test;
 
+import metrics.Metrica;
 
 public class testFile1 {
 
