@@ -31,7 +31,7 @@ public class MethodInfoCollector extends VoidVisitorAdapter<List<ArrayList<Strin
 	@Override
 	public void visit(MethodDeclaration md, List<ArrayList<String>> collector) {
 		super.visit(md, collector);
-
+		
 		this.id++;
 
 		ArrayList<String> temp = new ArrayList<String>();
