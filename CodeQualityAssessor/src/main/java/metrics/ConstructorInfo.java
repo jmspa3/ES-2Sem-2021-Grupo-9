@@ -4,8 +4,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.stmt.DoStmt;
+import com.github.javaparser.ast.stmt.ForEachStmt;
+import com.github.javaparser.ast.stmt.ForStmt;
+import com.github.javaparser.ast.stmt.IfStmt;
+import com.github.javaparser.ast.stmt.SwitchStmt;
+import com.github.javaparser.ast.stmt.WhileStmt;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
 public class ConstructorInfo extends VoidVisitorAdapter<List<ArrayList<String>>> {
@@ -13,11 +22,13 @@ public class ConstructorInfo extends VoidVisitorAdapter<List<ArrayList<String>>>
 	private CompilationUnit cu;
 	private int id;
 
+
 	public ConstructorInfo(CompilationUnit cu, int id) {
 		this.cu = cu;
 		this.id = id;
 	}
 
+	//visit all constructors and return all info about each one
 	@Override
 	public void visit(ConstructorDeclaration c, List<ArrayList<String>> collector) {
 		super.visit(c, collector);
@@ -25,15 +36,45 @@ public class ConstructorInfo extends VoidVisitorAdapter<List<ArrayList<String>>>
 		this.id++;
 
 		ArrayList<String> temp = new ArrayList<String>();
-		// get class name
-		String className = cu.getPrimaryTypeName().get();
 
-		// get class number of lines
-		int classBegin = Integer.parseInt(cu.getClassByName(cu.getPrimaryTypeName().get()).get().getBegin().toString().split(",")[0].split(" ")[1]);
-		int classEnd = Integer.parseInt(cu.getClassByName(cu.getPrimaryTypeName().get()).get().getEnd().toString().split(",")[0].split(" ")[1]);
-		int classTotalLines = classEnd - classBegin + 1;
+		String className = getClassName();
+		String packageName = getPackageName();
+		String constructorName = getConstructorName(c);
+		int classLines = getLOC_class();
+		int methodLines = getLOC_method(c);
+		
+		int cycloMethod = getCYCLO_method(c);
 
-		// get package name
+		temp.add(Integer.toString(id));
+		temp.add(packageName);
+		temp.add(className);
+		temp.add(constructorName);
+		temp.add(Integer.toString(classLines));
+		temp.add(Integer.toString(methodLines));
+		temp.add(Integer.toString(cycloMethod));
+		
+		collector.add(temp);
+	}
+
+	// get class name
+	private String getClassName() {
+		return cu.getPrimaryTypeName().get();
+	}
+
+	// get constructor name
+	private String getConstructorName(ConstructorDeclaration c) {
+		return c.getDeclarationAsString(false, false, false);
+	}
+
+	// get class number of lines
+	private int getLOC_class() {
+		int classBegin = cu.getClassByName(getClassName()).get().getBegin().get().line;
+		int classEnd = cu.getEnd().get().line;
+		return classEnd - classBegin + 1;
+	}
+
+	// get package name
+	private String getPackageName() {
 		String packageName;
 		if (!(cu.getPackageDeclaration().orElse(null) == null)) {
 			int iend = cu.getPackageDeclaration().get().toString().split(" ")[1].indexOf(";");
@@ -41,23 +82,33 @@ public class ConstructorInfo extends VoidVisitorAdapter<List<ArrayList<String>>>
 		} else {
 			packageName = "(default package)";
 		}
+		return packageName;
+	}
 
-		// get method total lines
-		int begin = Integer.parseInt(c.getBegin().get().toString().split(",")[0].split(" ")[1]);
-		int end = Integer.parseInt(c.getEnd().get().toString().split(",")[0].split(" ")[1]);
-		int total = end - begin + 1;
-
-		temp.add(Integer.toString(id));
-		temp.add(packageName);
-		temp.add(className);
-		temp.add(Integer.toString(classTotalLines));
-
+	// get method number of lines
+	private int getLOC_method(ConstructorDeclaration c) {
+		int begin = c.getBegin().get().line;
+		int end = c.getEnd().get().line;
+		return end - begin + 1;
+	}
+	
+	private int getCYCLO_method(ConstructorDeclaration c) {
+		int i = 1;
 		
-		temp.add(c.getDeclarationAsString(false, false, false));
-		temp.add(Integer.toString(total));
-
-		collector.add(temp);
-
+		i += c.findAll(IfStmt.class).size();
+		i += c.findAll(WhileStmt.class).size();
+		i += c.findAll(ForStmt.class).size();    
+		i += c.findAll(ForEachStmt.class).size();
+		i += c.findAll(DoStmt.class).size();
+		
+		for(int j = 0; j< c.findAll(SwitchStmt.class).size(); j++) {
+			i += c.findAll(SwitchStmt.class).get(j).getEntries().size();
+		}
+		
+		i += StringUtils.countMatches(c.toString(), "&&");
+		i += StringUtils.countMatches(c.toString(), "||");
+		
+		return i;
 	}
 
 }
