@@ -11,6 +11,37 @@ public class Metrica {
 	private int methods;
 	private int classes; 
 	
+	public Metrica() {}
+	
+	public Metrica(int packages, int classes, int methods, int NOM_CLASS, int LOC_CLASS, int WMC_CLASS, int LOC_method, int CYCLO_method ) {
+		this.packages=packages;	
+		this.classes=classes;	
+		this.methods=methods;
+		this.NOM_CLASS=NOM_CLASS;
+		this.LOC_CLASS=LOC_CLASS;
+		this.WMC_CLASS = WMC_CLASS;
+		this.LOC_method = LOC_method;
+		this.CYCLO_method = CYCLO_method;
+	}
+	
+	public int getPackages() {
+		return packages;
+	}
+
+
+	public void setPackages(int packages) {
+		this.packages = packages;
+	}
+	
+	public int getClasses() {
+		return classes;
+	}
+
+
+	public void setClasses(int classes) {
+		this.classes = classes;
+	}
+	
 	public int getMethods() {
 		return methods;
 	}
@@ -21,40 +52,6 @@ public class Metrica {
 	}
 
 
-	public int getClasses() {
-		return classes;
-	}
-
-
-	public void setClasses(int classes) {
-		this.classes = classes;
-	}
-
-
-	public int getPackages() {
-		return packages;
-	}
-
-
-	public void setPackages(int packages) {
-		this.packages = packages;
-	}
-
-
-	public Metrica() {
-
-	} 
-	
-	
-	public Metrica(int NOM_CLASS, int LOC_CLASS, int WMC_CLASS, int LOC_method, int CYCLO_method ) {
-		this.NOM_CLASS=NOM_CLASS;
-		this.LOC_CLASS=LOC_CLASS;
-		this.WMC_CLASS = WMC_CLASS;
-		this.LOC_method = LOC_method;
-		this.CYCLO_method = CYCLO_method;
-	}
-	
-	
 	public int getNOM_CLASS() {
 		return NOM_CLASS;
 	}
