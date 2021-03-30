@@ -7,6 +7,11 @@ import java.util.List;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.body.BodyDeclaration;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.ConstructorDeclaration;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitor;
 
 public class Metrics {
@@ -38,8 +43,9 @@ public class Metrics {
 
 	// return an list of arraylists with the metrics and information for each method
 	private List<ArrayList<String>> getInfoByJavaFIle(String path, int id) throws FileNotFoundException {
+		
 		CompilationUnit cu = StaticJavaParser.parse(new File(path));
-
+		
 		List<ArrayList<String>> consAndMethodInfo = new ArrayList<ArrayList<String>>();
 
 		// get constructors information
@@ -58,8 +64,8 @@ public class Metrics {
 		String wmc_class = Integer.toString(count);
 		consAndMethodInfo.forEach(n -> n.add(wmc_class));
 		
-		// add the number of methods to the Arraylist
-		consAndMethodInfo.forEach(n -> n.add(Integer.toString(consAndMethodInfo.size())));
+//		// add the number of methods to the Arraylist
+//		consAndMethodInfo.forEach(n -> n.add(Integer.toString(consAndMethodInfo.size())));
 		
 		return consAndMethodInfo;
 	}
@@ -78,7 +84,7 @@ public class Metrics {
 	private void showMetrics(List<ArrayList<String>> methodList) throws FileNotFoundException {
 		methodList.forEach(n -> System.out.println("method id: " + n.get(0) + "\n" + "package: " + n.get(1) + "\n"
 				+ "class: " + n.get(2) + "\n" + "method: " + n.get(3) + "\n" + "LOC_class: " + n.get(4) + "\n"
-				+ "LOC_method: " + n.get(5) + "\n" + "CYCLO_method: " + n.get(6) + "\n" + "WMC_class: " + n.get(7) + "\n" + "NOM_class: " + n.get(8) + "\n"));
+				+ "LOC_method: " + n.get(5) + "\n" + "CYCLO_method: " + n.get(6) + "\n" + "NOM_class: " + n.get(8) + "\n" + "WMC_class: " + n.get(9) + "\n"));
 	}
 
 	// prints metrics for every java file (to be removed)

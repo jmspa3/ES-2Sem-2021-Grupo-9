@@ -7,7 +7,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.body.ConstructorDeclaration;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.stmt.DoStmt;
 import com.github.javaparser.ast.stmt.ForEachStmt;
@@ -21,6 +21,7 @@ public class MethodInfoCollector extends VoidVisitorAdapter<List<ArrayList<Strin
 
 	private CompilationUnit cu;
 	private int id;
+	
 
 	public MethodInfoCollector(CompilationUnit cu, int id) {
 		this.cu = cu;
@@ -31,27 +32,52 @@ public class MethodInfoCollector extends VoidVisitorAdapter<List<ArrayList<Strin
 	@Override
 	public void visit(MethodDeclaration md, List<ArrayList<String>> collector) {
 		super.visit(md, collector);
-		
+
 		this.id++;
+
+		ClassOrInterfaceDeclaration cid = (ClassOrInterfaceDeclaration) md.getParentNode().get();
 
 		ArrayList<String> temp = new ArrayList<String>();
 
-		String className = getClassName();
-		String packageName = getPackageName();
-		String methodName = getMethodName(md);
-		int classLines = getLOC_class();
-		int methodLines = getLOC_method(md);
-		
-		int cycloMethod = getCYCLO_method(md);
+		boolean isNested = false;
+		String className;
+		String packageName;
+		String constructorName;
+		int classLines;
+		int methodLines;
+		int cycloMethod;
+		int NOM_class;
+
+		if (cid.isNestedType()) {	
+			className = getClassName() + "." + cid.getNameAsString();
+			packageName = getPackageName();
+			constructorName = getMethodName(md);
+			classLines = getLOC_Inner_class(cid);
+			methodLines = getLOC_method(md);
+			cycloMethod = getCYCLO_method(md);
+			isNested = true;
+			NOM_class = (cid.getConstructors().size() + cid.getMethods().size());
+		} else {
+			className = getClassName();
+			packageName = getPackageName();
+			constructorName = getMethodName(md);
+			classLines = getLOC_class();
+			methodLines = getLOC_method(md);
+			cycloMethod = getCYCLO_method(md);
+			isNested = false;
+			NOM_class = (cid.getConstructors().size() + cid.getMethods().size());
+		}
 
 		temp.add(Integer.toString(id));
 		temp.add(packageName);
 		temp.add(className);
-		temp.add(methodName);
+		temp.add(constructorName);
 		temp.add(Integer.toString(classLines));
 		temp.add(Integer.toString(methodLines));
 		temp.add(Integer.toString(cycloMethod));
-		
+		temp.add(Boolean.toString(isNested));
+		temp.add(Integer.toString(NOM_class));
+
 		collector.add(temp);
 	}
 
@@ -80,6 +106,13 @@ public class MethodInfoCollector extends VoidVisitorAdapter<List<ArrayList<Strin
 		return classEnd - classBegin + 1;
 	}
 
+	// get class number of lines
+	private int getLOC_Inner_class(ClassOrInterfaceDeclaration cid) {
+		int classBegin = cid.getBegin().get().line;
+		int classEnd = cid.getEnd().get().line;
+		return classEnd - classBegin + 1;
+	}
+
 	// get package name
 	private String getPackageName() {
 		String packageName;
@@ -98,23 +131,23 @@ public class MethodInfoCollector extends VoidVisitorAdapter<List<ArrayList<Strin
 		int end = md.getEnd().get().line;
 		return end - begin + 1;
 	}
-	
+
 	private int getCYCLO_method(MethodDeclaration md) {
 		int i = 1;
-		
+
 		i += md.findAll(IfStmt.class).size();
 		i += md.findAll(WhileStmt.class).size();
-		i += md.findAll(ForStmt.class).size();    
+		i += md.findAll(ForStmt.class).size();
 		i += md.findAll(ForEachStmt.class).size();
 		i += md.findAll(DoStmt.class).size();
-		
-		for(int j = 0; j< md.findAll(SwitchStmt.class).size(); j++) {
+
+		for (int j = 0; j < md.findAll(SwitchStmt.class).size(); j++) {
 			i += md.findAll(SwitchStmt.class).get(j).getEntries().size();
 		}
-		
+
 		i += StringUtils.countMatches(md.toString(), "&&");
 		i += StringUtils.countMatches(md.toString(), "||");
-		
+
 		return i;
 	}
 
