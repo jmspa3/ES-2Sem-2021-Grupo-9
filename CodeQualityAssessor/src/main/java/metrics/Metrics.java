@@ -3,7 +3,12 @@ package metrics;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Set;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
@@ -57,15 +62,31 @@ public class Metrics {
 				id + consAndMethodInfo.size());
 		methodCollector.visit(cu, consAndMethodInfo);
 		
-		int count = 0;
-		for(int i = 0; i <  consAndMethodInfo.size(); i++) {
-			count += Integer.parseInt(consAndMethodInfo.get(i).get(6));
-		}
-		String wmc_class = Integer.toString(count);
-		consAndMethodInfo.forEach(n -> n.add(wmc_class));
+//		int count = 0;
+//		for(int i = 0; i <  consAndMethodInfo.size(); i++) {
+//			count += Integer.parseInt(consAndMethodInfo.get(i).get(6));
+//		}
+//		String wmc_class = Integer.toString(count);
+//		consAndMethodInfo.forEach(n -> n.add(wmc_class));
 		
-//		// add the number of methods to the Arraylist
-//		consAndMethodInfo.forEach(n -> n.add(Integer.toString(consAndMethodInfo.size())));
+//		Set<String> hash_Set = new HashSet<String>();
+		Hashtable<String, Integer> dict = new Hashtable<String, Integer>();
+		for(int i = 0; i <  consAndMethodInfo.size(); i++) {
+			if(!dict.contains(consAndMethodInfo.get(i).get(2))) {
+				dict.put(consAndMethodInfo.get(i).get(2), Integer.parseInt(consAndMethodInfo.get(i).get(6)));
+			} else {
+				dict.replace(consAndMethodInfo.get(i).get(2), dict.get(consAndMethodInfo.get(i).get(2)) + Integer.parseInt(consAndMethodInfo.get(i).get(6)));
+			}
+		}
+		
+		consAndMethodInfo.forEach(n -> n.add(Integer.toString(dict.get(n.get(2)))));
+		
+		
+//		for(int i = 0; i <  consAndMethodInfo.size(); i++) {
+//			
+//		}
+		
+		
 		
 		return consAndMethodInfo;
 	}

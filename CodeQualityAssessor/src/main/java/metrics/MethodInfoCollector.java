@@ -16,6 +16,7 @@ import com.github.javaparser.ast.stmt.IfStmt;
 import com.github.javaparser.ast.stmt.SwitchStmt;
 import com.github.javaparser.ast.stmt.WhileStmt;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
+import com.github.javaparser.utils.Pair;
 
 public class MethodInfoCollector extends VoidVisitorAdapter<List<ArrayList<String>>> {
 
@@ -134,7 +135,8 @@ public class MethodInfoCollector extends VoidVisitorAdapter<List<ArrayList<Strin
 
 	private int getCYCLO_method(MethodDeclaration md) {
 		int i = 1;
-
+		
+		
 		i += md.findAll(IfStmt.class).size();
 		i += md.findAll(WhileStmt.class).size();
 		i += md.findAll(ForStmt.class).size();
@@ -146,8 +148,7 @@ public class MethodInfoCollector extends VoidVisitorAdapter<List<ArrayList<Strin
 		}
 
 		i += StringUtils.countMatches(md.toString(), "&&");
-		i += StringUtils.countMatches(md.toString(), "||");
-
+		i += StringUtils.countMatches(md.toString(), "||");	
 		return i;
 	}
 
