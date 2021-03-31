@@ -2,6 +2,7 @@ package G9.CodeQualityAssessor;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -135,16 +136,16 @@ public class ContentExcel {
 	    //method that writes in Excel
 	    
 	    public void writeExcel(List<Metrica> listMetrica, String excelFilePath) throws IOException {
-	        Workbook workbook = new HSSFWorkbook();
+	        Workbook workbook = new XSSFWorkbook();
 	        Sheet sheet = workbook.createSheet();
 			
 			createHeaderRow(sheet);
 	     
 	        int rowCount = 0;
 	     
-	        for (Metrica aBook : listMetrica) {
+	        for (Metrica m : listMetrica) {
 	            Row row = sheet.createRow(++rowCount);
-	            writeBook(aBook, row);
+	            writeBook(m, row);
 	        }
 	     
 	        try (FileOutputStream outputStream = new FileOutputStream(excelFilePath)) {
@@ -218,5 +219,44 @@ public class ContentExcel {
 	        List<Metrica> listBook = Arrays.asList( book3, book4);
 	     
 	        return listBook;
+	    }
+	    
+	    
+	    public void insertData(String excelFilePath) {
+	    	  try {
+	    	        //Get the excel file.
+	    	        FileInputStream file = new FileInputStream(new File(excelFilePath));
+
+
+	    	        //Get first sheet from the workbook.
+	    	        //If there have >1 sheet in your workbook, you can change it here IF you want to edit other sheets.
+	    	        Workbook workbook = new XSSFWorkbook(file); 
+	    	        Sheet firstSheet = workbook.getSheetAt(0); 
+	    	        // Get the row of your desired cell.
+	    	        // Let's say that your desired cell is at row 2.
+	    	        Row row = firstSheet.getRow(1);
+	    	        // Get the column of your desired cell in your selected row.
+	    	        // Let's say that your desired cell is at column 2.
+	    	        Cell column = row.getCell(1);
+	    	        // If the cell is String type.If double or else you can change it.
+	    	        String updatename = column.getStringCellValue();
+	    	        //New content for desired cell.
+	    	        updatename="Lala";
+	    	        //Print out the updated content.
+	    	        System.out.println(updatename);
+	    	        //Set the new content to your desired cell(column).
+	    	        column.setCellValue(updatename); 
+	    	        //Close the excel file.
+	    	        file.close();
+	    	        //Where you want to save the updated sheet.
+	    	        FileOutputStream out = new FileOutputStream(new File(excelFilePath));
+	    	        workbook.write(out);
+	    	        out.close();
+
+	    	    } catch (FileNotFoundException e) {
+	    	        e.printStackTrace();
+	    	    } catch (IOException e) {
+	    	        e.printStackTrace();
+	    	    }
 	    }
 }
