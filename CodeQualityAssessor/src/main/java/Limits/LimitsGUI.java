@@ -136,6 +136,7 @@ public class LimitsGUI implements MouseListener {
 		textField_1.setColumns(10);
 		
 		JButton guardarTotal = new JButton("Save");
+		guardarTotal.addMouseListener(this); //falta funcionalidade
 		guardarTotal.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		guardarTotal.setBounds(275, 433, 222, 47);
 		frame.getContentPane().add(guardarTotal);
@@ -154,7 +155,7 @@ public class LimitsGUI implements MouseListener {
 			case "Or":  operador = "|| "; break;      
 			case "And":  operador = "&& "; break;	
 			case "=":  operador = "== "; break;	
-	        default: operador = condicionador + " "; break;      
+	        default: operador = condicionador.trim() + " "; break;      
 		}
 		
 		textField_condicao.setText(textField_condicao.getText() + operador);  
@@ -174,7 +175,12 @@ public class LimitsGUI implements MouseListener {
 				
 			case "save":
 				command = textField_condicao.getText();
-				verifyCondition(command);
+				th = new Threshold(command, "teste");
+
+				break;
+				
+			case "Save":
+				//botão Save de baixo, falta funcionalidade
 				break;
 	
 			default:
@@ -187,36 +193,7 @@ public class LimitsGUI implements MouseListener {
 	}
 	
 	
-	public void verifyCondition(String condition) {
-		/*The purpose of this function is to verify whether the sintaxe of the text in "textField_condicao" 
-		 * is valid or not (in terms of how Java processes conditions). These are the rules for the correct
-		 * functioning of the function, which work in a cycle until the scanner can't read any more data:
-		 * 1st member - Number OR String similar to the way we identify LOC_class and so on
-		 * 2nd member - Mandatory operator (<, >, ==)
-		 * 3rd member - Equal to first, but in combination of Number - String or String - Number (12 - 2 is valid mathematically but not in this context)
-		 * 4th member - Mandatory OR or AND operator, otherwise if there are no more tokens to be read, NULL*/
-		
-		//v0.1
-		
-		Scanner scanner =new Scanner(condition);
-		while (scanner.hasNext()) {  
-			try {
-			String first = scanner.next();
-			String operator = scanner.next();  
-			String third = scanner.next();  
-			if (scanner.hasNext()) {
-				String logic = scanner.next();
-				System.out.println(first + operator + third + logic);
-			}
-			System.out.println(first + operator + third );
-			
-			
-			} catch (Exception sequence_broken) {
-				System.out.println("A condição tem erros na sintaxe pelo que não posso guardá-la");
-			}
-		}  
-		scanner.close();  
-	}
+
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
