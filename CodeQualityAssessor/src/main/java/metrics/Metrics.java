@@ -72,7 +72,7 @@ public class Metrics {
 //		Set<String> hash_Set = new HashSet<String>();
 		Hashtable<String, Integer> dict = new Hashtable<String, Integer>();
 		for(int i = 0; i <  consAndMethodInfo.size(); i++) {
-			if(!dict.contains(consAndMethodInfo.get(i).get(2))) {
+			if(!dict.containsKey(consAndMethodInfo.get(i).get(2))) {
 				dict.put(consAndMethodInfo.get(i).get(2), Integer.parseInt(consAndMethodInfo.get(i).get(6)));
 			} else {
 				dict.replace(consAndMethodInfo.get(i).get(2), dict.get(consAndMethodInfo.get(i).get(2)) + Integer.parseInt(consAndMethodInfo.get(i).get(6)));
@@ -81,10 +81,7 @@ public class Metrics {
 		
 		consAndMethodInfo.forEach(n -> n.add(Integer.toString(dict.get(n.get(2)))));
 		
-		
-//		for(int i = 0; i <  consAndMethodInfo.size(); i++) {
-//			
-//		}
+
 		
 		
 		
