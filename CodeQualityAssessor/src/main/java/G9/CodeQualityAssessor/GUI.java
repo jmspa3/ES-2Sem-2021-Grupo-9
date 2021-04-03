@@ -157,12 +157,11 @@ public class GUI extends JFrame {
 				data.add(data1);
 				data.add(data2);
 
+
 				
-				
-				
-				for (String[] singleMetrics : data) {
-					data.add(singleMetrics);
-				}
+//				for (String[] singleMetrics : data) {
+//					data.add(singleMetrics);
+//				}
 				
 				DefaultTableModel model = new DefaultTableModel();
 
@@ -240,12 +239,7 @@ public class GUI extends JFrame {
 		JButton btnRegras = new JButton("Regras");
 		btnRegras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				btnRegrasAction();
-			}
-
-			private void btnRegrasAction() {
-				// TODO Auto-generated method stub
-				
+				new GUIRegras();
 			}
 		});
 		panel_7.add(btnRegras);
