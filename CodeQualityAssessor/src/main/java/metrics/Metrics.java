@@ -41,29 +41,17 @@ public class Metrics {
 	private List<ArrayList<String>> getInfoByJavaFIle(String path, int id) throws FileNotFoundException {
 
 		CompilationUnit cu = StaticJavaParser.parse(new File(path));
-
 		List<ArrayList<String>> consAndMethodInfo = new ArrayList<ArrayList<String>>();
 		
 		// get constructors information
 		VoidVisitor<List<ArrayList<String>>> constructorCollector = new ConstructorInfo(cu, id);
 		constructorCollector.visit(cu, consAndMethodInfo);
-
+		
 		// get methods information
-		VoidVisitor<List<ArrayList<String>>> methodCollector = new MethodInfo(cu,
-				id + consAndMethodInfo.size());
+		VoidVisitor<List<ArrayList<String>>> methodCollector = new MethodInfo(cu,id + consAndMethodInfo.size());
 		methodCollector.visit(cu, consAndMethodInfo);
 
-		Hashtable<String, Integer> dict = new Hashtable<String, Integer>();
-		for (int i = 0; i < consAndMethodInfo.size(); i++) {
-			if (!dict.containsKey(consAndMethodInfo.get(i).get(2))) {
-				dict.put(consAndMethodInfo.get(i).get(2), Integer.parseInt(consAndMethodInfo.get(i).get(6)));
-			} else {
-				dict.replace(consAndMethodInfo.get(i).get(2),
-						dict.get(consAndMethodInfo.get(i).get(2)) + Integer.parseInt(consAndMethodInfo.get(i).get(6)));
-			}
-		}
-
-		consAndMethodInfo.forEach(n -> n.add(Integer.toString(dict.get(n.get(2)))));
+		setWMC(consAndMethodInfo);
 
 		return consAndMethodInfo;
 	}
@@ -71,10 +59,12 @@ public class Metrics {
 	// returns metrics for every java file
 	public List<ArrayList<String>> getMetrics() throws FileNotFoundException {
 		int count = 0;
+		
 		for (String p : pathnames) {
 			this.methodList.addAll(getInfoByJavaFIle(p, count));
 			count += getInfoByJavaFIle(p, count).size();
 		}
+		
 		return methodList;
 	}
 
@@ -84,6 +74,25 @@ public class Metrics {
 				+ "class: " + n.get(2) + "\n" + "method: " + n.get(3) + "\n" + "LOC_class: " + n.get(4) + "\n"
 				+ "LOC_method: " + n.get(5) + "\n" + "CYCLO_method: " + n.get(6) + "\n" + "NOM_class: " + n.get(7)
 				+ "\n" + "WMC_class: " + n.get(8) + "\n"));
+	}
+	
+	//set the resulting WMC for each class
+	private List<ArrayList<String>> setWMC(List<ArrayList<String>> consAndMethodInfo) {
+		
+		Hashtable<String, Integer> dict = new Hashtable<String, Integer>();
+		
+		for (int i = 0; i < consAndMethodInfo.size(); i++) {
+			if (!dict.containsKey(consAndMethodInfo.get(i).get(2))) {
+				dict.put(consAndMethodInfo.get(i).get(2), Integer.parseInt(consAndMethodInfo.get(i).get(6)));
+			} else {
+				dict.replace(consAndMethodInfo.get(i).get(2),
+						dict.get(consAndMethodInfo.get(i).get(2)) + Integer.parseInt(consAndMethodInfo.get(i).get(6)));
+			}
+		}
+		
+		consAndMethodInfo.forEach(n -> n.add(Integer.toString(dict.get(n.get(2)))));
+		
+		return consAndMethodInfo;
 	}
 
 	// prints metrics for every java file (to be removed)
