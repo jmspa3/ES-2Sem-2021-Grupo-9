@@ -4,27 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.body.ConstructorDeclaration;
+import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
-public class ConstructorInfo extends VoidVisitorAdapter<List<ArrayList<String>>> {
+public class MethodInfo extends VoidVisitorAdapter<List<ArrayList<String>>> {
 
 	private CompilationUnit cu;
 	private int id;
 
-	public ConstructorInfo(CompilationUnit cu, int id) {
+	public MethodInfo(CompilationUnit cu, int id) {
 		this.cu = cu;
 		this.id = id;
 	}
 
-	// visit all constructors and return all info about each one
+	// visit all methods and return all info about each one
 	@Override
-	public void visit(ConstructorDeclaration c, List<ArrayList<String>> collector) {
-		super.visit(c, collector);
+	public void visit(MethodDeclaration md, List<ArrayList<String>> collector) {
+		super.visit(md, collector);
 		MetricUtils mu = new MetricUtils(cu);
 
 		this.id++;
-		
+
 		String className;
 		String packageName;
 		String constructorName;
@@ -32,15 +32,15 @@ public class ConstructorInfo extends VoidVisitorAdapter<List<ArrayList<String>>>
 		int methodLines;
 		int cycloMethod;
 		int NOM_class;
-		
+
 		ArrayList<String> temp = new ArrayList<String>();
 
-		ClassOrInterfaceDeclaration cid = (ClassOrInterfaceDeclaration) c.getParentNode().get();
+		ClassOrInterfaceDeclaration cid = (ClassOrInterfaceDeclaration) md.getParentNode().get();
 
 		packageName = mu.getPackageName();
-		constructorName = mu.getMethodName(c);
-		methodLines = mu.getLOC_Method(c);
-		cycloMethod = mu.getCYCLO_Method(c);
+		constructorName = mu.getMethodName(md);
+		methodLines = mu.getLOC_Method(md);
+		cycloMethod = mu.getCYCLO_Method(md);
 		
 		if (cid.isNestedType()) {
 			className = mu.getClassName() + "." + cid.getNameAsString();
@@ -62,8 +62,6 @@ public class ConstructorInfo extends VoidVisitorAdapter<List<ArrayList<String>>>
 		temp.add(Integer.toString(NOM_class));
 
 		collector.add(temp);
-
 	}
-
 
 }
