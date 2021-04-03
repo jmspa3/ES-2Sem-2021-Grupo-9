@@ -13,8 +13,10 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
+import Limits.*;
+
 public class GUIRegras {
-	private ArrayList<Threshold> lista = new ArrayList<GUIRegras.Threshold>();
+	private ArrayList<Threshold> lista = new ArrayList<Threshold>();
 
 	public GUIRegras() {
 		JFrame listaRegras = new JFrame();
@@ -30,26 +32,26 @@ public class GUIRegras {
 		lista.forEach(r -> listModel.addElement(r));
 		
 		//display rules
-		JList<Threshold> jl = new JList<Threshold>(listModel);
-		jl.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		jl.setLayoutOrientation(JList.VERTICAL);
+		JList<Threshold> mostrar_regras = new JList<Threshold>(listModel);
+		mostrar_regras.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		mostrar_regras.setLayoutOrientation(JList.VERTICAL);
 		
 		//open rule editor if clicked
-		JButton b = new JButton("Editar");
-		b.addActionListener(new ActionListener() {
+		JButton editar = new JButton("Editar");
+		editar.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 			    if (listModel.getSize() == 0) { //No rules
-			        b.setEnabled(false);
+			        editar.setEnabled(false);
 			    } else { //Selected an index.
-//			    	new LimitsGUI(jl.getSelectedValue());
+			    	new LimitsGUI(mostrar_regras.getSelectedValue());
 			    }
 			}});
 		
 		
-		listaRegras.add(b, BorderLayout.SOUTH);
-		JScrollPane panel = new JScrollPane(jl);
+		listaRegras.add(editar, BorderLayout.SOUTH);
+		JScrollPane panel = new JScrollPane(mostrar_regras);
 		listaRegras.add(panel, BorderLayout.CENTER);
 		listaRegras.setVisible(true);
 	}
@@ -58,21 +60,11 @@ public class GUIRegras {
 		//get crap
 		
 		//to vizualize
-		lista.add(new Threshold("Regra 1"));
+		Threshold exemplo = new Threshold("thr exemplo");
+		exemplo.insertCondition("WMC_class > || LOC_method ==");
+		lista.add(exemplo);
 		lista.add(new Threshold("Regra 2"));
 		lista.add(new Threshold("Regra 3"));
 	}
 
-	private class Threshold {
-		String name;
-		
-		public Threshold(String name) {
-			this.name = name;
-		}
-		
-		@Override
-		public String toString() {
-			return name;
-		}
-	}
 }

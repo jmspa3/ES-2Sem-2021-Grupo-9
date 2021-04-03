@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -18,8 +19,10 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextPane;
 import java.awt.Color;
 import javax.swing.JTextField;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
+import javax.swing.JComboBox;
 
 public class LimitsGUI implements MouseListener {
 	
@@ -27,15 +30,20 @@ public class LimitsGUI implements MouseListener {
 
 	private JFrame frame;
 	private JList list;
-	private JTextField textField_1;
-	private JTextField textField_condicao;
 	private Threshold th;
 	private String regra = "", and = "And", or = "Or", lesser = "<", greater = ">", equal = "=";
 	//Nomes dos botões
 	private String add_num = "Adicionar Número", editar = "Editar", limpar = "Limpar";
 	private String salvar = "Guardar e Sair"; //guardar e sair
 	private String guardar = "Guardar"; //guardar a configuração da regra
-
+	private JTextField textField;
+	private JTextField textField_1;
+	private ArrayList<String> lista = new ArrayList<>();
+	private Threshold threshold;
+	private JComboBox<String> comboBox_1;
+	private JComboBox<String> comboBox;
+	private JTextField textField_2;
+	private JTextField textField_3;
 
 	/**
 	 * Launch the application.
@@ -43,10 +51,10 @@ public class LimitsGUI implements MouseListener {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
-					LimitsGUI window = new LimitsGUI();
-					window.initialize();
-					window.frame.setVisible(true);
+				try {		
+					//LimitsGUI window = new LimitsGUI();
+					//window.initialize();
+					//window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -56,9 +64,11 @@ public class LimitsGUI implements MouseListener {
 
 	/**
 	 * Create the application.
+	 * @wbp.parser.entryPoint
 	 */
-	public LimitsGUI() {
-		
+	public LimitsGUI(Threshold threshold) {
+		initialize(threshold);
+		frame.setVisible(true);
 	}
 	
 	
@@ -66,7 +76,15 @@ public class LimitsGUI implements MouseListener {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize(Threshold threshold) {		
+		this.threshold = threshold;
+		lista.add(">");
+		lista.add("<");
+		lista.add("==");
+		
+		DefaultListModel<String> listModel = new DefaultListModel<String>();
+		lista.forEach(r -> listModel.addElement(r));
+		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 780, 542);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -78,84 +96,11 @@ public class LimitsGUI implements MouseListener {
 		lblNewLabel.setBounds(80, 42, 145, 47);
 		frame.getContentPane().add(lblNewLabel);
 		
-		//-----------------OPERATORS----------------------
-		
-		JButton andButton = new JButton(and);
-		andButton.addMouseListener(this);
-		andButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		andButton.setBounds(80, 350, 104, 35);
-		frame.getContentPane().add(andButton);
-		
-		JButton orButton = new JButton(or);
-		orButton.addMouseListener(this);
-		orButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		orButton.setBounds(205, 350, 104, 35);
-		frame.getContentPane().add(orButton);
-		
-		JButton higherButton = new JButton(greater);
-		higherButton.addMouseListener(this);
-		higherButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		higherButton.setBounds(334, 350, 104, 35);
-		frame.getContentPane().add(higherButton);
-		
-		JButton lowerButton = new JButton(lesser);
-		lowerButton.addMouseListener(this);
-		lowerButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lowerButton.setBounds(448, 350, 104, 35);
-		frame.getContentPane().add(lowerButton);
-		
-		JButton equalButton = new JButton(equal);
-		equalButton.addMouseListener(this);
-		equalButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		equalButton.setBounds(574, 350, 98, 35);
-		frame.getContentPane().add(equalButton);
-		
-		//-----------------END----------------------
-		
-		/*JList list = new JList<String>();
-		list.setBounds(193, 139, 320, 35);
-		frame.getContentPane().add(list);*/
-		
-		textField_condicao = new JTextField();
-		textField_condicao.setEditable(false);
-		textField_condicao.setBounds(193, 139, 320, 35);
-		frame.getContentPane().add(textField_condicao);
-		textField_condicao.setColumns(10);
-		
 		JLabel lblNewLabel_1 = new JLabel("Condição");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setBounds(85, 139, 98, 35);
+		lblNewLabel_1.setBounds(10, 215, 98, 35);
 		frame.getContentPane().add(lblNewLabel_1);
-		
-		JButton guardarCondicao = new JButton(guardar);
-		guardarCondicao.addMouseListener(this);
-		guardarCondicao.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		guardarCondicao.setBounds(538, 136, 123, 38);
-		frame.getContentPane().add(guardarCondicao);
-		
-		JButton modificarCondicao = new JButton(editar);
-		modificarCondicao.addMouseListener(this);
-		modificarCondicao.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		modificarCondicao.setBounds(650, 136, 123, 38);
-		frame.getContentPane().add(modificarCondicao);
-		
-		JButton limparCondicao = new JButton(limpar);
-		limparCondicao.addMouseListener(this);
-		limparCondicao.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		limparCondicao.setBounds(650, 200, 123, 38);
-		frame.getContentPane().add(limparCondicao);	
-		
-		JButton adicionarNumero = new JButton(add_num);
-		adicionarNumero.addMouseListener(this);
-		adicionarNumero.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		adicionarNumero.setBounds(193, 266, 165, 35);
-		frame.getContentPane().add(adicionarNumero);
-		
-		textField_1 = new JTextField();
-		textField_1.setBounds(80, 265, 104, 36);
-		frame.getContentPane().add(textField_1);
-		textField_1.setColumns(10);
 		
 		JButton guardarTotal = new JButton(salvar);
 		guardarTotal.addMouseListener(this); //falta funcionalidade
@@ -165,15 +110,52 @@ public class LimitsGUI implements MouseListener {
 		
 
 		
-		JLabel regra = new JLabel("New label");
+		JLabel regra = new JLabel(threshold.getName());
 		regra.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		regra.setHorizontalAlignment(SwingConstants.CENTER);
 		regra.setBounds(216, 42, 367, 47);
 		frame.getContentPane().add(regra);
+		
+		textField = new JTextField(threshold.getNumber(0));
+		textField.setBounds(290, 224, 86, 20);
+		frame.getContentPane().add(textField);
+		textField.setColumns(10);
+		
+		JLabel lblNewLabel_2 = new JLabel(threshold.getArgument(2));
+		lblNewLabel_2.setBounds(386, 227, 46, 14);
+		frame.getContentPane().add(lblNewLabel_2);
+		
+		textField_1 = new JTextField(threshold.getNumber(1));
+		textField_1.setColumns(10);
+		textField_1.setBounds(654, 224, 86, 20);
+		frame.getContentPane().add(textField_1);
+		
+		comboBox = new JComboBox<String>();
+		lista.forEach(r -> comboBox.addItem(r));
+		comboBox.setSelectedItem(threshold.getArgument(1));
+
+		comboBox.setBounds(216, 223, 64, 22);
+		frame.getContentPane().add(comboBox);
+		
+		comboBox_1 = new JComboBox<String>();
+		lista.forEach(r -> comboBox_1.addItem(r));
+		comboBox_1.setSelectedItem(threshold.getArgument(4));
+		comboBox_1.setBounds(582, 223, 62, 22);
+		frame.getContentPane().add(comboBox_1);
+		
+		textField_2 = new JTextField(threshold.getArgument(3));
+		textField_2.setBounds(486, 224, 86, 20);
+		frame.getContentPane().add(textField_2);
+		textField_2.setColumns(10);
+		
+		textField_3 = new JTextField(threshold.getArgument(0));
+		textField_3.setBounds(118, 224, 86, 20);
+		frame.getContentPane().add(textField_3);
+		textField_3.setColumns(10);
 	}
 	
 	
-	public void logicExpressionAppend(MouseEvent e, String condicionador){  
+	/*public void logicExpressionAppend(MouseEvent e, String condicionador){  
 		String operador;
 		switch (condicionador) {
 			case "Or":  operador = "|| "; break;      
@@ -183,12 +165,18 @@ public class LimitsGUI implements MouseListener {
 		}
 		
 		textField_condicao.setText(textField_condicao.getText() + operador);  
-	}
+	}*/
 	
 	@Override
 	public void mousePressed(MouseEvent e) {
 		String command;
 		String buttonText = ((JButton) e.getSource()).getText();
+		
+		if(buttonText.equals(salvar)) {
+			threshold.editArgs("arg1", "arg2");
+			threshold.editNumbers(Integer.parseInt(textField.getText()), Integer.parseInt(textField_1.getText()));
+			threshold.editOperators((String)comboBox.getSelectedItem(), (String)comboBox_1.getSelectedItem());
+		}
 		
 		/*switch (buttonText) {
 		
@@ -224,7 +212,7 @@ public class LimitsGUI implements MouseListener {
  * switch case does not allow to pass a variable in a case statement due to its compilation.
  */
 		
-		if(buttonText.equals(add_num)) {
+		/*if(buttonText.equals(add_num)) {
 			command = (textField_1.getText());
 			logicExpressionAppend(e, command);
 
@@ -245,7 +233,7 @@ public class LimitsGUI implements MouseListener {
 		} else {
 			command = ((JButton) e.getSource()).getText();
 			logicExpressionAppend(e, command);
-		}
+		}*/
 			
 
 	}
@@ -277,6 +265,5 @@ public class LimitsGUI implements MouseListener {
 		// TODO Auto-generated method stub
 		
 	}
-	
 }
 
