@@ -11,12 +11,14 @@ public class Threshold {
 	 if(verifyCondition(condition)) {
 		 this.name = name;
 		 this.condition = condition;
+		 System.out.println("this is the cond " + condition);
 	 }else 
 		 throw new IllegalArgumentException("Ocorreu um erro de sintaxe na sua regra, por favor tente novamente");
 	}
 	
 	public void editCondition(String condition){
 		this.condition = condition;
+		 System.out.println("modified cond " + condition);
 	}
 	
 	
@@ -34,6 +36,7 @@ public class Threshold {
 		Scanner scanner =new Scanner(condition);
 		while (scanner.hasNext()) {  
 			try {
+				if(!scanner.hasNext()) throw new Exception();
 			String first = scanner.next();
 			boolean logicChecker_first = isInteger(first);
 			
@@ -49,13 +52,14 @@ public class Threshold {
 			if (scanner.hasNext()) {
 				String logic = scanner.next();
 				if (!validLogicOperator(logic)) {throw new Exception();}
-				System.out.println(first + operator + third + logic);
+				if(!scanner.hasNext()) throw new Exception("Erro de sintaxe no último operador, por favor retire-o ou complete a condição.");
+				System.out.println("1 " + first + operator + third + logic);
 			}
-			System.out.println(first + operator + third );
+			System.out.println("2 " + first + operator + third );
 			
 			
 			} catch (Exception sequence_broken) {
-				System.out.println("A condição tem erros na sintaxe pelo que não posso guardá-la");
+				System.out.println("A condição tem erros na sintaxe pelo que não posso guardá-la.");
 				scanner.close(); 
 				return false;
 			}

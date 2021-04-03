@@ -31,6 +31,11 @@ public class LimitsGUI implements MouseListener {
 	private JTextField textField_condicao;
 	private Threshold th;
 	private String regra = "", and = "And", or = "Or", lesser = "<", greater = ">", equal = "=";
+	//Nomes dos botões
+	private String add_num = "Adicionar Número", editar = "Editar", limpar = "Limpar";
+	private String salvar = "Guardar e Sair"; //guardar e sair
+	private String guardar = "Guardar"; //guardar a configuração da regra
+
 
 	/**
 	 * Launch the application.
@@ -73,6 +78,8 @@ public class LimitsGUI implements MouseListener {
 		lblNewLabel.setBounds(80, 42, 145, 47);
 		frame.getContentPane().add(lblNewLabel);
 		
+		//-----------------OPERATORS----------------------
+		
 		JButton andButton = new JButton(and);
 		andButton.addMouseListener(this);
 		andButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -103,11 +110,14 @@ public class LimitsGUI implements MouseListener {
 		equalButton.setBounds(574, 350, 98, 35);
 		frame.getContentPane().add(equalButton);
 		
+		//-----------------END----------------------
+		
 		/*JList list = new JList<String>();
 		list.setBounds(193, 139, 320, 35);
 		frame.getContentPane().add(list);*/
 		
 		textField_condicao = new JTextField();
+		textField_condicao.setEditable(false);
 		textField_condicao.setBounds(193, 139, 320, 35);
 		frame.getContentPane().add(textField_condicao);
 		textField_condicao.setColumns(10);
@@ -118,13 +128,25 @@ public class LimitsGUI implements MouseListener {
 		lblNewLabel_1.setBounds(85, 139, 98, 35);
 		frame.getContentPane().add(lblNewLabel_1);
 		
-		JButton guardarCondicao = new JButton("save");
+		JButton guardarCondicao = new JButton(guardar);
 		guardarCondicao.addMouseListener(this);
 		guardarCondicao.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		guardarCondicao.setBounds(538, 136, 123, 38);
 		frame.getContentPane().add(guardarCondicao);
 		
-		JButton adicionarNumero = new JButton("Adicionar número");
+		JButton modificarCondicao = new JButton(editar);
+		modificarCondicao.addMouseListener(this);
+		modificarCondicao.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		modificarCondicao.setBounds(650, 136, 123, 38);
+		frame.getContentPane().add(modificarCondicao);
+		
+		JButton limparCondicao = new JButton(limpar);
+		limparCondicao.addMouseListener(this);
+		limparCondicao.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		limparCondicao.setBounds(650, 200, 123, 38);
+		frame.getContentPane().add(limparCondicao);	
+		
+		JButton adicionarNumero = new JButton(add_num);
 		adicionarNumero.addMouseListener(this);
 		adicionarNumero.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		adicionarNumero.setBounds(193, 266, 165, 35);
@@ -135,11 +157,13 @@ public class LimitsGUI implements MouseListener {
 		frame.getContentPane().add(textField_1);
 		textField_1.setColumns(10);
 		
-		JButton guardarTotal = new JButton("Save");
+		JButton guardarTotal = new JButton(salvar);
 		guardarTotal.addMouseListener(this); //falta funcionalidade
 		guardarTotal.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		guardarTotal.setBounds(275, 433, 222, 47);
 		frame.getContentPane().add(guardarTotal);
+		
+
 		
 		JLabel regra = new JLabel("New label");
 		regra.setFont(new Font("Tahoma", Font.PLAIN, 19));
@@ -166,7 +190,7 @@ public class LimitsGUI implements MouseListener {
 		String command;
 		String buttonText = ((JButton) e.getSource()).getText();
 		
-		switch (buttonText) {
+		/*switch (buttonText) {
 		
 			case "Adicionar número": 
 				command = (textField_1.getText());
@@ -179,6 +203,12 @@ public class LimitsGUI implements MouseListener {
 
 				break;
 				
+			case "Edit":
+				command = textField_condicao.getText();
+				th.editCondition(command);
+				
+				break;
+				
 			case "Save":
 				//botão Save de baixo, falta funcionalidade
 				break;
@@ -188,7 +218,35 @@ public class LimitsGUI implements MouseListener {
 				logicExpressionAppend(e, command);
 				break; 
 				
+		}*/
+		
+/*Change to if-else statement.
+ * switch case does not allow to pass a variable in a case statement due to its compilation.
+ */
+		
+		if(buttonText.equals(add_num)) {
+			command = (textField_1.getText());
+			logicExpressionAppend(e, command);
+
+		} else if(buttonText.equals(guardar)) {
+			command = textField_condicao.getText();
+			th = new Threshold(command, "teste");
+
+		} else if(buttonText.equals(editar)) {
+			command = textField_condicao.getText();
+			th.editCondition(command);
+			
+		} else if(buttonText.equals(salvar)) {
+			
+
+		} else if(buttonText.equals(limpar)) {
+			textField_condicao.setText("");
+			
+		} else {
+			command = ((JButton) e.getSource()).getText();
+			logicExpressionAppend(e, command);
 		}
+			
 
 	}
 	
