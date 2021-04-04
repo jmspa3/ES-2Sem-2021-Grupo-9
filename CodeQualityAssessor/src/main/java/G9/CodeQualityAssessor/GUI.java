@@ -12,20 +12,20 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JTable;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.GridLayout;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 import javax.swing.JScrollPane;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class GUI extends JFrame {
-
-	private String projectPath = "";
-	private String smellyPath;
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -75,6 +75,12 @@ public class GUI extends JFrame {
 		textField = new JTextField();
 		panel.add(textField);
 		textField.setColumns(10);
+		
+		//to save time / need to change later
+		textField.setText("C:\\Users\\carlo\\Desktop\\jasml_0.10\\src");
+		
+		
+		
 
 		JPanel panel_1 = new JPanel();
 		panel.add(panel_1, BorderLayout.EAST);
@@ -113,22 +119,17 @@ public class GUI extends JFrame {
 				btnCriarAction();
 			}
 
-			private void btnCriarAction() {
-				// get path from textfield
-				String t = textField.getText();
-
-				// verify existance of folder
-
-				// do stuff
-				ArrayList<String> filepaths;
-				ArrayList<String[]> allMetrics;
+			private void btnCriarAction() {			
+				//write metrics to file
+				String projectPath = textField.getText();
 				
-//				for(String filepath : filepaths) {
-					//criar objeto metrics
-//					allMetrics
-//				}
-
-				// maybe open window confirming action
+				try {
+					new ContentExcel().writeExcel(projectPath);
+				} catch (IOException e) {
+					JOptionPane.showMessageDialog(null, "Failure!");
+				}
+				
+				JOptionPane.showMessageDialog(null, "Success!");
 			}
 		});
 
@@ -145,17 +146,28 @@ public class GUI extends JFrame {
 //				ArrayList<String[]> data = fr.getData();
 
 				// SET TABLE
-
+				ContentExcel excel = new ContentExcel();
+				
 				ArrayList<String[]> data = new ArrayList<String[]>();
-				String[] columnNames = { "MethodID", "package", "class", "method", "NOM_class", "LOC_class",
-						"WMC_class", "is_God_Class", "LOC_method", "CYCLO_method", "is_Long_Method" };
-				String[] data1 = { "1", "com.jasml.compiler", "GrammerException", "GrammerException(int,String)", "4",
-						"18", "4", "FALSO", "3", "1", "FALSO" };
-				String[] data2 = { "1", "com.jasml.compiler", "GrammerException", "GrammerException(int,String)", "4",
-						"18", "4", "FALSO", "3", "1", "FALSO" };
+				
+				try {
+					data = excel.readBooksFromExcelFile("C:\\Users\\carlo\\Desktop\\jasml_0.10\\Code_Smells.xlsx");
+//					System.out.println(data.toString());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				
+//				String[] columnNames = { "MethodID", "package", "class", "method", "NOM_class", "LOC_class",
+//						"WMC_class", "is_God_Class", "LOC_method", "CYCLO_method", "is_Long_Method" };
+//				String[] data1 = { "1", "com.jasml.compiler", "GrammerException", "GrammerException(int,String)", "4",
+//						"18", "4", "FALSO", "3", "1", "FALSO" };
+//				String[] data2 = { "1", "com.jasml.compiler", "GrammerException", "GrammerException(int,String)", "4",
+//						"18", "4", "FALSO", "3", "1", "FALSO" };
 
-				data.add(data1);
-				data.add(data2);
+//				data.add(data1);
+//				data.add(data2);
 
 
 				
@@ -165,9 +177,10 @@ public class GUI extends JFrame {
 				
 				DefaultTableModel model = new DefaultTableModel();
 
-				for (String s : columnNames) {
+				for (String s : data.get(0)) {
 					model.addColumn(s);
 				}
+				data.remove(0);
 				for (String[] r : data) {
 					model.addRow(r);
 				}
@@ -178,10 +191,10 @@ public class GUI extends JFrame {
 
 				// fr.getMetricas
 				// labels.setText();
-				lblValorPackages.setText("1");
-				lblValorClasses.setText("1");
-				lblValorMetodos.setText("1");
-				lblValorLinhas.setText("1");
+				lblValorPackages.setText(Integer.toString(excel.numberTotalPackages()));
+				lblValorClasses.setText(Integer.toString(excel.numberTotalClasses()));
+				lblValorMetodos.setText(Integer.toString(excel.numberTotalMethods()));
+				lblValorLinhas.setText(Integer.toString(excel.numberTotalLines()));
 				
 
 			}

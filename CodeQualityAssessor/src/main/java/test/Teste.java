@@ -30,29 +30,27 @@ public class Teste {
 		// TODO Auto-generated method stub
 		
 		//System.out.println(Cell.getCellType());
-		ContentExcel getContentFromExcelSheets = new ContentExcel(); 
-		List<Metrica> extractedMetricaData = new ArrayList<Metrica>(); 
-		try {
-			getContentFromExcelSheets.readBooksFromExcelFile("C:\\Users\\carol\\Downloads\\Code_Smells1.xlsx"); 
-			getContentFromExcelSheets.numberTotalPackages();
-			
-		}catch(IOException e) {
-			e.printStackTrace();
-		}
+//		ContentExcel getContentFromExcelSheets = new ContentExcel(); 
+//		List<Metrica> extractedMetricaData = new ArrayList<Metrica>(); 
+//		try {
+//			getContentFromExcelSheets.readBooksFromExcelFile("C:\\Users\\carol\\Downloads\\Code_Smells1.xlsx"); 
+//			getContentFromExcelSheets.numberTotalPackages();
+//			
+//		}catch(IOException e) {
+//			e.printStackTrace();
+//		}
+//		
+		ContentExcel conte = new ContentExcel(); 
+//		List<String> listBook = conte.getListBook(null);
+		String excelFilePath = "C:\\Users\\carlo\\Desktop\\jasml_0.10\\src";  //escreve check
 		
-		/*ContentExcel conte = new ContentExcel(); 
-		List<Metrica> listBook = conte.getListBook();
-		String excelFilePath = "C:\\Users\\carol\\OneDrive\\Documents\\novo.xls";  //escreve check
-		 
 		try {
-			conte.writeExcel(listBook, excelFilePath);
+			conte.writeExcel(excelFilePath);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
-		
+		}
+
 	}
-	
-	
 	
 }

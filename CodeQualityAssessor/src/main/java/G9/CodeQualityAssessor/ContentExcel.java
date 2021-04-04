@@ -20,6 +20,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import javassist.compiler.Parser;
 import metrics.Metrics;
 
 import org.apache.poi.ss.usermodel.CellType;
@@ -49,24 +50,32 @@ public class ContentExcel {
 	    
 	    
 	    // Read the excel sheet contents 
-	    public List<Metrica> readBooksFromExcelFile(String excelFilePath) throws IOException { 
-	        List<Metrica> listMetrica = new ArrayList<Metrica>(); 
+	    public ArrayList<String[]> readBooksFromExcelFile(String excelFilePath) throws IOException { 
+	    	ArrayList<String[]> matrix = new ArrayList<String[]>();
+	    	ArrayList<String> lineMetrica; 
+	    	
 	        FileInputStream inputStream = new FileInputStream(new File(excelFilePath)); 
 	       
 	  
 	        Workbook workbook = new XSSFWorkbook(inputStream); 
-	        Sheet firstSheet = workbook.getSheetAt(0); 
+	        Sheet firstSheet = workbook.getSheetAt(0);
+	        
 	        Iterator<Row> iterator = firstSheet.iterator(); 
 	  
 	        while (iterator.hasNext()) { 
+	        	lineMetrica = new ArrayList<String>();
 	            Row nextRow = iterator.next(); 
 	            Iterator<Cell> cellIterator = nextRow.cellIterator(); 
-	            //Metrica m = new Metrica(); 
 	  
 	            while (cellIterator.hasNext()) { 
 	                Cell nextCell = cellIterator.next(); 
 	                int columnIndex = nextCell.getColumnIndex(); 
 	  
+	                try {
+	                	lineMetrica.add((String)getCellValue(nextCell));
+	                } catch (ClassCastException e) {
+	                	lineMetrica.add(String.valueOf(getCellValue(nextCell)));
+	                }
 	                switch (columnIndex) { 
 	                case 1:
 	                	listPackages.add((String)getCellValue(nextCell)); 
@@ -82,14 +91,20 @@ public class ContentExcel {
 	                case 5: 
 	                	totalLines.add((String)getCellValue(nextCell).toString());
 	                	break; 
-	                } 
-	            } 
-	        
+	                }
+	            }
+	            
+	            String[] str = new String[11];
+	            for(int i=0; i<lineMetrica.size(); i++) {
+	            	str[i] = lineMetrica.get(i);
+	            }
+	            
+	            matrix.add(str);
 	        }
 	        
 	        //((FileInputStream)workbook).close(); 
 	        inputStream.close(); 
-	        return null; 
+	        return matrix;
 	    }
 	    
 	    public int numberTotalPackages() {	
@@ -113,45 +128,66 @@ public class ContentExcel {
 	    }
 	    
 	    
-	    private void writeBook(Metrica m, Row row) {
-	        Cell cell = row.createCell(1);
-	        cell.setCellValue(m.getPackages());
-	     
+	    private void writeBook(ArrayList<String> m, Row row) {
+	    	//id
+	        Cell cell = row.createCell(0);
+	        cell.setCellValue(m.get(0));
+	    	
+	    	
+	    	//package
+	        cell = row.createCell(1);
+	        cell.setCellValue(m.get(1));
+	        //class
 	        cell = row.createCell(2);
-	        cell.setCellValue(m.getClasses());
-	     
+	        cell.setCellValue(m.get(2));
+	        //method
 	        cell = row.createCell(3);
-	        cell.setCellValue(m.getMethods());
-	        
+	        cell.setCellValue(m.get(3));
+	        //nom_class
 	        cell = row.createCell(4);
-	        cell.setCellValue(m.getNOM_CLASS());
-	        
+	        cell.setCellValue(m.get(7));
+	        //loc_class
 	        cell = row.createCell(5);
-	        cell.setCellValue(m.getLOC_CLASS());
-	        
+	        cell.setCellValue(m.get(4));
+	        //wmc_class
 	        cell = row.createCell(6);
-	        cell.setCellValue(m.getWMC_CLASS());
+	        cell.setCellValue(m.get(8));
 	        
+	        //is_god_class
+	        
+	        //loc_method
+	        cell = row.createCell(8);
+	        cell.setCellValue(m.get(5));
+	        //cyclo_method
+	        cell = row.createCell(9);
+	        cell.setCellValue(m.get(6));
+	    
+	        //is_long_method
 	    }
 	    
 	    //method that writes in Excel
 	    
-	    public void writeExcel(List<Metrica> listMetrica, String excelFilePath) throws IOException {
+	    public void writeExcel(String excelFilePath) throws IOException {
 	        Workbook workbook = new XSSFWorkbook();
 	        Sheet sheet = workbook.createSheet();
 			
 			createHeaderRow(sheet);
+			
+			List<ArrayList<String>> listMetrica = getListBook(excelFilePath+"");
+			
 	     
 	        int rowCount = 0;
 	     
-	        for (Metrica m : listMetrica) {
+	        for (ArrayList<String> m : listMetrica) {
 	            Row row = sheet.createRow(++rowCount);
 	            writeBook(m, row);
 	        }
 	     
-	        try (FileOutputStream outputStream = new FileOutputStream(excelFilePath)) {
+//	        try (FileOutputStream outputStream = new FileOutputStream(excelFilePath)) {
+	        try (FileOutputStream outputStream = new FileOutputStream("C:\\Users\\carlo\\Desktop\\jasml_0.10\\teste.xlsx")) {
 	            workbook.write(outputStream);
 	        }
+	        
 	    }
 	    
 	    
@@ -213,14 +249,11 @@ public class ContentExcel {
 	    
 	    //dummy data
 	    
-	    public ArrayList<String> getListBook() throws FileNotFoundException {
-	    	Metrics m = new Metrics("\"C:\\\\Users\\\\carol\\\\Downloads\\\\Code_Smells1.xlsx\"");
+	    public List<ArrayList<String>> getListBook(String projectPath) throws FileNotFoundException {
+	    	Metrics m = new Metrics(projectPath);
 	    	List<ArrayList<String>> list = m.getMetrics();
-	    	
-	    	for (int i=0; i< list.size(); ++i) {
-	    		return list.get(i);
-	    	}
-			return null;
+	    	System.out.println(list);
+	    	return list;
 	    }
 	    
 	    
