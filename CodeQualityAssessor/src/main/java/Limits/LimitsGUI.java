@@ -16,6 +16,7 @@ import java.util.Scanner;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.JTextPane;
 import java.awt.Color;
 import javax.swing.JTextField;
@@ -23,27 +24,35 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 
-public class LimitsGUI implements MouseListener {
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import javax.swing.JPanel;
+
+public class LimitsGUI extends JDialog implements MouseListener  {
 	
 	//implements ActionListener
 
 	private JFrame frame;
 	private JList list;
+	private JDialog parent;
 	private Threshold th;
 	private String regra = "", and = "And", or = "Or", lesser = "<", greater = ">", equal = "=";
 	//Nomes dos botões
 	private String add_num = "Adicionar Número", editar = "Editar", limpar = "Limpar";
 	private String salvar = "Guardar e Sair"; //guardar e sair
 	private String guardar = "Guardar"; //guardar a configuração da regra
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField numero1;
+	private JTextField numero2;
 	private ArrayList<String> lista = new ArrayList<>();
 	private Threshold threshold;
-	private JComboBox<String> comboBox_1;
-	private JComboBox<String> comboBox;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	private JComboBox<String> operador2;
+	private JComboBox<String> operador1;
+	private JTextField argumento2;
+	private JTextField argumento1;
+	private JPanel panel;
+	private JPanel panel_1;
 
 	/**
 	 * Launch the application.
@@ -64,9 +73,12 @@ public class LimitsGUI implements MouseListener {
 
 	/**
 	 * Create the application.
+	 * @param listaRegras 
+	 * @param actionListener 
 	 * @wbp.parser.entryPoint
 	 */
-	public LimitsGUI(Threshold threshold) {
+	public LimitsGUI(Threshold threshold, JDialog listaRegra) {
+		//this.parent = listaRegra;
 		initialize(threshold);
 		frame.setVisible(true);
 	}
@@ -86,160 +98,96 @@ public class LimitsGUI implements MouseListener {
 		lista.forEach(r -> listModel.addElement(r));
 		
 		frame = new JFrame();
+
 		frame.setBounds(100, 100, 780, 542);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
-		JLabel lblNewLabel = new JLabel("Regra    :");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 23));
-		lblNewLabel.setBounds(80, 42, 145, 47);
-		frame.getContentPane().add(lblNewLabel);
+		panel_1 = new JPanel();
+		frame.getContentPane().add(panel_1, BorderLayout.NORTH);
+		panel_1.setLayout(new BorderLayout(0, 0));
 		
-		JLabel lblNewLabel_1 = new JLabel("Condição");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setBounds(10, 215, 98, 35);
-		frame.getContentPane().add(lblNewLabel_1);
+		JLabel regralabel = new JLabel("Regra    :");
+		panel_1.add(regralabel, BorderLayout.WEST);
+		regralabel.setHorizontalAlignment(SwingConstants.CENTER);
+		regralabel.setFont(new Font("Tahoma", Font.PLAIN, 23));
+		
+
+		
+		JLabel regra_1 = new JLabel(threshold.getName());
+		panel_1.add(regra_1, BorderLayout.CENTER);
+		regra_1.setFont(new Font("Tahoma", Font.PLAIN, 19));
+		regra_1.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		panel = new JPanel();
+		frame.getContentPane().add(panel, BorderLayout.CENTER);
+		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		JLabel condicao = new JLabel("Condição");
+		panel.add(condicao);
+		condicao.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		condicao.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		//-----Primeira condição
+		
+		argumento1 = new JTextField(threshold.getArgument(0));
+		panel.add(argumento1);
+		argumento1.setEditable(false);
+		argumento1.setColumns(10);	
+		
+		operador1 = new JComboBox<String>();
+		panel.add(operador1);
+		operador1.setSelectedItem(threshold.getArgument(1));
+		
+				numero1 = new JTextField(Integer.toString(threshold.getNumber(0)));
+				panel.add(numero1);
+				numero1.setColumns(10);
+				
+				//-----Operador Lógico OR AND
+				
+				JLabel logicop = new JLabel(threshold.getArgument(2));
+				panel.add(logicop);
+				
+				//-----Segunda condição
+				
+				argumento2 = new JTextField(threshold.getArgument(3));
+				panel.add(argumento2);
+				argumento2.setEditable(false);
+				argumento2.setColumns(10);
+				
+		operador2 = new JComboBox<String>();
+		panel.add(operador2);
+		operador2.setSelectedItem(threshold.getArgument(4));
+		
+		numero2 = new JTextField(Integer.toString(threshold.getNumber(1)));
+		panel.add(numero2);
+		numero2.setColumns(10);
 		
 		JButton guardarTotal = new JButton(salvar);
-		guardarTotal.addMouseListener(this); //falta funcionalidade
+		guardarTotal.addMouseListener(this); 
 		guardarTotal.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		guardarTotal.setBounds(275, 433, 222, 47);
-		frame.getContentPane().add(guardarTotal);
-		
+		frame.getContentPane().add(guardarTotal, BorderLayout.SOUTH);
+		lista.forEach(r -> operador1.addItem(r));
+		lista.forEach(r -> operador2.addItem(r));
 
-		
-		JLabel regra = new JLabel(threshold.getName());
-		regra.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		regra.setHorizontalAlignment(SwingConstants.CENTER);
-		regra.setBounds(216, 42, 367, 47);
-		frame.getContentPane().add(regra);
-		
-		textField = new JTextField(threshold.getNumber(0));
-		textField.setBounds(290, 224, 86, 20);
-		frame.getContentPane().add(textField);
-		textField.setColumns(10);
-		
-		JLabel lblNewLabel_2 = new JLabel(threshold.getArgument(2));
-		lblNewLabel_2.setBounds(386, 227, 46, 14);
-		frame.getContentPane().add(lblNewLabel_2);
-		
-		textField_1 = new JTextField(threshold.getNumber(1));
-		textField_1.setColumns(10);
-		textField_1.setBounds(654, 224, 86, 20);
-		frame.getContentPane().add(textField_1);
-		
-		comboBox = new JComboBox<String>();
-		lista.forEach(r -> comboBox.addItem(r));
-		comboBox.setSelectedItem(threshold.getArgument(1));
-
-		comboBox.setBounds(216, 223, 64, 22);
-		frame.getContentPane().add(comboBox);
-		
-		comboBox_1 = new JComboBox<String>();
-		lista.forEach(r -> comboBox_1.addItem(r));
-		comboBox_1.setSelectedItem(threshold.getArgument(4));
-		comboBox_1.setBounds(582, 223, 62, 22);
-		frame.getContentPane().add(comboBox_1);
-		
-		textField_2 = new JTextField(threshold.getArgument(3));
-		textField_2.setBounds(486, 224, 86, 20);
-		frame.getContentPane().add(textField_2);
-		textField_2.setColumns(10);
-		
-		textField_3 = new JTextField(threshold.getArgument(0));
-		textField_3.setBounds(118, 224, 86, 20);
-		frame.getContentPane().add(textField_3);
-		textField_3.setColumns(10);
 	}
 	
-	
-	/*public void logicExpressionAppend(MouseEvent e, String condicionador){  
-		String operador;
-		switch (condicionador) {
-			case "Or":  operador = "|| "; break;      
-			case "And":  operador = "&& "; break;	
-			case "=":  operador = "== "; break;	
-	        default: operador = condicionador.trim() + " "; break;      
-		}
-		
-		textField_condicao.setText(textField_condicao.getText() + operador);  
-	}*/
+	public Threshold getThreshold() {
+		return threshold;
+	}
 	
 	@Override
 	public void mousePressed(MouseEvent e) {
-		String command;
 		String buttonText = ((JButton) e.getSource()).getText();
 		
 		if(buttonText.equals(salvar)) {
 			threshold.editArgs("arg1", "arg2");
-			threshold.editNumbers(Integer.parseInt(textField.getText()), Integer.parseInt(textField_1.getText()));
-			threshold.editOperators((String)comboBox.getSelectedItem(), (String)comboBox_1.getSelectedItem());
-		}
-		
-		/*switch (buttonText) {
-		
-			case "Adicionar número": 
-				command = (textField_1.getText());
-				logicExpressionAppend(e, command);
-				break;
-				
-			case "save":
-				command = textField_condicao.getText();
-				th = new Threshold(command, "teste");
-
-				break;
-				
-			case "Edit":
-				command = textField_condicao.getText();
-				th.editCondition(command);
-				
-				break;
-				
-			case "Save":
-				//botão Save de baixo, falta funcionalidade
-				break;
-	
-			default:
-				command = ((JButton) e.getSource()).getText();
-				logicExpressionAppend(e, command);
-				break; 
-				
-		}*/
-		
-/*Change to if-else statement.
- * switch case does not allow to pass a variable in a case statement due to its compilation.
- */
-		
-		/*if(buttonText.equals(add_num)) {
-			command = (textField_1.getText());
-			logicExpressionAppend(e, command);
-
-		} else if(buttonText.equals(guardar)) {
-			command = textField_condicao.getText();
-			th = new Threshold(command, "teste");
-
-		} else if(buttonText.equals(editar)) {
-			command = textField_condicao.getText();
-			th.editCondition(command);
-			
-		} else if(buttonText.equals(salvar)) {
-			
-
-		} else if(buttonText.equals(limpar)) {
-			textField_condicao.setText("");
-			
-		} else {
-			command = ((JButton) e.getSource()).getText();
-			logicExpressionAppend(e, command);
-		}*/
-			
-
+			threshold.editNumbers(Integer.parseInt(numero1.getText()), Integer.parseInt(numero2.getText()));
+			threshold.editOperators((String)operador1.getSelectedItem(), (String)operador2.getSelectedItem());
+			frame.setVisible(false);
+			frame.dispose();
+		}		
 	}
-	
-	
-
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
