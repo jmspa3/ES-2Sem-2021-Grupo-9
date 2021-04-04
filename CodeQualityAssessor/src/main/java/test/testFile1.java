@@ -1,6 +1,5 @@
 package test;
 
-import metrics.Metrica;
 
 public class testFile1 {
 
@@ -28,6 +27,7 @@ public class testFile1 {
 			default:
 				break;
 		}
+		// && ||
 	}
 	
 	public int heyllo() {
