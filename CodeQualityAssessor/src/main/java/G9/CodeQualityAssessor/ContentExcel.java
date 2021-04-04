@@ -20,6 +20,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import metrics.Metrics;
 
 import org.apache.poi.ss.usermodel.CellType;
 
@@ -212,13 +213,14 @@ public class ContentExcel {
 	    
 	    //dummy data
 	    
-	    public List<Metrica> getListBook() {
-	        Metrica book3 = new Metrica(1,2,3,4,5,6,7,8);
-	        Metrica book4 = new Metrica(1,2,3,4,5,6,7,8);
-	     
-	        List<Metrica> listBook = Arrays.asList( book3, book4);
-	     
-	        return listBook;
+	    public ArrayList<String> getListBook() throws FileNotFoundException {
+	    	Metrics m = new Metrics("\"C:\\\\Users\\\\carol\\\\Downloads\\\\Code_Smells1.xlsx\"");
+	    	List<ArrayList<String>> list = m.getMetrics();
+	    	
+	    	for (int i=0; i< list.size(); ++i) {
+	    		return list.get(i);
+	    	}
+			return null;
 	    }
 	    
 	    
