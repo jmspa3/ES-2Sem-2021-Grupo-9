@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -28,9 +29,9 @@ import org.apache.poi.ss.usermodel.CellType;
 public class ContentExcel { 
 	
 	HashSet<String> listPackages =new HashSet<String>();
-	HashSet<String> listMethods =new HashSet<String>();
+	int numMethods;
 	HashSet<String> listClasses =new HashSet<String>();
-	ArrayList<String> totalLines = new ArrayList<String>();
+	HashMap<String,Integer> totalLines = new HashMap<String,Integer>();
 	ArrayList<String[]> r = new ArrayList<String[]>(); //colocar linhas
 	
 	    private Object getCellValue(Cell cell)  { 
@@ -60,17 +61,23 @@ public class ContentExcel {
 	        Workbook workbook = new XSSFWorkbook(inputStream); 
 	        Sheet firstSheet = workbook.getSheetAt(0);
 	        
+	        numMethods=firstSheet.getLastRowNum();
+
+	        
 	        Iterator<Row> iterator = firstSheet.iterator(); 
 	  
 	        while (iterator.hasNext()) { 
 	        	lineMetrica = new ArrayList<String>();
 	            Row nextRow = iterator.next(); 
 	            Iterator<Cell> cellIterator = nextRow.cellIterator(); 
-	  
+	            String key = null;
+	            
+	            
 	            while (cellIterator.hasNext()) { 
 	                Cell nextCell = cellIterator.next(); 
 	                int columnIndex = nextCell.getColumnIndex(); 
-	  
+	                
+	                
 	                try {
 	                	lineMetrica.add((String)getCellValue(nextCell));
 	                } catch (ClassCastException e) {
@@ -80,16 +87,21 @@ public class ContentExcel {
 	                case 1:
 	                	listPackages.add((String)getCellValue(nextCell)); 
 	                	//System.out.println(listPackages);
-	                    break; 
-	                case 2: 
-	                    listMethods.add((String)getCellValue(nextCell));
-	                    break; 
-	                case 3: 
+	                    break;
+	                case 2:
+	                	key = (String)getCellValue(nextCell);
 	                	listClasses.add((String)getCellValue(nextCell));
 	                    break; 
-	                    
-	                case 5: 
-	                	totalLines.add((String)getCellValue(nextCell).toString());
+	                case 5:
+	                	try {
+	                		if(!totalLines.containsKey(key)) {
+	                		totalLines.put(key, Integer.parseInt((String) getCellValue(nextCell)));
+	                		}	                		
+	                	}catch (NumberFormatException e) {
+	                		//no problem
+	                	}
+//	                	totalLines.add((String)getCellValue(nextCell).toString());
+	                	
 	                	break; 
 	                }
 	            }
@@ -98,8 +110,15 @@ public class ContentExcel {
 	            for(int i=0; i<lineMetrica.size(); i++) {
 	            	str[i] = lineMetrica.get(i);
 	            }
-	            
 	            matrix.add(str);
+	        }
+	        
+	        
+	        for(String[] s : matrix) {
+	        	for (String b : s) {
+					System.out.println(b);
+				}
+	        	System.out.println();
 	        }
 	        
 	        //((FileInputStream)workbook).close(); 
@@ -108,23 +127,24 @@ public class ContentExcel {
 	    }
 	    
 	    public int numberTotalPackages() {	
-			return listPackages.size()-1;	
+			return listPackages.size()-1;
 	    }
 	    
 	    public int numberTotalMethods() {
-	    	return listMethods.size()-1;	
+	    	return numMethods;
 	    }
 	    
 	    public int numberTotalClasses() {
-			return listClasses.size()-1;	
+			return listClasses.size()-1;
 	    }
 	    
 	    public int numberTotalLines() {
 	    	int count=0;
-	    	for(int i=1; i<totalLines.size();i++) {
-	    		count += Integer.parseInt(totalLines.get(i));
+	    	
+	    	for(int value : totalLines.values()) {
+	    		count+=value;
 	    	}
-			return count;	
+			return count;
 	    }
 	    
 	    
@@ -154,6 +174,9 @@ public class ContentExcel {
 	        cell.setCellValue(m.get(8));
 	        
 	        //is_god_class
+	        cell = row.createCell(7);
+	        cell.setCellValue("FALSE");
+	        
 	        
 	        //loc_method
 	        cell = row.createCell(8);
@@ -163,6 +186,8 @@ public class ContentExcel {
 	        cell.setCellValue(m.get(6));
 	    
 	        //is_long_method
+	        cell = row.createCell(10);
+	        cell.setCellValue("FALSE");
 	    }
 	    
 	    //method that writes in Excel

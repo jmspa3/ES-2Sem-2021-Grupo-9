@@ -22,6 +22,8 @@ import javax.swing.JScrollPane;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Vector;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -77,8 +79,7 @@ public class GUI extends JFrame {
 		textField.setColumns(10);
 		
 		//to save time / need to change later
-		textField.setText("C:\\Users\\carlo\\Desktop\\jasml_0.10\\src");
-		
+		textField.setText("C:\\Users\\carlo\\Desktop\\jasml_0.10");
 		
 		
 
@@ -121,10 +122,8 @@ public class GUI extends JFrame {
 
 			private void btnCriarAction() {			
 				//write metrics to file
-				String projectPath = textField.getText();
-				
 				try {
-					new ContentExcel().writeExcel(projectPath);
+					new ContentExcel().writeExcel(textField.getText());
 				} catch (IOException e) {
 					JOptionPane.showMessageDialog(null, "Failure!");
 				}
@@ -151,29 +150,16 @@ public class GUI extends JFrame {
 				ArrayList<String[]> data = new ArrayList<String[]>();
 				
 				try {
-					data = excel.readBooksFromExcelFile("C:\\Users\\carlo\\Desktop\\jasml_0.10\\Code_Smells.xlsx");
-//					System.out.println(data.toString());
+//					data = excel.readBooksFromExcelFile("C:\\Users\\carlo\\Desktop\\jasml_0.10\\Code_Smells.xlsx");
+//					data = excel.readBooksFromExcelFile("C:\\Users\\carlo\\Desktop\\jasml_0.10\\Code_Smells.xlsx");
+					data = excel.readBooksFromExcelFile("C:\\Users\\carlo\\Desktop\\jasml_0.10\\teste.xlsx");
+					String projectPath = textField.getText();
+					String[] str = projectPath.split("\\");
+					
+					data = excel.readBooksFromExcelFile(projectPath+str[str.length-1]+"_metrics");
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-				
-//				String[] columnNames = { "MethodID", "package", "class", "method", "NOM_class", "LOC_class",
-//						"WMC_class", "is_God_Class", "LOC_method", "CYCLO_method", "is_Long_Method" };
-//				String[] data1 = { "1", "com.jasml.compiler", "GrammerException", "GrammerException(int,String)", "4",
-//						"18", "4", "FALSO", "3", "1", "FALSO" };
-//				String[] data2 = { "1", "com.jasml.compiler", "GrammerException", "GrammerException(int,String)", "4",
-//						"18", "4", "FALSO", "3", "1", "FALSO" };
-
-//				data.add(data1);
-//				data.add(data2);
-
-
-				
-//				for (String[] singleMetrics : data) {
-//					data.add(singleMetrics);
-//				}
 				
 				DefaultTableModel model = new DefaultTableModel();
 
@@ -195,8 +181,9 @@ public class GUI extends JFrame {
 				lblValorClasses.setText(Integer.toString(excel.numberTotalClasses()));
 				lblValorMetodos.setText(Integer.toString(excel.numberTotalMethods()));
 				lblValorLinhas.setText(Integer.toString(excel.numberTotalLines()));
-				
 
+				
+				
 			}
 		});
 
