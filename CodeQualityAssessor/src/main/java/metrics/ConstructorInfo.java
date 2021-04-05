@@ -34,8 +34,17 @@ public class ConstructorInfo extends VoidVisitorAdapter<List<ArrayList<String>>>
 		int NOM_class;
 		
 		ArrayList<String> temp = new ArrayList<String>();
-
-		ClassOrInterfaceDeclaration cid = (ClassOrInterfaceDeclaration) c.getParentNode().get();
+		
+		ClassOrInterfaceDeclaration cid = null;
+		if(c.getParentNode().isPresent()) {
+			if(c.getParentNode().get() instanceof ClassOrInterfaceDeclaration) {
+				cid =(ClassOrInterfaceDeclaration) c.getParentNode().get();
+			} else {
+				return;
+			}
+		} else {
+			return;
+		}
 
 		packageName = mu.getPackageName();
 		constructorName = mu.getMethodName(c);
