@@ -102,7 +102,7 @@ public class Metrics {
 
 	// just for testing (to be removed)
 	public static void main(String[] args) throws FileNotFoundException {
-		Metrics tm = new Metrics("/Users/nunodias/Documents/jasml_0.10/src");
+		Metrics tm = new Metrics("/Users/nunodias/Documents/jasml_0.10");
 		tm.runTroughJavaFilesPrint();
 	}
 }

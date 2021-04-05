@@ -34,8 +34,17 @@ public class MethodInfo extends VoidVisitorAdapter<List<ArrayList<String>>> {
 		int NOM_class;
 
 		ArrayList<String> temp = new ArrayList<String>();
-
-		ClassOrInterfaceDeclaration cid = (ClassOrInterfaceDeclaration) md.getParentNode().get();
+		
+		ClassOrInterfaceDeclaration cid = null;
+		if(md.getParentNode().isPresent()) {
+			if(md.getParentNode().get() instanceof ClassOrInterfaceDeclaration) {
+				cid =(ClassOrInterfaceDeclaration) md.getParentNode().get();
+			} else {
+				return;
+			}
+		} else {
+			return;
+		}
 
 		packageName = mu.getPackageName();
 		constructorName = mu.getMethodName(md);
