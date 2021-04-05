@@ -13,17 +13,13 @@ import javax.swing.JFileChooser;
 import javax.swing.JTable;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import java.awt.GridLayout;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
-
 import javax.swing.JScrollPane;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Vector;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -80,7 +76,6 @@ public class GUI extends JFrame {
 		
 		//to save time / need to change later
 		textField.setText("C:\\Users\\carlo\\Desktop\\jasml_0.10");
-		
 		
 
 		JPanel panel_1 = new JPanel();
@@ -141,22 +136,16 @@ public class GUI extends JFrame {
 			}
 
 			private void btnAbrirAction() {
-//				FileReader fr = new FileReader(smellyPath);
-//				ArrayList<String[]> data = fr.getData();
-
 				// SET TABLE
 				ContentExcel excel = new ContentExcel();
 				
 				ArrayList<String[]> data = new ArrayList<String[]>();
 				
 				try {
-//					data = excel.readBooksFromExcelFile("C:\\Users\\carlo\\Desktop\\jasml_0.10\\Code_Smells.xlsx");
-//					data = excel.readBooksFromExcelFile("C:\\Users\\carlo\\Desktop\\jasml_0.10\\Code_Smells.xlsx");
-					data = excel.readBooksFromExcelFile("C:\\Users\\carlo\\Desktop\\jasml_0.10\\teste.xlsx");
 					String projectPath = textField.getText();
-					String[] str = projectPath.split("\\");
+					String[] str = projectPath.split("\\\\");
 					
-					data = excel.readBooksFromExcelFile(projectPath+str[str.length-1]+"_metrics");
+					data = excel.readBooksFromExcelFile(projectPath+"\\"+str[str.length-1]+"_metrics");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -174,14 +163,11 @@ public class GUI extends JFrame {
 				table.setModel(model);
 
 				// SET Labels
-
-				// fr.getMetricas
-				// labels.setText();
 				lblValorPackages.setText(Integer.toString(excel.numberTotalPackages()));
 				lblValorClasses.setText(Integer.toString(excel.numberTotalClasses()));
 				lblValorMetodos.setText(Integer.toString(excel.numberTotalMethods()));
 				lblValorLinhas.setText(Integer.toString(excel.numberTotalLines()));
-
+				//missing indicators
 				
 				
 			}
@@ -193,7 +179,6 @@ public class GUI extends JFrame {
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 
 		table = new JTable();
-//		table = new JTable();
 		scrollPane.setViewportView(table);
 
 		JPanel panel_6 = new JPanel();
@@ -257,11 +242,5 @@ public class GUI extends JFrame {
 		panel_5.add(lblNumeroFalhas);
 
 		panel_5.add(lblValorFalhas);
-	}
-
-	
-	
-	private void setStaticComponents() {
-
 	}
 }

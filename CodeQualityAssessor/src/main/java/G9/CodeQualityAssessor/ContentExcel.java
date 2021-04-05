@@ -6,13 +6,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
@@ -20,11 +17,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import javassist.compiler.Parser;
 import metrics.Metrics;
 
-import org.apache.poi.ss.usermodel.CellType;
 
 public class ContentExcel { 
 	
@@ -85,8 +79,7 @@ public class ContentExcel {
 	                }
 	                switch (columnIndex) { 
 	                case 1:
-	                	listPackages.add((String)getCellValue(nextCell)); 
-	                	//System.out.println(listPackages);
+	                	listPackages.add((String)getCellValue(nextCell));
 	                    break;
 	                case 2:
 	                	key = (String)getCellValue(nextCell);
@@ -100,7 +93,6 @@ public class ContentExcel {
 	                	}catch (NumberFormatException e) {
 	                		//no problem
 	                	}
-//	                	totalLines.add((String)getCellValue(nextCell).toString());
 	                	
 	                	break; 
 	                }
@@ -198,7 +190,7 @@ public class ContentExcel {
 			
 			createHeaderRow(sheet);
 			
-			List<ArrayList<String>> listMetrica = getListBook(excelFilePath+"");
+			List<ArrayList<String>> listMetrica = getListBook(excelFilePath);
 			
 	     
 	        int rowCount = 0;
@@ -208,8 +200,11 @@ public class ContentExcel {
 	            writeBook(m, row);
 	        }
 	     
-//	        try (FileOutputStream outputStream = new FileOutputStream(excelFilePath)) {
-	        try (FileOutputStream outputStream = new FileOutputStream("C:\\Users\\carlo\\Desktop\\jasml_0.10\\teste.xlsx")) {
+	        System.out.println(excelFilePath);
+			String[] str = excelFilePath.split("\\\\");
+	        
+	        try (FileOutputStream outputStream = new FileOutputStream(excelFilePath+"\\"+str[str.length-1]+"_metrics.xlsx")) {
+	        	System.out.println("trydsdsad");
 	            workbook.write(outputStream);
 	        }
 	        
@@ -277,7 +272,6 @@ public class ContentExcel {
 	    public List<ArrayList<String>> getListBook(String projectPath) throws FileNotFoundException {
 	    	Metrics m = new Metrics(projectPath);
 	    	List<ArrayList<String>> list = m.getMetrics();
-	    	System.out.println(list);
 	    	return list;
 	    }
 	    

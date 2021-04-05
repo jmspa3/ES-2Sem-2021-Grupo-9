@@ -44,12 +44,18 @@ public class Teste {
 //		List<String> listBook = conte.getListBook(null);
 		String excelFilePath = "C:\\Users\\carlo\\Desktop\\jasml_0.10\\src";  //escreve check
 		
-		try {
-			conte.writeExcel(excelFilePath);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		String[] str = excelFilePath.split("\\\\");
+		
+		for (String s: str)
+		System.out.println(s);
+		
+		
+//		try {
+//			conte.writeExcel(excelFilePath);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 
 	}
 	
