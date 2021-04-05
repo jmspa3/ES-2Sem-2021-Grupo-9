@@ -202,8 +202,11 @@ public class ContentExcel {
 	     
 	        System.out.println(excelFilePath);
 			String[] str = excelFilePath.split("\\\\");
+			
+			
+			File file = new File(excelFilePath);
 	        
-	        try (FileOutputStream outputStream = new FileOutputStream(excelFilePath+"\\"+str[str.length-1]+"_metrics.xlsx")) {
+	        try (FileOutputStream outputStream = new FileOutputStream(excelFilePath + File.separator + file.getName() +"_metrics.xlsx")) {
 	        	System.out.println("trydsdsad");
 	            workbook.write(outputStream);
 	        }

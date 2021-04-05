@@ -142,10 +142,11 @@ public class GUI extends JFrame {
 				ArrayList<String[]> data = new ArrayList<String[]>();
 				
 				try {
-					String projectPath = textField.getText();
-					String[] str = projectPath.split("\\\\");
 					
-					data = excel.readBooksFromExcelFile(projectPath+"\\"+str[str.length-1]+"_metrics");
+					String projectPath = textField.getText();
+					File file = new File(projectPath);
+					data = excel.readBooksFromExcelFile(projectPath + File.separator + file.getName() +"_metrics.xlsx");
+					
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
