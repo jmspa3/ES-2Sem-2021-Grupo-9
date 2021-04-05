@@ -45,7 +45,7 @@ public class ContentExcel {
 	    
 	    
 	    // Read the excel sheet contents 
-	    public ArrayList<String[]> readBooksFromExcelFile(String excelFilePath) throws IOException { 
+	    public ArrayList<String[]> readBooksFromExcelFile(String excelFilePath) throws IOException, FileNotFoundException { 
 	    	ArrayList<String[]> matrix = new ArrayList<String[]>();
 	    	ArrayList<String> lineMetrica; 
 	    	

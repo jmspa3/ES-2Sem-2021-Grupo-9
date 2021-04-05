@@ -18,6 +18,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.awt.event.ActionListener;
@@ -119,11 +120,10 @@ public class GUI extends JFrame {
 				//write metrics to file
 				try {
 					new ContentExcel().writeExcel(textField.getText());
+					JOptionPane.showMessageDialog(null, "Success!");
 				} catch (IOException e) {
 					JOptionPane.showMessageDialog(null, "Failure!");
 				}
-				
-				JOptionPane.showMessageDialog(null, "Success!");
 			}
 		});
 
@@ -148,7 +148,7 @@ public class GUI extends JFrame {
 					data = excel.readBooksFromExcelFile(projectPath + File.separator + file.getName() +"_metrics.xlsx");
 					
 				} catch (IOException e) {
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Metrics não existe!");
 				}
 				
 				DefaultTableModel model = new DefaultTableModel();
