@@ -20,7 +20,6 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import G9.CodeQualityAssessor.ContentExcel;
-import G9.CodeQualityAssessor.Metrica;
 
 import org.apache.poi.*;
 
