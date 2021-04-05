@@ -42,7 +42,14 @@ public class MetricUtils {
 			str = sb.toString();
 		} else if (o instanceof ConstructorDeclaration) {
 			ConstructorDeclaration cd = (ConstructorDeclaration) o;
-			str = cd.getDeclarationAsString(false, false, false);
+//			str = cd.getDeclarationAsString(false, false, false);
+			String[] arr = cd.getDeclarationAsString(false, false, false).split(" ");
+			arr = Arrays.copyOfRange(arr, 0, arr.length);
+			StringBuffer sb = new StringBuffer();
+			for (int i = 0; i < arr.length; i++) {
+				sb.append(arr[i]);
+			}
+			str = sb.toString();
 		}
 		return str;
 	}
