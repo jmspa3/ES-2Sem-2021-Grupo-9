@@ -16,6 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
 import Limits.*;
+import javax.swing.JPanel;
 
 public class GUIRegras {
 	private ArrayList<Threshold> lista = new ArrayList<Threshold>();
@@ -25,7 +26,7 @@ public class GUIRegras {
 		listaRegras = new JFrame();
 		listaRegras.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		listaRegras.setBounds(100, 100, 400, 700);
-		listaRegras.setLayout(new BorderLayout());
+		listaRegras.getContentPane().setLayout(new BorderLayout());
 		listaRegras.setResizable(false);
 		
 		//get list with rules
@@ -38,9 +39,28 @@ public class GUIRegras {
 		JList<Threshold> mostrar_regras = new JList<Threshold>(listModel);
 		mostrar_regras.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		mostrar_regras.setLayoutOrientation(JList.VERTICAL);
+		JScrollPane panel = new JScrollPane(mostrar_regras);
+		listaRegras.getContentPane().add(panel, BorderLayout.CENTER);
+		
+		JPanel panel_1 = new JPanel();
+		listaRegras.getContentPane().add(panel_1, BorderLayout.SOUTH);
+		
+		JButton guardar = new JButton("Guardar");
+		guardar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+			}
+		});
+		
+		
+		
+		panel_1.setLayout(new BorderLayout(0, 0));
+		panel_1.add(guardar, BorderLayout.SOUTH);
 		
 		//open rule editor if clicked
 		JButton editar = new JButton("Editar");
+		panel_1.add(editar);
 		editar.addActionListener(new ActionListener() {
 			
 			@Override
@@ -62,11 +82,6 @@ public class GUIRegras {
 				mostrar_regras.setSelectedValue(old, false);
 			}
 		});
-		
-		
-		listaRegras.add(editar, BorderLayout.SOUTH);
-		JScrollPane panel = new JScrollPane(mostrar_regras);
-		listaRegras.add(panel, BorderLayout.CENTER);
 		listaRegras.setVisible(true);
 	}
 	
