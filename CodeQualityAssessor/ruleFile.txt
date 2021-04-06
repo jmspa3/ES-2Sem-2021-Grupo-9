@@ -1,0 +1,3 @@
+Long_Method;arg1 > 50;||;arg2 > 10
+Regra 2;null null 0;null;null null 0
+Regra 3;null null 0;null;null null 0

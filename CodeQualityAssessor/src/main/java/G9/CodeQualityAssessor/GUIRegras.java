@@ -48,8 +48,11 @@ public class GUIRegras {
 		JButton guardar = new JButton("Guardar");
 		guardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				
+				RuleHandler.deleteFile();
+				RuleHandler.createFile();
+				for(Threshold t: lista) {
+					RuleHandler.write(t.getName()+";"+t.getArgument(0)+" "+t.getArgument(1)+" "+t.getNumber(0)+";"+t.getArgument(2)+";"+t.getArgument(3)+" "+t.getArgument(4)+" "+t.getNumber(1));
+				}
 			}
 		});
 		
@@ -91,9 +94,9 @@ public class GUIRegras {
 		//get crap
 		
 		//to vizualize
-		Threshold exemplo = new Threshold("thr exemplo");
-		exemplo.insertCondition("WMC_class > || LOC_method ==");
-		exemplo.editNumbers(3333, 323213);
+		Threshold exemplo = new Threshold("Long_Method");
+		exemplo.insertCondition("LOC_method > ||  CYCLO_method >");
+		exemplo.editNumbers(50, 10);
 		lista.add(exemplo);
 		lista.add(new Threshold("Regra 2"));
 		lista.add(new Threshold("Regra 3"));
