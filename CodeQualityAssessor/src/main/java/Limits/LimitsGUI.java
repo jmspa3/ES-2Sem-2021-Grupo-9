@@ -92,7 +92,6 @@ public class LimitsGUI extends JDialog implements MouseListener  {
 		this.threshold = threshold;
 		lista.add(">");
 		lista.add("<");
-		lista.add("==");
 		
 		DefaultListModel<String> listModel = new DefaultListModel<String>();
 		lista.forEach(r -> listModel.addElement(r));
@@ -137,7 +136,7 @@ public class LimitsGUI extends JDialog implements MouseListener  {
 		
 		operador1 = new JComboBox<String>();
 		panel.add(operador1);
-		operador1.setSelectedItem(threshold.getArgument(1));
+
 		
 				numero1 = new JTextField(Integer.toString(threshold.getNumber(0)));
 				panel.add(numero1);
@@ -157,7 +156,7 @@ public class LimitsGUI extends JDialog implements MouseListener  {
 				
 		operador2 = new JComboBox<String>();
 		panel.add(operador2);
-		operador2.setSelectedItem(threshold.getArgument(4));
+		
 		
 		numero2 = new JTextField(Integer.toString(threshold.getNumber(1)));
 		panel.add(numero2);
@@ -169,6 +168,9 @@ public class LimitsGUI extends JDialog implements MouseListener  {
 		frame.getContentPane().add(guardarTotal, BorderLayout.SOUTH);
 		lista.forEach(r -> operador1.addItem(r));
 		lista.forEach(r -> operador2.addItem(r));
+		
+		operador1.setSelectedItem(threshold.getArgument(1));		
+		operador2.setSelectedItem(threshold.getArgument(4));
 
 	}
 	
@@ -181,7 +183,6 @@ public class LimitsGUI extends JDialog implements MouseListener  {
 		String buttonText = ((JButton) e.getSource()).getText();
 		
 		if(buttonText.equals(salvar)) {
-			threshold.editArgs("arg1", "arg2");
 			threshold.editNumbers(Integer.parseInt(numero1.getText()), Integer.parseInt(numero2.getText()));
 			threshold.editOperators((String)operador1.getSelectedItem(), (String)operador2.getSelectedItem());
 			frame.setVisible(false);
