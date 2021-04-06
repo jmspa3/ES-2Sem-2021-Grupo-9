@@ -8,6 +8,7 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.stmt.DoStmt;
 import com.github.javaparser.ast.stmt.ForEachStmt;
 import com.github.javaparser.ast.stmt.ForStmt;
@@ -33,6 +34,13 @@ public class MetricUtils {
 		String str = "";
 		if (o instanceof MethodDeclaration) {
 			MethodDeclaration md = (MethodDeclaration) o;
+			for(Parameter n : md.getParameters()) {	
+				if(n.toString().contains(".")) {
+					int i = n.toString().indexOf(".") +1;
+					String s = n.toString().substring(i).split(" ")[0];
+					md.getParameterByName(n.getNameAsString()).get().setType(s);
+				}
+			}
 			String[] arr = md.getDeclarationAsString(false, false, false).split(" ");
 			arr = Arrays.copyOfRange(arr, 1, arr.length);
 			StringBuffer sb = new StringBuffer();
@@ -42,7 +50,13 @@ public class MetricUtils {
 			str = sb.toString();
 		} else if (o instanceof ConstructorDeclaration) {
 			ConstructorDeclaration cd = (ConstructorDeclaration) o;
-//			str = cd.getDeclarationAsString(false, false, false);
+			for(Parameter n : cd.getParameters()) {	
+				if(n.toString().contains(".")) {
+					int i = n.toString().indexOf(".") +1;
+					String s = n.toString().substring(i).split(" ")[0];
+					cd.getParameterByName(n.getNameAsString()).get().setType(s);
+				}
+			}
 			String[] arr = cd.getDeclarationAsString(false, false, false).split(" ");
 			arr = Arrays.copyOfRange(arr, 0, arr.length);
 			StringBuffer sb = new StringBuffer();

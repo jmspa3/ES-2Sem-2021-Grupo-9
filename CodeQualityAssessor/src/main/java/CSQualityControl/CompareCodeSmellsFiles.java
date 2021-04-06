@@ -104,19 +104,15 @@ public class CompareCodeSmellsFiles {
 					if (default_is_god_class && resulting_is_god_class) {
 						Cell cell = resulting_row.createCell(resulting_row.getLastCellNum());
 						cell.setCellValue("VP");
-						System.out.println("VP");
 					} else if (!default_is_god_class && !resulting_is_god_class) {
 						Cell cell = resulting_row.createCell(resulting_row.getLastCellNum());
 						cell.setCellValue("VN");
-						System.out.println("VN");
 					} else if (!default_is_god_class && resulting_is_god_class) {
 						Cell cell = resulting_row.createCell(resulting_row.getLastCellNum());
 						cell.setCellValue("FP");
-						System.out.println("FP");
 					} else if (default_is_god_class && !resulting_is_god_class) {
 						Cell cell = resulting_row.createCell(resulting_row.getLastCellNum());
 						cell.setCellValue("FN");
-						System.out.println("FN");
 					}
 				}
 			}
