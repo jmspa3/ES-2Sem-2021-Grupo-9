@@ -13,6 +13,8 @@ import java.util.Iterator;
 import javax.swing.plaf.synth.SynthOptionPaneUI;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -60,11 +62,11 @@ public class CompareCodeSmellsFiles {
 
 			default_file.close();
 			resulting_file.close();
-			
+
 			FileOutputStream outputStream = new FileOutputStream(resulting_cs);
-            resulting_workbook.write(outputStream);
-            resulting_workbook.close();
-            outputStream.close();
+			resulting_workbook.write(outputStream);
+			resulting_workbook.close();
+			outputStream.close();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -77,6 +79,19 @@ public class CompareCodeSmellsFiles {
 		Iterator<Row> default_rowIterator = default_sheet.iterator();
 		Iterator<Row> resulting_rowIterator = resulting_sheet.iterator();
 
+//		CellStyle cellStyle = resulting_sheet.getWorkbook().createCellStyle();
+//        Font font = resulting_sheet.getWorkbook().createFont();
+//        font.setBold(true);
+//        cellStyle.setFont(font);
+//        
+//		Cell qcs_god_class = resulting_sheet.getRow(0).createCell(resulting_sheet.getLastRowNum());
+//		qcs_god_class.setCellStyle(cellStyle);
+//		qcs_god_class.setCellValue("Quality_God_Class");
+//		
+//		Cell qcs_long_method = resulting_sheet.getRow(0).createCell(resulting_sheet.getLastRowNum());
+//		qcs_god_class.setCellStyle(cellStyle);
+//		qcs_god_class.setCellValue("Quality_Long_Method");
+		
 		default_rowIterator.next();
 		resulting_rowIterator.next();
 		int count = 1;
@@ -118,7 +133,6 @@ public class CompareCodeSmellsFiles {
 			}
 			resulting_rowIterator = resulting_sheet.iterator();
 			resulting_rowIterator.next();
-
 		}
 	}
 
