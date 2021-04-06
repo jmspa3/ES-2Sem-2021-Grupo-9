@@ -34,9 +34,9 @@ public class MetricUtils {
 		String str = "";
 		if (o instanceof MethodDeclaration) {
 			MethodDeclaration md = (MethodDeclaration) o;
-			for(Parameter n : md.getParameters()) {	
-				if(n.toString().contains(".")) {
-					int i = n.toString().indexOf(".") +1;
+			for (Parameter n : md.getParameters()) {
+				if (n.toString().contains(".")) {
+					int i = n.toString().indexOf(".") + 1;
 					String s = n.toString().substring(i).split(" ")[0];
 					md.getParameterByName(n.getNameAsString()).get().setType(s);
 				}
@@ -50,9 +50,9 @@ public class MetricUtils {
 			str = sb.toString();
 		} else if (o instanceof ConstructorDeclaration) {
 			ConstructorDeclaration cd = (ConstructorDeclaration) o;
-			for(Parameter n : cd.getParameters()) {	
-				if(n.toString().contains(".")) {
-					int i = n.toString().indexOf(".") +1;
+			for (Parameter n : cd.getParameters()) {
+				if (n.toString().contains(".")) {
+					int i = n.toString().indexOf(".") + 1;
 					String s = n.toString().substring(i).split(" ")[0];
 					cd.getParameterByName(n.getNameAsString()).get().setType(s);
 				}

@@ -34,12 +34,10 @@ public class GUI extends JFrame {
 	private JLabel lblValorClasses = new JLabel();
 	private JLabel lblValorMetodos = new JLabel();
 	private JLabel lblValorLinhas = new JLabel();
-	
+
 	private JLabel lblValorAcertos = new JLabel();
 	private JLabel lblValorFalhas = new JLabel();
-	
-	
-	
+
 	/**
 	 * Launch the application.
 	 */
@@ -74,10 +72,9 @@ public class GUI extends JFrame {
 		textField = new JTextField();
 		panel.add(textField);
 		textField.setColumns(10);
-		
-		//to save time / need to change later
+
+		// to save time / need to change later
 		textField.setText("C:\\Users\\carlo\\Desktop\\jasml_0.10");
-		
 
 		JPanel panel_1 = new JPanel();
 		panel.add(panel_1, BorderLayout.EAST);
@@ -85,7 +82,7 @@ public class GUI extends JFrame {
 
 		JButton btnProcurar = new JButton("Procurar");
 		btnProcurar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {	
+			public void actionPerformed(ActionEvent e) {
 				btnProcurarAction();
 			}
 
@@ -105,7 +102,7 @@ public class GUI extends JFrame {
 					System.out.println("No file is selected");
 				} else {
 					System.out.println("What did you do!?!");
-				}	
+				}
 			}
 		});
 		panel_1.add(btnProcurar);
@@ -116,8 +113,8 @@ public class GUI extends JFrame {
 				btnCriarAction();
 			}
 
-			private void btnCriarAction() {			
-				//write metrics to file
+			private void btnCriarAction() {
+				// write metrics to file
 				try {
 					new ContentExcel().writeExcel(textField.getText());
 					JOptionPane.showMessageDialog(null, "Success!");
@@ -138,19 +135,20 @@ public class GUI extends JFrame {
 			private void btnAbrirAction() {
 				// SET TABLE
 				ContentExcel excel = new ContentExcel();
-				
+
 				ArrayList<String[]> data = new ArrayList<String[]>();
-				
+
 				try {
-					
+
 					String projectPath = textField.getText();
 					File file = new File(projectPath);
-					data = excel.readBooksFromExcelFile(projectPath + File.separator + file.getName() +"_metrics.xlsx");
-					
+					data = excel
+							.readBooksFromExcelFile(projectPath + File.separator + file.getName() + "_metrics.xlsx");
+
 				} catch (IOException e) {
 					JOptionPane.showMessageDialog(null, "Metrics não existe!");
 				}
-				
+
 				DefaultTableModel model = new DefaultTableModel();
 
 				for (String s : data.get(0)) {
@@ -168,9 +166,8 @@ public class GUI extends JFrame {
 				lblValorClasses.setText(Integer.toString(excel.numberTotalClasses()));
 				lblValorMetodos.setText(Integer.toString(excel.numberTotalMethods()));
 				lblValorLinhas.setText(Integer.toString(excel.numberTotalLines()));
-				//missing indicators
-				
-				
+				// missing indicators
+
 			}
 		});
 
@@ -214,7 +211,7 @@ public class GUI extends JFrame {
 		JLabel lblNumeroLinhas = new JLabel("N\u00FAmero Total de Linhas:");
 		lblNumeroLinhas.setHorizontalAlignment(SwingConstants.RIGHT);
 		panel_2.add(lblNumeroLinhas);
-		
+
 		lblValorLinhas.setHorizontalAlignment(SwingConstants.CENTER);
 		panel_2.add(lblValorLinhas);
 
