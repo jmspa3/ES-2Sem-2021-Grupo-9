@@ -1,48 +1,34 @@
 package Limits;
 
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JTextArea;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.JTextPane;
-import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JList;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import javax.swing.JPanel;
 
 public class LimitsGUI extends JDialog implements MouseListener  {
 	
 	//implements ActionListener
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JFrame frame;
-	private JList list;
-	private JDialog parent;
-	private Threshold th;
-	private String regra = "", and = "And", or = "Or", lesser = "<", greater = ">", equal = "=";
 	//Nomes dos botões
-	private String add_num = "Adicionar Número", editar = "Editar", limpar = "Limpar";
-	private String salvar = "Guardar e Sair"; //guardar e sair
-	private String guardar = "Guardar"; //guardar a configuração da regra
+	private String salvar = "Alterar"; //Alterar condição e sair
 	private JTextField numero1;
 	private JTextField numero2;
 	private ArrayList<String> lista = new ArrayList<>();
@@ -57,7 +43,10 @@ public class LimitsGUI extends JDialog implements MouseListener  {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	
+	/* Test main 
+	 * 
+	 * public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {		
@@ -69,7 +58,7 @@ public class LimitsGUI extends JDialog implements MouseListener  {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the application.

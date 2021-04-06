@@ -16,6 +16,7 @@ public class Threshold {
 	  editable_numbers[1] = 9023 	
 	  
 	  This way of storing encourages more flexibility, even if the rules are hard-coded by themselves
+	  Note, you cannot change the operator at index 2, and there is not a == operator present as it does not make sense
 	 */
 	
 	private String [] argument_operator = new String[5];
@@ -47,11 +48,7 @@ public class Threshold {
 		argument_operator[4] = op2;
 	}
 	
-	//Test method, this is not to be played with in user version
-	public void editArgs(String arg1, String arg2) {
-		argument_operator[0] = arg1;
-		argument_operator[3] = arg2;
-	}
+
 	
 	public void insertCondition(String condicao) {
 		Scanner scanner =new Scanner(condicao);
@@ -62,7 +59,7 @@ public class Threshold {
 		scanner.close();
 	}
 	
-	//insert True to return the first condition, False for the second
+	//Insert True to return the first condition, False for the second
 	public String getCondition(boolean first) {
 		if (first) return (argument_operator[0] + " " + argument_operator[1]);
 		else return (argument_operator[3] + " " + argument_operator[4]);
@@ -81,19 +78,20 @@ public class Threshold {
 		editable_numbers[1] = n2;
 	}
 	
+
 	
 	@Override
 	public String toString() {
 		return this.name;
 	}
 	
-	public String getCondition() {
-		return "false";
-		//return this.condition;
-	}
-	
 	public String getName() {
 		return this.name;
 	}
 	
+	//Test method, this is not to be played with in user version
+	public void editArgs(String arg1, String arg2) {
+		argument_operator[0] = arg1;
+		argument_operator[3] = arg2;
+	}	
 }
