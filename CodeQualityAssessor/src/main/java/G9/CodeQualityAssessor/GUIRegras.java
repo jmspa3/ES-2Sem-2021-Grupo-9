@@ -1,11 +1,9 @@
 package G9.CodeQualityAssessor;
 
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Observer;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -29,13 +27,13 @@ public class GUIRegras {
 		listaRegras.getContentPane().setLayout(new BorderLayout());
 		listaRegras.setResizable(false);
 		
-		//get list with rules
+		//Get list with rules
 		getThresholds();
 		
 		DefaultListModel<Threshold> listModel = new DefaultListModel<Threshold>();
 		lista.forEach(r -> listModel.addElement(r));
 		
-		//display rules
+		//Display rules
 		JList<Threshold> mostrar_regras = new JList<Threshold>(listModel);
 		mostrar_regras.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		mostrar_regras.setLayoutOrientation(JList.VERTICAL);
@@ -58,14 +56,14 @@ public class GUIRegras {
 		panel_1.setLayout(new BorderLayout(0, 0));
 		panel_1.add(guardar, BorderLayout.SOUTH);
 		
-		//open rule editor if clicked
+		//Open rule editor if clicked
 		JButton editar = new JButton("Editar");
 		panel_1.add(editar);
 		editar.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-			    if (listModel.getSize() == 0) { //No rules
+			    if (listModel.getSize() == 0) { //No rules //Isn't this kind of useless since we always create the two rules: is_Long_Method and is_God_Class?
 			        editar.setEnabled(false);
 			    } else { //Selected an index.
 			    	JDialog regra = new JDialog(listaRegras);
@@ -88,15 +86,18 @@ public class GUIRegras {
 
 
 	private void getThresholds() {
-		//get crap
+		//Create our custom Thresholds
 		
-		//to vizualize
-		Threshold exemplo = new Threshold("thr exemplo");
-		exemplo.insertCondition("WMC_class > || LOC_method ==");
-		exemplo.editNumbers(3333, 323213);
-		lista.add(exemplo);
-		lista.add(new Threshold("Regra 2"));
-		lista.add(new Threshold("Regra 3"));
+		Threshold is_Long_Method = new Threshold("is_Long_Method");
+		is_Long_Method.insertCondition("LOC_method > || CYCLO_method >");
+		is_Long_Method.editNumbers(50, 10);
+		
+		Threshold is_God_Class = new Threshold("is_God_Class");
+		is_God_Class.insertCondition("WMC_class > || NOM_class >");
+		is_God_Class.editNumbers(50, 10);
+		
+		lista.add(is_Long_Method);
+		lista.add(is_God_Class);
 	}
 
 }

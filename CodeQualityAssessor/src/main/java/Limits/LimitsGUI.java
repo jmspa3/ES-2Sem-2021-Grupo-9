@@ -1,48 +1,34 @@
 package Limits;
 
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JTextArea;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.JTextPane;
-import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JList;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import javax.swing.JPanel;
 
 public class LimitsGUI extends JDialog implements MouseListener  {
 	
 	//implements ActionListener
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JFrame frame;
-	private JList list;
-	private JDialog parent;
-	private Threshold th;
-	private String regra = "", and = "And", or = "Or", lesser = "<", greater = ">", equal = "=";
 	//Nomes dos botões
-	private String add_num = "Adicionar Número", editar = "Editar", limpar = "Limpar";
-	private String salvar = "Guardar e Sair"; //guardar e sair
-	private String guardar = "Guardar"; //guardar a configuração da regra
+	private String salvar = "Alterar"; //Alterar condição e sair
 	private JTextField numero1;
 	private JTextField numero2;
 	private ArrayList<String> lista = new ArrayList<>();
@@ -57,7 +43,10 @@ public class LimitsGUI extends JDialog implements MouseListener  {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	
+	/* Test main 
+	 * 
+	 * public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {		
@@ -69,7 +58,7 @@ public class LimitsGUI extends JDialog implements MouseListener  {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the application.
@@ -92,7 +81,6 @@ public class LimitsGUI extends JDialog implements MouseListener  {
 		this.threshold = threshold;
 		lista.add(">");
 		lista.add("<");
-		lista.add("==");
 		
 		DefaultListModel<String> listModel = new DefaultListModel<String>();
 		lista.forEach(r -> listModel.addElement(r));
@@ -137,7 +125,7 @@ public class LimitsGUI extends JDialog implements MouseListener  {
 		
 		operador1 = new JComboBox<String>();
 		panel.add(operador1);
-		operador1.setSelectedItem(threshold.getArgument(1));
+
 		
 				numero1 = new JTextField(Integer.toString(threshold.getNumber(0)));
 				panel.add(numero1);
@@ -157,7 +145,7 @@ public class LimitsGUI extends JDialog implements MouseListener  {
 				
 		operador2 = new JComboBox<String>();
 		panel.add(operador2);
-		operador2.setSelectedItem(threshold.getArgument(4));
+		
 		
 		numero2 = new JTextField(Integer.toString(threshold.getNumber(1)));
 		panel.add(numero2);
@@ -169,6 +157,9 @@ public class LimitsGUI extends JDialog implements MouseListener  {
 		frame.getContentPane().add(guardarTotal, BorderLayout.SOUTH);
 		lista.forEach(r -> operador1.addItem(r));
 		lista.forEach(r -> operador2.addItem(r));
+		
+		operador1.setSelectedItem(threshold.getArgument(1));		
+		operador2.setSelectedItem(threshold.getArgument(4));
 
 	}
 	
@@ -181,7 +172,6 @@ public class LimitsGUI extends JDialog implements MouseListener  {
 		String buttonText = ((JButton) e.getSource()).getText();
 		
 		if(buttonText.equals(salvar)) {
-			threshold.editArgs("arg1", "arg2");
 			threshold.editNumbers(Integer.parseInt(numero1.getText()), Integer.parseInt(numero2.getText()));
 			threshold.editOperators((String)operador1.getSelectedItem(), (String)operador2.getSelectedItem());
 			frame.setVisible(false);
