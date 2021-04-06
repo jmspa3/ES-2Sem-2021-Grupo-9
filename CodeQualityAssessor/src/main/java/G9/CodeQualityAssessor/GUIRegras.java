@@ -5,22 +5,28 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Observer;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
-public class GUIRegras {
-	private ArrayList<Threshold> lista = new ArrayList<GUIRegras.Threshold>();
+import Limits.*;
+import javax.swing.JPanel;
 
-	public GUIRegras() {
-		JFrame listaRegras = new JFrame();
+public class GUIRegras {
+	private ArrayList<Threshold> lista = new ArrayList<Threshold>();
+	private JFrame listaRegras;
+
+	public GUIRegras()  {
+		listaRegras = new JFrame();
 		listaRegras.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		listaRegras.setBounds(100, 100, 400, 700);
-		listaRegras.setLayout(new BorderLayout());
+		listaRegras.getContentPane().setLayout(new BorderLayout());
 		listaRegras.setResizable(false);
 		
 		//get list with rules
@@ -30,49 +36,67 @@ public class GUIRegras {
 		lista.forEach(r -> listModel.addElement(r));
 		
 		//display rules
-		JList<Threshold> jl = new JList<Threshold>(listModel);
-		jl.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		jl.setLayoutOrientation(JList.VERTICAL);
+		JList<Threshold> mostrar_regras = new JList<Threshold>(listModel);
+		mostrar_regras.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		mostrar_regras.setLayoutOrientation(JList.VERTICAL);
+		JScrollPane panel = new JScrollPane(mostrar_regras);
+		listaRegras.getContentPane().add(panel, BorderLayout.CENTER);
+		
+		JPanel panel_1 = new JPanel();
+		listaRegras.getContentPane().add(panel_1, BorderLayout.SOUTH);
+		
+		JButton guardar = new JButton("Guardar");
+		guardar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+			}
+		});
+		
+		
+		
+		panel_1.setLayout(new BorderLayout(0, 0));
+		panel_1.add(guardar, BorderLayout.SOUTH);
 		
 		//open rule editor if clicked
-		JButton b = new JButton("Editar");
-		b.addActionListener(new ActionListener() {
+		JButton editar = new JButton("Editar");
+		panel_1.add(editar);
+		editar.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 			    if (listModel.getSize() == 0) { //No rules
-			        b.setEnabled(false);
+			        editar.setEnabled(false);
 			    } else { //Selected an index.
-//			    	new LimitsGUI(jl.getSelectedValue());
+			    	JDialog regra = new JDialog(listaRegras);
+			    	regra.setModal(true);
+			    	LimitsGUI editarRegra = new LimitsGUI(mostrar_regras.getSelectedValue(), regra);
+			    	saveThreshold(editarRegra.getThreshold());
 			    }
-			}});
-		
-		
-		listaRegras.add(b, BorderLayout.SOUTH);
-		JScrollPane panel = new JScrollPane(jl);
-		listaRegras.add(panel, BorderLayout.CENTER);
+			    
+			}
+				
+			private void saveThreshold(Threshold threshold) {
+				Threshold old = mostrar_regras.getSelectedValue();
+				old = threshold;
+				mostrar_regras.setSelectedValue(old, false);
+			}
+		});
 		listaRegras.setVisible(true);
 	}
+	
+
 
 	private void getThresholds() {
 		//get crap
 		
 		//to vizualize
-		lista.add(new Threshold("Regra 1"));
+		Threshold exemplo = new Threshold("thr exemplo");
+		exemplo.insertCondition("WMC_class > || LOC_method ==");
+		exemplo.editNumbers(3333, 323213);
+		lista.add(exemplo);
 		lista.add(new Threshold("Regra 2"));
 		lista.add(new Threshold("Regra 3"));
 	}
 
-	private class Threshold {
-		String name;
-		
-		public Threshold(String name) {
-			this.name = name;
-		}
-		
-		@Override
-		public String toString() {
-			return name;
-		}
-	}
 }
