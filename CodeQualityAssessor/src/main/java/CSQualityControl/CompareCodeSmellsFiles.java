@@ -18,6 +18,7 @@ import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -84,17 +85,24 @@ public class CompareCodeSmellsFiles {
 //        font.setBold(true);
 //        cellStyle.setFont(font);
 //        
-//		Cell qcs_god_class = resulting_sheet.getRow(0).createCell(resulting_sheet.getLastRowNum());
+//		Cell qcs_god_class = resulting_sheet.getRow(0).createCell(resulting_sheet.getLastCellNum());
 //		qcs_god_class.setCellStyle(cellStyle);
 //		qcs_god_class.setCellValue("Quality_God_Class");
 //		
-//		Cell qcs_long_method = resulting_sheet.getRow(0).createCell(resulting_sheet.getLastRowNum());
+//		Cell qcs_long_method = resulting_sheet.getRow(0).createCell(resulting_sheet.getLastCellNum());
 //		qcs_god_class.setCellStyle(cellStyle);
 //		qcs_god_class.setCellValue("Quality_Long_Method");
+
+//		int colIdx = CellReference.convertColStringToIndex("is_God_Class");
+//		System.out.println("index is_god_class: " + colIdx);
 		
+		int default_gc_index = get_is_god_class_colIndex(default_sheet);
+		int default_lm_index = get_is_long_method_colIndex(default_sheet);
+		int resulting_gc_index = get_is_god_class_colIndex(resulting_sheet);
+		int resulting_lm_index = get_is_long_method_colIndex(resulting_sheet);
+
 		default_rowIterator.next();
 		resulting_rowIterator.next();
-		int count = 1;
 
 		while (default_rowIterator.hasNext()) {
 			Row default_row = default_rowIterator.next();
@@ -102,7 +110,9 @@ public class CompareCodeSmellsFiles {
 			String default_package_name = (String) getCellValue(default_row.getCell(1));
 			String default_class_name = (String) getCellValue(default_row.getCell(2));
 			String default_method_name = (String) getCellValue(default_row.getCell(3));
-			boolean default_is_god_class = (boolean) getCellValue(default_row.getCell(7));
+			boolean default_is_god_class = (boolean) getCellValue(default_row.getCell(default_gc_index));
+//			boolean default_is_long_method = (boolean) getCellValue(default_row.getCell(default_lm_index));
+			
 
 			while (resulting_rowIterator.hasNext()) {
 				Row resulting_row = resulting_rowIterator.next();
@@ -110,7 +120,8 @@ public class CompareCodeSmellsFiles {
 				String resulting_package_name = (String) getCellValue(resulting_row.getCell(1));
 				String resulting_class_name = (String) getCellValue(resulting_row.getCell(2));
 				String resulting_method_name = (String) getCellValue(resulting_row.getCell(3));
-				boolean resulting_is_god_class = Boolean.getBoolean((String) getCellValue(resulting_row.getCell(7)));
+				boolean resulting_is_god_class = Boolean.getBoolean((String) getCellValue(resulting_row.getCell(resulting_gc_index)));
+				boolean resulting_is_long_method = Boolean.getBoolean((String) getCellValue(resulting_row.getCell(resulting_lm_index)));
 
 				if (default_package_name.equals(resulting_package_name)
 						&& default_class_name.equals(resulting_class_name)
@@ -134,6 +145,26 @@ public class CompareCodeSmellsFiles {
 			resulting_rowIterator = resulting_sheet.iterator();
 			resulting_rowIterator.next();
 		}
+	}
+
+	private int get_is_god_class_colIndex(XSSFSheet sheet) {
+		int god_class_index = 0;
+		for (Cell s : sheet.getRow(0)) {
+			if (s.getStringCellValue().toLowerCase().equals("is_god_class")) {
+				god_class_index = s.getColumnIndex();
+			}
+		}
+		return god_class_index;
+	}
+
+	private int get_is_long_method_colIndex(XSSFSheet sheet) {
+		int long_method_index = 0;		
+		for (Cell s : sheet.getRow(0)) {
+			if (s.getStringCellValue().toLowerCase().equals("is_long_method")) {
+				long_method_index = s.getColumnIndex();
+			}
+		}
+		return long_method_index; 
 	}
 
 	public static void main(String[] args) {
