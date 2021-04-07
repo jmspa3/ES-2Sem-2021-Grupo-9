@@ -2,14 +2,15 @@ package Limits;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Scanner;
 
 
 public class RuleHandler {
 
 	private static String filePath = "ruleFile.txt";
-	
 	
 	public static void createFile() {
 		try {
@@ -43,5 +44,21 @@ public class RuleHandler {
 			System.out.println("An error occured.");
 			e.printStackTrace();
 		}
+	}
+	
+	public static String getRules() {
+		String rules = "";
+		try {
+			File file = new File(filePath);
+			Scanner reader = new Scanner(file);
+			while(reader.hasNextLine()) {
+				rules += reader.nextLine()+"\n";
+			}
+			reader.close();
+		}catch(FileNotFoundException e) {
+			System.out.println("An error occured.");
+			e.printStackTrace();
+		}
+		return rules;
 	}
 }
