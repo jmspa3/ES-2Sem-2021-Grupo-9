@@ -88,7 +88,7 @@ public class LimitsGUI extends JDialog implements MouseListener  {
 		frame = new JFrame();
 
 		frame.setBounds(100, 100, 780, 542);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		panel_1 = new JPanel();
