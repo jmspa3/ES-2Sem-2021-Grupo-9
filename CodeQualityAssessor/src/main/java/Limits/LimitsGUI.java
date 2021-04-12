@@ -26,7 +26,7 @@ public class LimitsGUI extends JDialog implements MouseListener  {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JFrame frame;
+	private JFrame framo;
 	//Nomes dos botões
 	private String salvar = "Alterar"; //Alterar condição e sair
 	private JTextField numero1;
@@ -69,7 +69,7 @@ public class LimitsGUI extends JDialog implements MouseListener  {
 	public LimitsGUI(Threshold threshold, JDialog listaRegra) {
 		//this.parent = listaRegra;
 		initialize(threshold);
-		frame.setVisible(true);
+		framo.setVisible(true);
 	}
 	
 	
@@ -85,14 +85,14 @@ public class LimitsGUI extends JDialog implements MouseListener  {
 		DefaultListModel<String> listModel = new DefaultListModel<String>();
 		lista.forEach(r -> listModel.addElement(r));
 		
-		frame = new JFrame();
+		framo = new JFrame();
 
-		frame.setBounds(100, 100, 780, 542);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new BorderLayout(0, 0));
+		framo.setBounds(100, 100, 780, 542);
+		framo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		framo.getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		panel_1 = new JPanel();
-		frame.getContentPane().add(panel_1, BorderLayout.NORTH);
+		framo.getContentPane().add(panel_1, BorderLayout.NORTH);
 		panel_1.setLayout(new BorderLayout(0, 0));
 		
 		JLabel regralabel = new JLabel("Regra    :");
@@ -108,7 +108,7 @@ public class LimitsGUI extends JDialog implements MouseListener  {
 		regra_1.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		panel = new JPanel();
-		frame.getContentPane().add(panel, BorderLayout.CENTER);
+		framo.getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JLabel condicao = new JLabel("Condição");
@@ -154,7 +154,7 @@ public class LimitsGUI extends JDialog implements MouseListener  {
 		JButton guardarTotal = new JButton(salvar);
 		guardarTotal.addMouseListener(this); 
 		guardarTotal.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		frame.getContentPane().add(guardarTotal, BorderLayout.SOUTH);
+		framo.getContentPane().add(guardarTotal, BorderLayout.SOUTH);
 		lista.forEach(r -> operador1.addItem(r));
 		lista.forEach(r -> operador2.addItem(r));
 		
@@ -174,8 +174,8 @@ public class LimitsGUI extends JDialog implements MouseListener  {
 		if(buttonText.equals(salvar)) {
 			threshold.editNumbers(Integer.parseInt(numero1.getText()), Integer.parseInt(numero2.getText()));
 			threshold.editOperators((String)operador1.getSelectedItem(), (String)operador2.getSelectedItem());
-			frame.setVisible(false);
-			frame.dispose();
+			framo.setVisible(false);
+			framo.dispose();
 		}		
 	}
 
