@@ -71,7 +71,6 @@ public class ConstructorInfo extends VoidVisitorAdapter<List<ArrayList<String>>>
 		temp.add(Integer.toString(NOM_class));
 
 		collector.add(temp);
-
 	}
 
 }

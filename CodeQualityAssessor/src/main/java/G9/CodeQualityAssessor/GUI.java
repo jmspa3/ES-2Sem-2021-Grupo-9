@@ -57,6 +57,7 @@ public class GUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	
 	public GUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1260, 720);
@@ -74,7 +75,7 @@ public class GUI extends JFrame {
 		textField.setColumns(10);
 
 		// to save time / need to change later
-		textField.setText("C:\\Users\\carlo\\Desktop\\jasml_0.10");
+		textField.setText("/Users/nunodias/Documents/jasml_0.10");
 
 		JPanel panel_1 = new JPanel();
 		panel.add(panel_1, BorderLayout.EAST);

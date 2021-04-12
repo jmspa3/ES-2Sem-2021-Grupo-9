@@ -14,11 +14,14 @@ import javax.swing.plaf.synth.SynthOptionPaneUI;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellReference;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -26,6 +29,11 @@ public class CompareCodeSmellsFiles {
 
 	private String default_cs;
 	private String resulting_cs;
+
+	XSSFCellStyle sky_blue;
+	XSSFCellStyle green;
+	XSSFCellStyle orange;
+	XSSFCellStyle red;
 
 	public CompareCodeSmellsFiles(String default_cs, String resulting_cs) {
 		this.default_cs = default_cs;
@@ -59,6 +67,23 @@ public class CompareCodeSmellsFiles {
 			XSSFSheet default_sheet = default_workbook.getSheetAt(0);
 			XSSFSheet resulting_sheet = resulting_workbook.getSheetAt(0);
 
+			XSSFCellStyle sky_blue = resulting_sheet.getWorkbook().createCellStyle();
+			XSSFCellStyle green = resulting_sheet.getWorkbook().createCellStyle();
+			XSSFCellStyle orange = resulting_sheet.getWorkbook().createCellStyle();
+			XSSFCellStyle red = resulting_sheet.getWorkbook().createCellStyle();
+
+			sky_blue.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+			sky_blue.setFillForegroundColor(IndexedColors.SKY_BLUE.getIndex());
+
+			green.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+			green.setFillForegroundColor(IndexedColors.GREEN.getIndex());
+
+			orange.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+			orange.setFillForegroundColor(IndexedColors.ORANGE.getIndex());
+
+			red.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+			red.setFillForegroundColor(IndexedColors.RED.getIndex());
+
 			compareCodeSmells(default_sheet, resulting_sheet);
 
 			default_file.close();
@@ -80,22 +105,18 @@ public class CompareCodeSmellsFiles {
 		Iterator<Row> default_rowIterator = default_sheet.iterator();
 		Iterator<Row> resulting_rowIterator = resulting_sheet.iterator();
 
-//		CellStyle cellStyle = resulting_sheet.getWorkbook().createCellStyle();
-//        Font font = resulting_sheet.getWorkbook().createFont();
-//        font.setBold(true);
-//        cellStyle.setFont(font);
-//        
-//		Cell qcs_god_class = resulting_sheet.getRow(0).createCell(resulting_sheet.getLastCellNum());
-//		qcs_god_class.setCellStyle(cellStyle);
-//		qcs_god_class.setCellValue("Quality_God_Class");
-//		
 //		Cell qcs_long_method = resulting_sheet.getRow(0).createCell(resulting_sheet.getLastCellNum());
 //		qcs_god_class.setCellStyle(cellStyle);
 //		qcs_god_class.setCellValue("Quality_Long_Method");
 
-//		int colIdx = CellReference.convertColStringToIndex("is_God_Class");
-//		System.out.println("index is_god_class: " + colIdx);
-		
+//		Font font = resulting_sheet.getWorkbook().createFont();
+//		font.setBold(true);
+//		cellStyle.setFont(font);
+
+//		Cell qcs_god_class = resulting_sheet.getRow(0).createCell(resulting_sheet);
+//		qcs_god_class.setCellStyle(cellStyle);
+//		qcs_god_class.setCellValue("Quality_God_Class");
+
 		int default_gc_index = get_is_god_class_colIndex(default_sheet);
 		int default_lm_index = get_is_long_method_colIndex(default_sheet);
 		int resulting_gc_index = get_is_god_class_colIndex(resulting_sheet);
@@ -111,8 +132,7 @@ public class CompareCodeSmellsFiles {
 			String default_class_name = (String) getCellValue(default_row.getCell(2));
 			String default_method_name = (String) getCellValue(default_row.getCell(3));
 			boolean default_is_god_class = (boolean) getCellValue(default_row.getCell(default_gc_index));
-//			boolean default_is_long_method = (boolean) getCellValue(default_row.getCell(default_lm_index));
-			
+			boolean default_is_long_method = (boolean) getCellValue(default_row.getCell(default_lm_index));
 
 			while (resulting_rowIterator.hasNext()) {
 				Row resulting_row = resulting_rowIterator.next();
@@ -120,25 +140,41 @@ public class CompareCodeSmellsFiles {
 				String resulting_package_name = (String) getCellValue(resulting_row.getCell(1));
 				String resulting_class_name = (String) getCellValue(resulting_row.getCell(2));
 				String resulting_method_name = (String) getCellValue(resulting_row.getCell(3));
-				boolean resulting_is_god_class = Boolean.getBoolean((String) getCellValue(resulting_row.getCell(resulting_gc_index)));
-				boolean resulting_is_long_method = Boolean.getBoolean((String) getCellValue(resulting_row.getCell(resulting_lm_index)));
+				boolean resulting_is_god_class = Boolean
+						.getBoolean((String) getCellValue(resulting_row.getCell(resulting_gc_index)));
+				boolean resulting_is_long_method = Boolean
+						.getBoolean((String) getCellValue(resulting_row.getCell(resulting_lm_index)));
 
 				if (default_package_name.equals(resulting_package_name)
 						&& default_class_name.equals(resulting_class_name)
 						&& default_method_name.equals(resulting_method_name)) {
 
 					if (default_is_god_class && resulting_is_god_class) {
-						Cell cell = resulting_row.createCell(resulting_row.getLastCellNum());
-						cell.setCellValue("VP");
+//						GOD_CLASS "VP"
+						resulting_row.getCell(resulting_gc_index).setCellStyle(green);
 					} else if (!default_is_god_class && !resulting_is_god_class) {
-						Cell cell = resulting_row.createCell(resulting_row.getLastCellNum());
-						cell.setCellValue("VN");
+//						GOD_CLASS "VN"			
+						resulting_row.getCell(resulting_gc_index).setCellStyle(sky_blue);
 					} else if (!default_is_god_class && resulting_is_god_class) {
-						Cell cell = resulting_row.createCell(resulting_row.getLastCellNum());
-						cell.setCellValue("FP");
+//						GOD_CLASS "FP"
+						resulting_row.getCell(resulting_gc_index).setCellStyle(orange);
 					} else if (default_is_god_class && !resulting_is_god_class) {
-						Cell cell = resulting_row.createCell(resulting_row.getLastCellNum());
-						cell.setCellValue("FN");
+//						GOD_CLASS "FN"
+						resulting_row.getCell(resulting_gc_index).setCellStyle(red);
+					}
+
+					else if (default_is_long_method && resulting_is_long_method) {
+//						LONG_METHOD "VP"
+						resulting_row.getCell(resulting_lm_index).setCellStyle(green);
+					} else if (!default_is_long_method && !resulting_is_long_method) {
+//						LONG_METHOD "VN"
+						resulting_row.getCell(resulting_lm_index).setCellStyle(sky_blue);
+					} else if (!default_is_long_method && resulting_is_long_method) {
+//						LONG_METHOD "FP"
+						resulting_row.getCell(resulting_lm_index).setCellStyle(orange);
+					} else if (default_is_long_method && !resulting_is_long_method) {
+//						LONG_METHOD "FN"
+						resulting_row.getCell(resulting_lm_index).setCellStyle(red);
 					}
 				}
 			}
@@ -158,17 +194,18 @@ public class CompareCodeSmellsFiles {
 	}
 
 	private int get_is_long_method_colIndex(XSSFSheet sheet) {
-		int long_method_index = 0;		
+		int long_method_index = 0;
 		for (Cell s : sheet.getRow(0)) {
 			if (s.getStringCellValue().toLowerCase().equals("is_long_method")) {
 				long_method_index = s.getColumnIndex();
 			}
 		}
-		return long_method_index; 
+		return long_method_index;
 	}
 
 	public static void main(String[] args) {
-		CompareCodeSmellsFiles ccs = new CompareCodeSmellsFiles("/Users/nunodias/Downloads/Code_Smells.xlsx",
+		CompareCodeSmellsFiles ccs = new CompareCodeSmellsFiles(
+				"/Users/nunodias/Downloads/Spreadsheet Files/Code_Smells.xlsx",
 				"/Users/nunodias/Documents/jasml_0.10/jasml_0.10_metrics.xlsx");
 		ccs.getExcelSheets();
 	}
