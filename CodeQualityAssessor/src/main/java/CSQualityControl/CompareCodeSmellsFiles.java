@@ -105,18 +105,6 @@ public class CompareCodeSmellsFiles {
 		Iterator<Row> default_rowIterator = default_sheet.iterator();
 		Iterator<Row> resulting_rowIterator = resulting_sheet.iterator();
 
-//		Cell qcs_long_method = resulting_sheet.getRow(0).createCell(resulting_sheet.getLastCellNum());
-//		qcs_god_class.setCellStyle(cellStyle);
-//		qcs_god_class.setCellValue("Quality_Long_Method");
-
-//		Font font = resulting_sheet.getWorkbook().createFont();
-//		font.setBold(true);
-//		cellStyle.setFont(font);
-
-//		Cell qcs_god_class = resulting_sheet.getRow(0).createCell(resulting_sheet);
-//		qcs_god_class.setCellStyle(cellStyle);
-//		qcs_god_class.setCellValue("Quality_God_Class");
-
 		int default_gc_index = get_is_god_class_colIndex(default_sheet);
 		int default_lm_index = get_is_long_method_colIndex(default_sheet);
 		int resulting_gc_index = get_is_god_class_colIndex(resulting_sheet);
