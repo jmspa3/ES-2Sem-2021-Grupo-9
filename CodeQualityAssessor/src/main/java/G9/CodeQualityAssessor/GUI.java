@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ScrollPaneConstants;
 
 public class GUI extends JFrame {
 
@@ -75,7 +76,7 @@ public class GUI extends JFrame {
 		textField.setColumns(10);
 
 		// to save time / need to change later
-		textField.setText("/Users/nunodias/Documents/jasml_0.10");
+		textField.setText("E:\\Faculdade\\3ºAno\\jas");
 
 		JPanel panel_1 = new JPanel();
 		panel.add(panel_1, BorderLayout.EAST);
@@ -179,7 +180,8 @@ public class GUI extends JFrame {
 
 		table = new JTable();
 		scrollPane.setViewportView(table);
-
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		
 		JPanel panel_6 = new JPanel();
 		contentPane.add(panel_6, BorderLayout.EAST);
 		panel_6.setLayout(new BorderLayout(0, 0));
