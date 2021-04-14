@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextField;
 import java.awt.FlowLayout;
 import javax.swing.JButton;
@@ -15,7 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.awt.GridLayout;
 import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -144,15 +144,15 @@ public class GUI extends JFrame {
 
 					String projectPath = textField.getText();
 					File file = new File(projectPath);
-					data = excel
-							.readBooksFromExcelFile(projectPath + File.separator + file.getName() + "_metrics.xlsx");
-
+					data = excel.readBooksFromExcelFile(projectPath + File.separator + file.getName() + "_metrics.xlsx");
+					
+					
 				} catch (IOException e) {
 					JOptionPane.showMessageDialog(null, "Metrics não existe!");
 				}
 
 				DefaultTableModel model = new DefaultTableModel();
-
+				
 				for (String s : data.get(0)) {
 					model.addColumn(s);
 				}
@@ -160,9 +160,9 @@ public class GUI extends JFrame {
 				for (String[] r : data) {
 					model.addRow(r);
 				}
-
+				
 				table.setModel(model);
-
+							
 				// SET Labels
 				lblValorPackages.setText(Integer.toString(excel.numberTotalPackages()));
 				lblValorClasses.setText(Integer.toString(excel.numberTotalClasses()));
@@ -243,5 +243,5 @@ public class GUI extends JFrame {
 		panel_5.add(lblNumeroFalhas);
 
 		panel_5.add(lblValorFalhas);
-	}
+	}	
 }
