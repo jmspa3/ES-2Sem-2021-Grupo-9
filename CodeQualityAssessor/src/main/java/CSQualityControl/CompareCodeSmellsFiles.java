@@ -67,22 +67,7 @@ public class CompareCodeSmellsFiles {
 			XSSFSheet default_sheet = default_workbook.getSheetAt(0);
 			XSSFSheet resulting_sheet = resulting_workbook.getSheetAt(0);
 
-			XSSFCellStyle sky_blue = resulting_sheet.getWorkbook().createCellStyle();
-			XSSFCellStyle green = resulting_sheet.getWorkbook().createCellStyle();
-			XSSFCellStyle orange = resulting_sheet.getWorkbook().createCellStyle();
-			XSSFCellStyle red = resulting_sheet.getWorkbook().createCellStyle();
-
-			sky_blue.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-			sky_blue.setFillForegroundColor(IndexedColors.SKY_BLUE.getIndex());
-
-			green.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-			green.setFillForegroundColor(IndexedColors.GREEN.getIndex());
-
-			orange.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-			orange.setFillForegroundColor(IndexedColors.ORANGE.getIndex());
-
-			red.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-			red.setFillForegroundColor(IndexedColors.RED.getIndex());
+			setColorSchema(resulting_sheet);
 
 			compareCodeSmells(default_sheet, resulting_sheet);
 
@@ -122,50 +107,9 @@ public class CompareCodeSmellsFiles {
 			boolean default_is_god_class = (boolean) getCellValue(default_row.getCell(default_gc_index));
 			boolean default_is_long_method = (boolean) getCellValue(default_row.getCell(default_lm_index));
 
-			while (resulting_rowIterator.hasNext()) {
-				Row resulting_row = resulting_rowIterator.next();
+			goThroughResultingExcel(resulting_rowIterator, resulting_gc_index, resulting_lm_index, default_package_name,
+					default_class_name, default_method_name, default_is_god_class, default_is_long_method);
 
-				String resulting_package_name = (String) getCellValue(resulting_row.getCell(1));
-				String resulting_class_name = (String) getCellValue(resulting_row.getCell(2));
-				String resulting_method_name = (String) getCellValue(resulting_row.getCell(3));
-				boolean resulting_is_god_class = Boolean
-						.getBoolean((String) getCellValue(resulting_row.getCell(resulting_gc_index)));
-				boolean resulting_is_long_method = Boolean
-						.getBoolean((String) getCellValue(resulting_row.getCell(resulting_lm_index)));
-
-				if (default_package_name.equals(resulting_package_name)
-						&& default_class_name.equals(resulting_class_name)
-						&& default_method_name.equals(resulting_method_name)) {
-
-					if (default_is_god_class && resulting_is_god_class) {
-//						GOD_CLASS "VP"
-						resulting_row.getCell(resulting_gc_index).setCellStyle(green);
-					} else if (!default_is_god_class && !resulting_is_god_class) {
-//						GOD_CLASS "VN"			
-						resulting_row.getCell(resulting_gc_index).setCellStyle(sky_blue);
-					} else if (!default_is_god_class && resulting_is_god_class) {
-//						GOD_CLASS "FP"
-						resulting_row.getCell(resulting_gc_index).setCellStyle(orange);
-					} else if (default_is_god_class && !resulting_is_god_class) {
-//						GOD_CLASS "FN"
-						resulting_row.getCell(resulting_gc_index).setCellStyle(red);
-					}
-
-					else if (default_is_long_method && resulting_is_long_method) {
-//						LONG_METHOD "VP"
-						resulting_row.getCell(resulting_lm_index).setCellStyle(green);
-					} else if (!default_is_long_method && !resulting_is_long_method) {
-//						LONG_METHOD "VN"
-						resulting_row.getCell(resulting_lm_index).setCellStyle(sky_blue);
-					} else if (!default_is_long_method && resulting_is_long_method) {
-//						LONG_METHOD "FP"
-						resulting_row.getCell(resulting_lm_index).setCellStyle(orange);
-					} else if (default_is_long_method && !resulting_is_long_method) {
-//						LONG_METHOD "FN"
-						resulting_row.getCell(resulting_lm_index).setCellStyle(red);
-					}
-				}
-			}
 			resulting_rowIterator = resulting_sheet.iterator();
 			resulting_rowIterator.next();
 		}
@@ -189,6 +133,93 @@ public class CompareCodeSmellsFiles {
 			}
 		}
 		return long_method_index;
+	}
+
+	private void goThroughResultingExcel(Iterator<Row> resulting_rowIterator, int resulting_gc_index,
+			int resulting_lm_index, String default_package_name, String default_class_name, String default_method_name,
+			boolean default_is_god_class, boolean default_is_long_method) {
+
+		while (resulting_rowIterator.hasNext()) {
+			Row resulting_row = resulting_rowIterator.next();
+
+			String resulting_package_name = (String) getCellValue(resulting_row.getCell(1));
+			String resulting_class_name = (String) getCellValue(resulting_row.getCell(2));
+			String resulting_method_name = (String) getCellValue(resulting_row.getCell(3));
+			boolean resulting_is_god_class = Boolean
+					.getBoolean((String) getCellValue(resulting_row.getCell(resulting_gc_index)));
+			boolean resulting_is_long_method = Boolean
+					.getBoolean((String) getCellValue(resulting_row.getCell(resulting_lm_index)));
+
+			if (default_package_name.equals(resulting_package_name) && default_class_name.equals(resulting_class_name)
+					&& default_method_name.equals(resulting_method_name)) {
+
+				set_GOD_Class_Quality(default_is_god_class, resulting_is_god_class, resulting_row, resulting_gc_index);
+
+				set_LONG_Method_Quality(default_is_long_method, resulting_is_long_method, resulting_row,
+						resulting_lm_index);
+
+			}
+		}
+
+	}
+
+	private void set_GOD_Class_Quality(boolean default_is_god_class, boolean resulting_is_god_class, Row resulting_row,
+			int resulting_gc_index) {
+		
+		if (default_is_god_class && resulting_is_god_class) {
+//			GOD_CLASS "VP"
+			resulting_row.getCell(resulting_gc_index).setCellStyle(green);
+		} else if (!default_is_god_class && !resulting_is_god_class) {
+//			GOD_CLASS "VN"			
+			resulting_row.getCell(resulting_gc_index).setCellStyle(sky_blue);
+		} else if (!default_is_god_class && resulting_is_god_class) {
+//			GOD_CLASS "FP"
+			resulting_row.getCell(resulting_gc_index).setCellStyle(orange);
+		} else if (default_is_god_class && !resulting_is_god_class) {
+//			GOD_CLASS "FN"
+			resulting_row.getCell(resulting_gc_index).setCellStyle(red);
+		}
+		
+	}
+
+	private void set_LONG_Method_Quality(boolean default_is_long_method, boolean resulting_is_long_method,
+			Row resulting_row, int resulting_lm_index) {
+		
+		if (default_is_long_method && resulting_is_long_method) {
+//			LONG_METHOD "VP"
+			resulting_row.getCell(resulting_lm_index).setCellStyle(green);
+		} else if (!default_is_long_method && !resulting_is_long_method) {
+//			LONG_METHOD "VN"
+			resulting_row.getCell(resulting_lm_index).setCellStyle(sky_blue);
+		} else if (!default_is_long_method && resulting_is_long_method) {
+//			LONG_METHOD "FP"
+			resulting_row.getCell(resulting_lm_index).setCellStyle(orange);
+		} else if (default_is_long_method && !resulting_is_long_method) {
+//			LONG_METHOD "FN"
+			resulting_row.getCell(resulting_lm_index).setCellStyle(red);
+		}
+		
+	}
+
+	private void setColorSchema(XSSFSheet resulting_sheet) {
+
+		sky_blue = resulting_sheet.getWorkbook().createCellStyle();
+		green = resulting_sheet.getWorkbook().createCellStyle();
+		orange = resulting_sheet.getWorkbook().createCellStyle();
+		red = resulting_sheet.getWorkbook().createCellStyle();
+
+		sky_blue.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+		sky_blue.setFillForegroundColor(IndexedColors.SKY_BLUE.getIndex());
+
+		green.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+		green.setFillForegroundColor(IndexedColors.GREEN.getIndex());
+
+		orange.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+		orange.setFillForegroundColor(IndexedColors.ORANGE.getIndex());
+
+		red.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+		red.setFillForegroundColor(IndexedColors.RED.getIndex());
+
 	}
 
 	public static void main(String[] args) {
