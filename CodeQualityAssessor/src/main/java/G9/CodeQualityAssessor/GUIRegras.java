@@ -102,6 +102,20 @@ public class GUIRegras {
 		lista.add(is_Long_Method);
 		lista.add(is_God_Class);
 	}
+	
+	public Threshold ruleToThreshold(String u ){
+		
+		String[] arr = u.split(";", 4);
+		String[] firstCondition = arr[1].split(" ",3);
+		String[] secondCondition = arr[3].split(" ",4);
+
+		Threshold t = new Threshold(arr[0]);
+	    t.insertCondition(firstCondition[0] + " " + firstCondition[1] + " " + arr[2] + " " + secondCondition[0] + " " + secondCondition[1]);
+		t.editNumbers(Integer.parseInt(firstCondition[2].trim()), Integer.parseInt(secondCondition[2].trim()));
+			
+		return t;
+		
+	}
 
 }
 
