@@ -2,7 +2,10 @@ package G9.CodeQualityAssessor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import Limits.RuleHandler;
 
@@ -20,77 +23,54 @@ public class CodeSmells {
 	}
 	
 	
-	//get 
-	private ArrayList<Integer> getMetricValue(List<ArrayList<String>>metrics, String metrica) {
-		ArrayList<Integer> values = new ArrayList<>();
-		switch(metrica) {
-			case "NOM_class":
-				for(int i=0;i<metrics.size(); i++) {
-					values.add(Integer.parseInt(metrics.get(i).get(8)));
-				}
-				
-				
-			case "LOC_class":
-				for(int i=0;i<metrics.size(); i++) {
-					values.add(Integer.parseInt(metrics.get(i).get(4)));
-				}
-				
-				
-			case "WMC_class":
-				for(int i=0;i<metrics.size(); i++) {
-					values.add(Integer.parseInt(metrics.get(i).get(9)));
-				}
-				
-				
-			case "LOC_method":
-				for(int i=0;i<metrics.size(); i++) {
-					values.add(Integer.parseInt(metrics.get(i).get(5)));
-				}
-				
-				
-			case "CYCLO_method":
-				for(int i=0;i<metrics.size(); i++) {
-					values.add(Integer.parseInt(metrics.get(i).get(6)));
-				}			
-		}
-		
-		return values;
-	}
-	
 	//Detection of code smells 
 	
-	private HashMap<String, ArrayList<Boolean>> detection(List<ArrayList<String>> metrics){
+	private HashMap<String, ArrayList<Boolean>> detection(List<Metric> metrics){
 		ArrayList<String[]>data = getRulesLine(new RuleHandler().getRules());
-		HashMap<String, ArrayList<Boolean>> d= new HashMap<>();
+		LinkedHashMap<String, ArrayList<Boolean>> isSmell= new LinkedHashMap<>();
 		
-		for(String [] line: data) {
-
+		for(String [] line: data) {			
+			isSmell.put(line[0], detect(line, metrics));
+		}
+		return isSmell;
+	}
+	
+	private ArrayList<Boolean> detect (String[] line, List<Metric> metrics){
+		ArrayList<Boolean> smellyHelper = new ArrayList<Boolean>();
+		
+		for (int i =1; i<line.length; i+=4) {
+			String metricName = line[i];
+			String igualdade = line[i+1];
+			String value = line[i+2];
+			String operator= line[i+3];
 			
-				ArrayList<Integer> iList= getMetricValue(metrics,nomeMetrica);
-				d.put(line[0], compare(iList,igualdade, valor));
-					
+			ArrayList<Boolean> smellList = detectSingleMetric(metrics, metricName,value);
+			
+			if (smellyHelper.isEmpty()) {
+				smellyHelper=smellList;
+			}else {
+				for (int j = 0; j<smellyHelper.size();j++) {
+					if (smellyHelper.get(j) || smellList.get(j)) {
+						smellyHelper.add(j, true);
+					}else {
+						smellyHelper.add(j, false);
+					}
+				}
+			}				
+		}
+	}
+	
+	private ArrayList<Boolean> detectSingleDetect (List<Metric> metrics,String metricName,String value) {
+		ArrayList<Boolean> smells = new ArrayList<Boolean>();
+		
+		for (Metric metric : metrics) {
+			if(metric.get(metricName) > Integer.parseInt(value)) {
+				smells.add(true);
+			}else {
+				smells.add(false);
 			}
-			
-			
-			
 		}
-		return null;
-		
-	}
-
-
-	private ArrayList<Boolean> detect (String [] line) {
-		List<ArrayList<Boolean>> codesmell = new ArrayList<>(); 
-
-		if(igualdade != ">")
-			
-		for (int i=0; i<iList.size(); i++) {
-			
-		}
-		return null;
+		return smells;
 	}
 	
-	
-	
-
 }
