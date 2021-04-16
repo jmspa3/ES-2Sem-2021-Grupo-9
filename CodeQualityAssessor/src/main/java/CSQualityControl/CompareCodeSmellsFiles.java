@@ -95,7 +95,8 @@ public class CompareCodeSmellsFiles {
 		while (resulting_rowIterator.hasNext()) {
 			Row resulting_row = resulting_rowIterator.next();
 
-			String resulting_package_name = (String) QualityControlUtils.getCellValue(resulting_row.getCell(1));
+			String resulting_package_name = resulting_row.getCell(1).getStringCellValue();
+			// (String) QualityControlUtils.getCellValue(resulting_row.getCell(1))
 			String resulting_class_name = (String) QualityControlUtils.getCellValue(resulting_row.getCell(2));
 			String resulting_method_name = (String) QualityControlUtils.getCellValue(resulting_row.getCell(3));
 			boolean resulting_is_god_class = Boolean
