@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextField;
 import java.awt.FlowLayout;
 import javax.swing.JButton;
@@ -15,7 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.awt.GridLayout;
 import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ScrollPaneConstants;
 
 public class GUI extends JFrame {
 
@@ -34,12 +35,10 @@ public class GUI extends JFrame {
 	private JLabel lblValorClasses = new JLabel();
 	private JLabel lblValorMetodos = new JLabel();
 	private JLabel lblValorLinhas = new JLabel();
-	
+
 	private JLabel lblValorAcertos = new JLabel();
 	private JLabel lblValorFalhas = new JLabel();
-	
-	
-	
+
 	/**
 	 * Launch the application.
 	 */
@@ -59,6 +58,7 @@ public class GUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	
 	public GUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1260, 720);
@@ -74,10 +74,9 @@ public class GUI extends JFrame {
 		textField = new JTextField();
 		panel.add(textField);
 		textField.setColumns(10);
-		
-		//to save time / need to change later
-		textField.setText("C:\\Users\\carlo\\Desktop\\jasml_0.10");
-		
+
+		// to save time / need to change later
+		textField.setText("E:\\Faculdade\\3ºAno\\jas");
 
 		JPanel panel_1 = new JPanel();
 		panel.add(panel_1, BorderLayout.EAST);
@@ -85,7 +84,7 @@ public class GUI extends JFrame {
 
 		JButton btnProcurar = new JButton("Procurar");
 		btnProcurar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {	
+			public void actionPerformed(ActionEvent e) {
 				btnProcurarAction();
 			}
 
@@ -105,7 +104,7 @@ public class GUI extends JFrame {
 					System.out.println("No file is selected");
 				} else {
 					System.out.println("What did you do!?!");
-				}	
+				}
 			}
 		});
 		panel_1.add(btnProcurar);
@@ -116,8 +115,8 @@ public class GUI extends JFrame {
 				btnCriarAction();
 			}
 
-			private void btnCriarAction() {			
-				//write metrics to file
+			private void btnCriarAction() {
+				// write metrics to file
 				try {
 					new ContentExcel().writeExcel(textField.getText());
 					JOptionPane.showMessageDialog(null, "Success!");
@@ -138,21 +137,22 @@ public class GUI extends JFrame {
 			private void btnAbrirAction() {
 				// SET TABLE
 				ContentExcel excel = new ContentExcel();
-				
+
 				ArrayList<String[]> data = new ArrayList<String[]>();
-				
+
 				try {
-					
+
 					String projectPath = textField.getText();
 					File file = new File(projectPath);
-					data = excel.readBooksFromExcelFile(projectPath + File.separator + file.getName() +"_metrics.xlsx");
+					data = excel.readBooksFromExcelFile(projectPath + File.separator + file.getName() + "_metrics.xlsx");
+					
 					
 				} catch (IOException e) {
 					JOptionPane.showMessageDialog(null, "Metrics não existe!");
 				}
-				
-				DefaultTableModel model = new DefaultTableModel();
 
+				DefaultTableModel model = new DefaultTableModel();
+				
 				for (String s : data.get(0)) {
 					model.addColumn(s);
 				}
@@ -160,17 +160,16 @@ public class GUI extends JFrame {
 				for (String[] r : data) {
 					model.addRow(r);
 				}
-
+				
 				table.setModel(model);
-
+							
 				// SET Labels
 				lblValorPackages.setText(Integer.toString(excel.numberTotalPackages()));
 				lblValorClasses.setText(Integer.toString(excel.numberTotalClasses()));
 				lblValorMetodos.setText(Integer.toString(excel.numberTotalMethods()));
 				lblValorLinhas.setText(Integer.toString(excel.numberTotalLines()));
-				//missing indicators
-				
-				
+				// missing indicators
+
 			}
 		});
 
@@ -181,7 +180,8 @@ public class GUI extends JFrame {
 
 		table = new JTable();
 		scrollPane.setViewportView(table);
-
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		
 		JPanel panel_6 = new JPanel();
 		contentPane.add(panel_6, BorderLayout.EAST);
 		panel_6.setLayout(new BorderLayout(0, 0));
@@ -214,7 +214,7 @@ public class GUI extends JFrame {
 		JLabel lblNumeroLinhas = new JLabel("N\u00FAmero Total de Linhas:");
 		lblNumeroLinhas.setHorizontalAlignment(SwingConstants.RIGHT);
 		panel_2.add(lblNumeroLinhas);
-		
+
 		lblValorLinhas.setHorizontalAlignment(SwingConstants.CENTER);
 		panel_2.add(lblValorLinhas);
 
@@ -243,5 +243,5 @@ public class GUI extends JFrame {
 		panel_5.add(lblNumeroFalhas);
 
 		panel_5.add(lblValorFalhas);
-	}
+	}	
 }

@@ -24,7 +24,7 @@ public class ConstructorInfo extends VoidVisitorAdapter<List<ArrayList<String>>>
 		MetricUtils mu = new MetricUtils(cu);
 
 		this.id++;
-		
+
 		String className;
 		String packageName;
 		String constructorName;
@@ -32,13 +32,13 @@ public class ConstructorInfo extends VoidVisitorAdapter<List<ArrayList<String>>>
 		int methodLines;
 		int cycloMethod;
 		int NOM_class;
-		
+
 		ArrayList<String> temp = new ArrayList<String>();
-		
+
 		ClassOrInterfaceDeclaration cid = null;
-		if(c.getParentNode().isPresent()) {
-			if(c.getParentNode().get() instanceof ClassOrInterfaceDeclaration) {
-				cid =(ClassOrInterfaceDeclaration) c.getParentNode().get();
+		if (c.getParentNode().isPresent()) {
+			if (c.getParentNode().get() instanceof ClassOrInterfaceDeclaration) {
+				cid = (ClassOrInterfaceDeclaration) c.getParentNode().get();
 			} else {
 				return;
 			}
@@ -50,7 +50,7 @@ public class ConstructorInfo extends VoidVisitorAdapter<List<ArrayList<String>>>
 		constructorName = mu.getMethodName(c);
 		methodLines = mu.getLOC_Method(c);
 		cycloMethod = mu.getCYCLO_Method(c);
-		
+
 		if (cid.isNestedType()) {
 			className = mu.getClassName() + "." + cid.getNameAsString();
 			classLines = mu.getLOC_Inner_class(cid);
@@ -71,8 +71,6 @@ public class ConstructorInfo extends VoidVisitorAdapter<List<ArrayList<String>>>
 		temp.add(Integer.toString(NOM_class));
 
 		collector.add(temp);
-
 	}
-
 
 }

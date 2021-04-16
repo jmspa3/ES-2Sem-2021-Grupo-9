@@ -49,7 +49,7 @@ public class GUIRegras {
 				RuleHandler.deleteFile();
 				RuleHandler.createFile();
 				for(Threshold t: lista) {
-					RuleHandler.write(t.getName()+";"+t.getArgument(0)+" "+t.getArgument(1)+" "+t.getNumber(0)+";"+t.getArgument(2)+";"+t.getArgument(3)+" "+t.getArgument(4)+" "+t.getNumber(1));
+					RuleHandler.write(t.getName()+";"+t.getArgument(0)+";"+t.getArgument(1)+";"+t.getNumber(0)+";"+t.getArgument(2)+";"+t.getArgument(3)+";"+t.getArgument(4)+";"+t.getNumber(1));
 				}
 			}
 		});
