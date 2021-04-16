@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
@@ -29,6 +31,57 @@ public class ContentExcel {
 	HashMap<String, Integer> totalLines = new HashMap<String, Integer>();
 	ArrayList<String[]> r = new ArrayList<String[]>(); // colocar linhas
 
+	Vector<Cell> data = new Vector<Cell>();
+	int tableWidth = 11;
+	int tableHeight = 256;
+	
+	public void setData(String excelFilePath) throws IOException{
+		
+			FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
+	
+			Workbook workbook = new XSSFWorkbook(inputStream);
+			Sheet sheet = workbook.getSheetAt(0);
+				
+			numMethods = sheet.getLastRowNum();
+			tableWidth = 11;
+			tableHeight = numMethods+1;
+			
+			Iterator<Row> rowIterator = sheet.iterator();
+			while(rowIterator.hasNext()) {
+				Row row = rowIterator.next();
+				Iterator<Cell> cellIterator = row.cellIterator();
+				
+				String key = null;
+				while(cellIterator.hasNext()) {
+					Cell cell = cellIterator.next();
+					data.add(cell);
+					
+					switch (cell.getColumnIndex()) {
+					case 1:
+						listPackages.add(cell.getStringCellValue());
+						break;
+					case 2:
+						key = cell.getStringCellValue();
+						listClasses.add(cell.getStringCellValue());
+						break;
+					case 5:
+						try {
+							if (!totalLines.containsKey(key)) {
+								totalLines.put(key, Integer.parseInt(cell.getStringCellValue()));
+							}
+						} catch (NumberFormatException e) {
+							// no problem
+						}
+
+						break;
+					}
+					
+				}
+			}	
+			workbook.close();
+	}
+	
+	
 	private Object getCellValue(Cell cell) {
 		switch (cell.getCellType()) {
 		case STRING:
