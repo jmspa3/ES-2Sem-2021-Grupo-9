@@ -1,15 +1,12 @@
 package G9.CodeQualityAssessor;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu.Separator;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 
 import org.apache.poi.ss.usermodel.Cell;
 
@@ -24,13 +21,10 @@ import java.awt.GridLayout;
 import javax.swing.SwingConstants;
 import javax.swing.JScrollPane;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.ScrollPaneConstants;
 
 public class GUI extends JFrame {
 
