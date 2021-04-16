@@ -88,6 +88,7 @@ public class CompareCodeSmellsFiles {
 		}
 	}
 
+	// corrigir o código getcellvalue
 	private void goThroughResultingExcel(Iterator<Row> resulting_rowIterator, int resulting_gc_index,
 			int resulting_lm_index, String default_package_name, String default_class_name, String default_method_name,
 			boolean default_is_god_class, boolean default_is_long_method) {
