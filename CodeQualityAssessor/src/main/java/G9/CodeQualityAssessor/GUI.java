@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu.Separator;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -149,7 +150,7 @@ public class GUI extends JFrame {
 				table.setModel(model);
 				
 				try {
-					excel.setData(textField.getText()+"\\jas_metrics.xlsx");
+					excel.setData(textField.getText() + File.separator + textField.getText().split(File.separator)[textField.getText().split(File.separator).length -1]  +"_metrics.xlsx");
 					Iterator<Cell> cellIterator = excel.data.iterator();
 					short colorCode;
 					while(cellIterator.hasNext()) {

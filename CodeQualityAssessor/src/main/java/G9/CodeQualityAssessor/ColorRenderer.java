@@ -36,10 +36,10 @@ public class ColorRenderer extends DefaultTableCellRenderer implements TableCell
 		if(row>0) {
 			if(column == 7 || column == 10) {
 				for(org.apache.poi.ss.usermodel.Cell c : red) {
-					if(c.getColumnIndex()==column && c.getRowIndex()==row) setBackground(Color.RED);
+					if(c.getColumnIndex()==column && c.getRowIndex()==row) setBackground(Color.red);
 				}
 				for(org.apache.poi.ss.usermodel.Cell c : blue) {
-					if(c.getColumnIndex()==column && c.getRowIndex()==row) setBackground(Color.CYAN);
+					if(c.getColumnIndex()==column && c.getRowIndex()==row) setBackground(Color.cyan);
 				}
 				for(org.apache.poi.ss.usermodel.Cell c : green) {
 					if(c.getColumnIndex()==column && c.getRowIndex()==row) setBackground(Color.green);
