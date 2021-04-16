@@ -17,6 +17,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import metrics.Metric;
 import metrics.MetricInfo;
 
 public class ContentExcel {
@@ -37,9 +39,10 @@ public class ContentExcel {
 
 		case NUMERIC:
 			return cell.getNumericCellValue();
+		default:
+			return cell;
 		}
 
-		return cell;
 	}
 
 	// Read the excel sheet contents
@@ -82,7 +85,12 @@ public class ContentExcel {
 				case 5:
 					try {
 						if (!totalLines.containsKey(key)) {
-							totalLines.put(key, Integer.parseInt((String) getCellValue(nextCell)));
+							try {
+								totalLines.put(key, Integer.parseInt((String) getCellValue(nextCell)));
+							} catch (ClassCastException e) {
+								totalLines.put(key, Integer.parseInt(String.valueOf(getCellValue(nextCell))));
+							}
+
 						}
 					} catch (NumberFormatException e) {
 						// no problem
@@ -132,71 +140,61 @@ public class ContentExcel {
 		return count;
 	}
 
-	private void writeBook(ArrayList<String> m, Row row) {
+	private void writeBook(Metric m, Row row) {
 		// id
 		Cell cell = row.createCell(0);
-		cell.setCellValue(m.get(0));
-
+		cell.setCellValue(m.getId());
 		// package
 		cell = row.createCell(1);
-		cell.setCellValue(m.get(1));
+		cell.setCellValue(m.getMethod_package());
 		// class
 		cell = row.createCell(2);
-		cell.setCellValue(m.get(2));
+		cell.setCellValue(m.getClass_Name());
 		// method
 		cell = row.createCell(3);
-		cell.setCellValue(m.get(3));
+		cell.setCellValue(m.getMethod_name());
 		// nom_class
 		cell = row.createCell(4);
-		cell.setCellValue(m.get(7));
+		cell.setCellValue(m.getNOM_class());
 		// loc_class
 		cell = row.createCell(5);
-		cell.setCellValue(m.get(4));
+		cell.setCellValue(m.getLOC_class());
 		// wmc_class
 		cell = row.createCell(6);
-		cell.setCellValue(m.get(8));
-
+		cell.setCellValue(m.getWMC_class());
 		// is_god_class
 		cell = row.createCell(7);
 		cell.setCellValue("FALSE");
-
 		// loc_method
 		cell = row.createCell(8);
-		cell.setCellValue(m.get(5));
+		cell.setCellValue(m.getLOC_method());
 		// cyclo_method
 		cell = row.createCell(9);
-		cell.setCellValue(m.get(6));
-
+		cell.setCellValue(m.getCYCLO_method());
 		// is_long_method
 		cell = row.createCell(10);
 		cell.setCellValue("FALSE");
 	}
 
 	// method that writes in Excel
-
 	public void writeExcel(String excelFilePath) throws IOException {
 		Workbook workbook = new XSSFWorkbook();
 		Sheet sheet = workbook.createSheet();
 
 		createHeaderRow(sheet);
 
-		List<ArrayList<String>> listMetrica = getListBook(excelFilePath);
+		List<Metric> listMetrica = getListBook(excelFilePath);
 
 		int rowCount = 0;
 
-		for (ArrayList<String> m : listMetrica) {
+		for (Metric m : listMetrica) {
 			Row row = sheet.createRow(++rowCount);
 			writeBook(m, row);
 		}
-
-		System.out.println(excelFilePath);
-		String[] str = excelFilePath.split("\\\\");
-
 		File file = new File(excelFilePath);
 
 		try (FileOutputStream outputStream = new FileOutputStream(
 				excelFilePath + File.separator + file.getName() + "_metrics.xlsx")) {
-			System.out.println("trydsdsad");
 			workbook.write(outputStream);
 		}
 
@@ -259,9 +257,9 @@ public class ContentExcel {
 
 	// dummy data
 
-	public List<ArrayList<String>> getListBook(String projectPath) throws FileNotFoundException {
+	public List<Metric> getListBook(String projectPath) throws FileNotFoundException {
 		MetricInfo m = new MetricInfo(projectPath);
-		List<ArrayList<String>> list = m.getMetrics();
+		List<Metric> list = m.getMetrics();
 		return list;
 	}
 
