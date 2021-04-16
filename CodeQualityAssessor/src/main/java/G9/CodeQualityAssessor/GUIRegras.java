@@ -116,13 +116,13 @@ public class GUIRegras {
 	
 	public Threshold ruleToThreshold(String rule ){
 		
-		String[] arr = rule.split(";", 4);
-		String[] firstCondition = arr[1].split(" ",3);
-		String[] secondCondition = arr[3].split(" ",4);
+		String[] arr = rule.split(";", 8);
+	
+		System.out.println(arr[1] + " " + arr[2] + " " + arr[4] + " " + arr[5] + " " + arr[6]);
 
 		Threshold t = new Threshold(arr[0]);
-	    t.insertCondition(firstCondition[0] + " " + firstCondition[1] + " " + arr[2] + " " + secondCondition[0] + " " + secondCondition[1]);
-		t.editNumbers(Integer.parseInt(firstCondition[2].trim()), Integer.parseInt(secondCondition[2].trim()));
+	    t.insertCondition(arr[1] + " " + arr[2] + " " + arr[4] + " " + arr[5] + " " + arr[6]);
+		t.editNumbers(Integer.parseInt(arr[3].trim()), Integer.parseInt(arr[7].trim()));
 			
 		return t;
 		
