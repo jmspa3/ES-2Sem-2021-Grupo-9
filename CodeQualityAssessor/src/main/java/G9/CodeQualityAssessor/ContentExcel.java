@@ -17,7 +17,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import metrics.Metrics;
+import metrics.MetricInfo;
 
 public class ContentExcel {
 
@@ -260,7 +260,7 @@ public class ContentExcel {
 	// dummy data
 
 	public List<ArrayList<String>> getListBook(String projectPath) throws FileNotFoundException {
-		Metrics m = new Metrics(projectPath);
+		MetricInfo m = new MetricInfo(projectPath);
 		List<ArrayList<String>> list = m.getMetrics();
 		return list;
 	}
