@@ -90,7 +90,17 @@ public class GUIRegras {
 
 	private void getThresholds() {
 		//Create our custom Thresholds
+	
+	
+		String rulesLine = RuleHandler.getRules();
+		if(!rulesLine.isEmpty()) {
+		String[] rules = rulesLine.split("\n",2);
 		
+		for(String rule : rules) {
+			lista.add(ruleToThreshold(rule));
+		}
+		} else {
+
 		Threshold is_Long_Method = new Threshold("is_Long_Method");
 		is_Long_Method.insertCondition("LOC_method > || CYCLO_method >");
 		is_Long_Method.editNumbers(50, 10);
@@ -101,6 +111,21 @@ public class GUIRegras {
 		
 		lista.add(is_Long_Method);
 		lista.add(is_God_Class);
+		}
+	}
+	
+	public Threshold ruleToThreshold(String rule ){
+		
+		String[] arr = rule.split(";", 8);
+	
+		System.out.println(arr[1] + " " + arr[2] + " " + arr[4] + " " + arr[5] + " " + arr[6]);
+
+		Threshold t = new Threshold(arr[0]);
+	    t.insertCondition(arr[1] + " " + arr[2] + " " + arr[4] + " " + arr[5] + " " + arr[6]);
+		t.editNumbers(Integer.parseInt(arr[3].trim()), Integer.parseInt(arr[7].trim()));
+			
+		return t;
+		
 	}
 
 }
