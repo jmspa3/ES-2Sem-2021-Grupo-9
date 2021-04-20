@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
-import org.apache.commons.lang3.time.StopWatch;
-
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.visitor.VoidVisitor;
@@ -77,7 +75,8 @@ public class MetricInfo {
 
 		for (int i = 0; i < consAndMethodInfo.size(); i++) {
 			if (!dict.containsKey(consAndMethodInfo.get(i).getClass_Name())) {
-				dict.put(consAndMethodInfo.get(i).getClass_Name(), Integer.parseInt(consAndMethodInfo.get(i).getCYCLO_method()));
+				dict.put(consAndMethodInfo.get(i).getClass_Name(),
+						Integer.parseInt(consAndMethodInfo.get(i).getCYCLO_method()));
 			} else {
 				dict.replace(consAndMethodInfo.get(i).getClass_Name(),
 						dict.get(consAndMethodInfo.get(i).getClass_Name())
@@ -93,10 +92,10 @@ public class MetricInfo {
 	// print metrics (to be removed)
 	private void showMetrics(List<Metric> methodList) throws FileNotFoundException {
 		methodList.forEach(n -> System.out.println("method id: " + n.getId() + "\n" + "package: "
-				+ n.getMethod_package() + "\n" + "class: " + n.getClass_Name() + "\n" + "method: "
-				+ n.getMethod_name() + "\n" + "LOC_class: " + n.getLOC_class() + "\n" + "LOC_method: "
-				+ n.getLOC_method() + "\n" + "CYCLO_method: " + n.getCYCLO_method() + "\n" + "NOM_class: "
-				+ n.getNOM_class() + "\n" + "WMC_class: " + n.getWMC_class() + "\n"));
+				+ n.getMethod_package() + "\n" + "class: " + n.getClass_Name() + "\n" + "method: " + n.getMethod_name()
+				+ "\n" + "LOC_class: " + n.getLOC_class() + "\n" + "LOC_method: " + n.getLOC_method() + "\n"
+				+ "CYCLO_method: " + n.getCYCLO_method() + "\n" + "NOM_class: " + n.getNOM_class() + "\n"
+				+ "WMC_class: " + n.getWMC_class() + "\n"));
 	}
 
 	// prints metrics for every java file (to be removed)
@@ -106,11 +105,7 @@ public class MetricInfo {
 
 	// just for testing (to be removed)
 	public static void main(String[] args) throws FileNotFoundException {
-		StopWatch watch = new StopWatch();
-		watch.start();
 		MetricInfo tm = new MetricInfo("/Users/nunodias/Documents/jasml_0.10");
 		tm.runTroughJavaFilesPrint();
-		watch.stop();
-		System.out.println("execution time: " + watch.getTime());
 	}
 }

@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Iterator;
 
+import org.apache.commons.lang3.time.StopWatch;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -119,10 +120,14 @@ public class CompareCodeSmellsFiles {
 	
 
 	public static void main(String[] args) {
+		StopWatch watch = new StopWatch();
+		watch.start();
 		CompareCodeSmellsFiles ccs = new CompareCodeSmellsFiles(
 				"/Users/nunodias/Downloads/Spreadsheet Files/Code_Smells.xlsx",
 				"/Users/nunodias/Documents/jasml_0.10/jasml_0.10_metrics.xlsx");
 		ccs.compareExcelSheets();
+		watch.stop();
+		System.out.println("execution time: " + watch.getTime());
 	}
 
 }
