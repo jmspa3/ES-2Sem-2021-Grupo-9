@@ -155,16 +155,16 @@ public class GUI extends JFrame {
 						
 						switch(colorCode) {
 							case 10:
-								renderer.red.add(cell);
+								renderer.redCells.add(cell);
 								break;
 							case 40:
-								renderer.blue.add(cell);
+								renderer.blueCells.add(cell);
 								break;
 							case 64: 
-								renderer.white.add(cell);
+								renderer.whiteCells.add(cell);
 								break;
 							default:
-								renderer.green.add(cell);
+								renderer.greenCells.add(cell);
 								break;
 						}													
 					}
