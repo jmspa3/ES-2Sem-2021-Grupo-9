@@ -10,20 +10,47 @@ import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.visitor.VoidVisitor;
 
+/**
+ * <h1>MetricInfo</h1> This is the main class to get the information about
+ * Metrics of a certain project.
+ * <p>
+ * To print the Metrics info in the console, use runTroughJavaFilesPrint(). To
+ * get the list of Metrics, use getMetrics().
+ * 
+ *
+ * @author Nuno Dias
+ * @version 1.0
+ */
 public class MetricInfo {
 
 	// Attributes
 	private ArrayList<String> pathnames;
 	private List<Metric> methodList;
 
-	// Constructor
+	/**
+	 * Constructor of MetricInfo class.
+	 *
+	 * @author Nuno Dias
+	 * @version 1.0
+	 * @param path String given by the user with the PATH to the project
+	 * @see File
+	 */
 	public MetricInfo(String path) {
 		this.pathnames = new ArrayList<String>();
 		this.methodList = new ArrayList<Metric>();
 		findJavaFilePaths(new File(path));
 	}
 
-	// Used to find all .java file paths
+	/**
+	 * This method runs through files in the chosen directory and adds all .java
+	 * files PATHS to a list.
+	 *
+	 * @author Nuno Dias
+	 * @version 1.0
+	 * @param file new File with the given directory PATH
+	 * @return Nothing.
+	 * @see File
+	 */
 	public void findJavaFilePaths(File file) {
 		File[] list = file.listFiles();
 		if (list != null) {
@@ -37,8 +64,19 @@ public class MetricInfo {
 		}
 	}
 
-	// return an list of arraylists with the metrics and information for each method
-	private List<Metric> getInfoByJavaFIle(String path, int id) throws FileNotFoundException {
+	/**
+	 * This method runs through a .java file and return a list of Metric with
+	 * information about each class, method and constructor.
+	 *
+	 * @author Nuno Dias
+	 * @version 1.0
+	 * @param path file PATH for each .java file, stored in the attribute pathnames
+	 * @param id   the id of the starting method/constructor
+	 * @return List<Metric> list of metrics with the information about each .java
+	 *         file
+	 * @see File, Metric
+	 */
+	private List<Metric> getInfoByJavaFile(String path, int id) throws FileNotFoundException {
 
 		CompilationUnit cu = StaticJavaParser.parse(new File(path));
 		List<Metric> consAndMethodInfo = new ArrayList<Metric>();
@@ -56,19 +94,36 @@ public class MetricInfo {
 		return consAndMethodInfo;
 	}
 
-	// returns metrics for every java file
+	/**
+	 * This method runs through the list pathnames, passes it to getInfoByJavaFile()
+	 * an returns a list of all Metrics within the project PATH given by the user.
+	 *
+	 * @author Nuno Dias
+	 * @version 1.0
+	 * @return List<Metric> list of metrics
+	 * @see Metric
+	 */
 	public List<Metric> getMetrics() throws FileNotFoundException {
 		int count = 1;
 
 		for (String p : pathnames) {
-			this.methodList.addAll(getInfoByJavaFIle(p, count));
-			count += getInfoByJavaFIle(p, count).size();
+			this.methodList.addAll(getInfoByJavaFile(p, count));
+			count += getInfoByJavaFile(p, count).size();
 		}
 
 		return methodList;
 	}
 
-	// set the resulting WMC for each class
+	/**
+	 * This method runs through a list of metrics and sets the WMC Metric, returning
+	 * the same list with the added WMC. Used in getInfoByJavaFile() method.
+	 * 
+	 * @author Nuno Dias
+	 * @version 1.0
+	 * @param List<Metric> list of metrics
+	 * @return List<Metric> list of metrics
+	 * @see Metric
+	 */
 	private List<Metric> setWMC(List<Metric> consAndMethodInfo) {
 
 		Hashtable<String, Integer> dict = new Hashtable<String, Integer>();
@@ -89,7 +144,15 @@ public class MetricInfo {
 		return consAndMethodInfo;
 	}
 
-	// print metrics (to be removed)
+	/**
+	 * This method runs through a list of metrics and prints each informations in
+	 * the console.
+	 * 
+	 * @author Nuno Dias
+	 * @version 1.0
+	 * @param List<Metric> list of metrics
+	 * @return Nothing.
+	 */
 	private void showMetrics(List<Metric> methodList) throws FileNotFoundException {
 		methodList.forEach(n -> System.out.println("method id: " + n.getId() + "\n" + "package: "
 				+ n.getMethod_package() + "\n" + "class: " + n.getClass_Name() + "\n" + "method: " + n.getMethod_name()
@@ -98,14 +161,21 @@ public class MetricInfo {
 				+ "WMC_class: " + n.getWMC_class() + "\n"));
 	}
 
-	// prints metrics for every java file (to be removed)
+	/**
+	 * This method runs through files and prints the Metrics information in the
+	 * console, using showMetrics() method.
+	 *
+	 * @author Nuno Dias
+	 * @version 1.0
+	 * @return Nothing.
+	 */
 	public void runTroughJavaFilesPrint() throws FileNotFoundException {
 		showMetrics(getMetrics());
 	}
 
-	// just for testing (to be removed)
-	public static void main(String[] args) throws FileNotFoundException {
-		MetricInfo tm = new MetricInfo("/Users/nunodias/Documents/jasml_0.10");
-		tm.runTroughJavaFilesPrint();
-	}
+//	// just for testing (to be removed)
+//	public static void main(String[] args) throws FileNotFoundException {
+//		MetricInfo tm = new MetricInfo("/Users/nunodias/Documents/jasml_0.10");
+//		tm.runTroughJavaFilesPrint();
+//	}
 }
