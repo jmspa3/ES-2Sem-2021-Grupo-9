@@ -1,76 +1,72 @@
 package G9.CodeQualityAssessor;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
+import metrics.Metric;
 
-import Limits.RuleHandler;
+
+/**
+ * 
+ * @author carlos, carolina
+ *
+ */
 
 public class CodeSmells {
+	HashMap<String, List<String>> rules = new HashMap<String, List<String>>();
 	
-	private ArrayList<String[]>data = new ArrayList<>(); 
-	
-	
-	private ArrayList<String[]> getRulesLine (String rules){
-		String [] lines = rules.split("\\r?\\n");
+	public CodeSmells (String r) {
+		String [] lines = r.split("\\r?\\n");
 		for(int i=0; i<lines.length; i++) {
-			data.add(lines[i].split(";"));
+			String[] splitedLine = lines[i].split(";");
+			List<String> conditions = Arrays.asList(splitedLine);
+//			conditions.remove(0);
+			rules.put(splitedLine[0], conditions);
 		}
-		return data;
 	}
+
 	
-	
-	//Detection of code smells 
-	
-	private HashMap<String, ArrayList<Boolean>> detection(List<Metric> metrics){
-		ArrayList<String[]>data = getRulesLine(new RuleHandler().getRules());
-		LinkedHashMap<String, ArrayList<Boolean>> isSmell= new LinkedHashMap<>();
+	public boolean detect(String ruleName, Metric metric) {
+		List<String> condition = rules.get(ruleName);
+		Boolean isSmelly = null;
+		String operator= null;
 		
-		for(String [] line: data) {			
-			isSmell.put(line[0], detect(line, metrics));
-		}
-		return isSmell;
-	}
-	
-	private ArrayList<Boolean> detect (String[] line, List<Metric> metrics){
-		ArrayList<Boolean> smellyHelper = new ArrayList<Boolean>();
-		
-		for (int i =1; i<line.length; i+=4) {
-			String metricName = line[i];
-			String igualdade = line[i+1];
-			String value = line[i+2];
-			String operator= line[i+3];
+		for (int i =1; i<condition.size(); i+=4) {
 			
-			ArrayList<Boolean> smellList = detectSingleMetric(metrics, metricName,value);
+			String metricName = condition.get(i);
+			String equality = condition.get(i+1);
+			String value = condition.get(i+2);
 			
-			if (smellyHelper.isEmpty()) {
-				smellyHelper=smellList;
+			boolean smellyHelper = funcao2(metricName, equality, value, metric);
+			
+			if (isSmelly == null) {
+				isSmelly=smellyHelper;
 			}else {
-				for (int j = 0; j<smellyHelper.size();j++) {
-					if (smellyHelper.get(j) || smellList.get(j)) {
-						smellyHelper.add(j, true);
-					}else {
-						smellyHelper.add(j, false);
-					}
+				if(operator.equals("||")) {
+					isSmelly = isSmelly || smellyHelper;
+				}else if(operator.equals("&&")) {
+					isSmelly = isSmelly && smellyHelper;
+				}else {
+					System.out.println("Rule File not correctly configured");
 				}
-			}				
-		}
-	}
-	
-	private ArrayList<Boolean> detectSingleDetect (List<Metric> metrics,String metricName,String value) {
-		ArrayList<Boolean> smells = new ArrayList<Boolean>();
-		
-		for (Metric metric : metrics) {
-			if(metric.get(metricName) > Integer.parseInt(value)) {
-				smells.add(true);
-			}else {
-				smells.add(false);
 			}
+			if(i+3<condition.size()) {
+				operator= condition.get(i+3);
+			} 
 		}
-		return smells;
+		
+		return isSmelly;
 	}
-	
+
+
+	private boolean funcao2(String metricName, String equality, String value, Metric metric) {
+		switch(equality) {
+			case ">": return (metric.getValueByMetricName(metricName) > Integer.parseInt(value));
+			case "<": return (metric.getValueByMetricName(metricName) < Integer.parseInt(value));
+			case "=": return (metric.getValueByMetricName(metricName) == Integer.parseInt(value));
+			default : 
+				System.out.println("Rule File not correctly configured");
+				return false;
+		}
+	}
 }

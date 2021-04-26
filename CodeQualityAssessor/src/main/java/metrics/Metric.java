@@ -1,5 +1,7 @@
 package metrics;
 
+import java.util.ArrayList;
+
 public class Metric {
 
 	private int id;
@@ -46,6 +48,17 @@ public class Metric {
 
 	public String getWMC_class() {
 		return String.valueOf(WMC_class);
+	}
+	
+	public int getValueByMetricName(String metricName) {
+		switch (metricName) {
+			case "LOC_class": return LOC_class;
+			case "LOC_method": return LOC_method;
+			case "CYCLO_method": return CYCLO_method;
+			case "NOM_class": return NOM_class;
+			case "WMC_class": return WMC_class;
+		}
+		return -1;
 	}
 
 	public void setId(int id) {

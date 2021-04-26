@@ -20,6 +20,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import Limits.RuleHandler;
 import metrics.Metric;
 import metrics.MetricInfo;
 
@@ -112,7 +113,7 @@ public class ContentExcel {
 		return count;
 	}
 
-	private void writeBook(Metric m, Row row) {
+	private void writeBook(Metric m, Row row, CodeSmells cs) {
 		// id
 		Cell cell = row.createCell(0);
 		cell.setCellValue(m.getId());
@@ -136,7 +137,7 @@ public class ContentExcel {
 		cell.setCellValue(m.getWMC_class());
 		// is_god_class
 		cell = row.createCell(7);
-		cell.setCellValue("FALSE");
+		cell.setCellValue(cs.detect("is_God_Class", m));
 		// loc_method
 		cell = row.createCell(8);
 		cell.setCellValue(m.getLOC_method());
@@ -145,7 +146,7 @@ public class ContentExcel {
 		cell.setCellValue(m.getCYCLO_method());
 		// is_long_method
 		cell = row.createCell(10);
-		cell.setCellValue("FALSE");
+		cell.setCellValue(cs.detect("is_Long_Method", m));
 	}
 
 	// method that writes in Excel
@@ -159,9 +160,10 @@ public class ContentExcel {
 
 		int rowCount = 0;
 
+		CodeSmells cs = new CodeSmells(RuleHandler.getRules());
 		for (Metric m : listMetrica) {
 			Row row = sheet.createRow(++rowCount);
-			writeBook(m, row);
+			writeBook(m, row, cs);
 		}
 		File file = new File(excelFilePath);
 
