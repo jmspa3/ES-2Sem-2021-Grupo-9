@@ -37,12 +37,12 @@ public class MethodInfo extends VoidVisitorAdapter<List<Metric>> {
 			return;
 		}
 
-		newmetricCreator(md, mu, newmetric, cid);
+		newMetricCreator(md, mu, newmetric, cid);
 
 		collector.add(newmetric);
 	}
 
-	private void newmetricCreator(MethodDeclaration md, MetricUtils mu, Metric newmetric,
+	private void newMetricCreator(MethodDeclaration md, MetricUtils mu, Metric newmetric,
 			ClassOrInterfaceDeclaration cid) {
 		newmetric.setId(id++);
 		newmetric.setMethod_package(mu.getPackageName());
