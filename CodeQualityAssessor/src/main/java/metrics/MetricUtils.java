@@ -33,6 +33,7 @@ public class MetricUtils {
 	protected String getMethodName(Object o) {
 		String str = "";
 		if (o instanceof MethodDeclaration) {
+			
 			MethodDeclaration md = (MethodDeclaration) o;
 			for (Parameter n : md.getParameters()) {
 				if (n.toString().contains(".")) {
@@ -41,14 +42,14 @@ public class MetricUtils {
 					md.getParameterByName(n.getNameAsString()).get().setType(s);
 				}
 			}
-			String[] arr = md.getDeclarationAsString(false, false, false).split(" ");
-			arr = Arrays.copyOfRange(arr, 1, arr.length);
+			String[] arr = getMethod_Name_Aux(o);
 			StringBuffer sb = new StringBuffer();
 			for (int i = 0; i < arr.length; i++) {
 				sb.append(arr[i]);
 			}
 			str = sb.toString();
 		} else if (o instanceof ConstructorDeclaration) {
+			
 			ConstructorDeclaration cd = (ConstructorDeclaration) o;
 			for (Parameter n : cd.getParameters()) {
 				if (n.toString().contains(".")) {
@@ -57,8 +58,7 @@ public class MetricUtils {
 					cd.getParameterByName(n.getNameAsString()).get().setType(s);
 				}
 			}
-			String[] arr = cd.getDeclarationAsString(false, false, false).split(" ");
-			arr = Arrays.copyOfRange(arr, 0, arr.length);
+			String[] arr = getConstructor_Name_Aux(o);
 			StringBuffer sb = new StringBuffer();
 			for (int i = 0; i < arr.length; i++) {
 				sb.append(arr[i]);
@@ -66,6 +66,20 @@ public class MetricUtils {
 			str = sb.toString();
 		}
 		return str;
+	}
+
+	private String[] getMethod_Name_Aux(Object o) {
+		MethodDeclaration md = (MethodDeclaration) o;
+		String[] arr = md.getDeclarationAsString(false, false, false).split(" ");
+		arr = Arrays.copyOfRange(arr, 1, arr.length);
+		return arr;
+	}
+
+	private String[] getConstructor_Name_Aux(Object o) {
+		ConstructorDeclaration cd = (ConstructorDeclaration) o;
+		String[] arr = cd.getDeclarationAsString(false, false, false).split(" ");
+		arr = Arrays.copyOfRange(arr, 0, arr.length);
+		return arr;
 	}
 
 	// get class number of lines
@@ -96,16 +110,29 @@ public class MetricUtils {
 
 	// get method number of lines
 	protected int getLOC_Method(Object o) {
-		int begin = 0;
+		int begin = getLOC_Method_Begin_Line(o);
+		int end = getLOC_Method_End_Line(o);
+		return end - begin + 1;
+	}
+
+	private int getLOC_Method_End_Line(Object o) {
 		int end = 0;
 		if (o instanceof MethodDeclaration) {
-			begin = ((MethodDeclaration) o).getBegin().get().line;
 			end = ((MethodDeclaration) o).getEnd().get().line;
 		} else if (o instanceof ConstructorDeclaration) {
-			begin = ((ConstructorDeclaration) o).getBegin().get().line;
 			end = ((ConstructorDeclaration) o).getEnd().get().line;
 		}
-		return end - begin + 1;
+		return end;
+	}
+
+	private int getLOC_Method_Begin_Line(Object o) {
+		int begin = 0;
+		if (o instanceof MethodDeclaration) {
+			begin = ((MethodDeclaration) o).getBegin().get().line;
+		} else if (o instanceof ConstructorDeclaration) {
+			begin = ((ConstructorDeclaration) o).getBegin().get().line;
+		}
+		return begin;
 	}
 
 	protected int getCYCLO_Method(Object o) {

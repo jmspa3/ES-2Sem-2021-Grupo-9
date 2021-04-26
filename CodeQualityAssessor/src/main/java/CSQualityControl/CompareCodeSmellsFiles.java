@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Iterator;
 
+import org.apache.commons.lang3.time.StopWatch;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -125,6 +126,7 @@ public class CompareCodeSmellsFiles {
 				"/Users/nunodias/Downloads/Spreadsheet Files/Code_Smells.xlsx",
 				"/Users/nunodias/Documents/jasml_0.10/jasml_0.10_metrics.xlsx");
 		ccs.compareExcelSheets();
+
 	}
 
 }
