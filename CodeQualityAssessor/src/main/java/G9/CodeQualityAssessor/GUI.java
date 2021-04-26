@@ -6,6 +6,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+import org.apache.poi.ss.usermodel.Cell;
+
 import javax.swing.JTextField;
 import java.awt.FlowLayout;
 import javax.swing.JButton;
@@ -15,12 +19,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.awt.GridLayout;
 import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Iterator;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -38,6 +40,8 @@ public class GUI extends JFrame {
 	private JLabel lblValorAcertos = new JLabel();
 	private JLabel lblValorFalhas = new JLabel();
 
+	ColorRenderer renderer = new ColorRenderer();
+	
 	/**
 	 * Launch the application.
 	 */
@@ -75,7 +79,7 @@ public class GUI extends JFrame {
 		textField.setColumns(10);
 
 		// to save time / need to change later
-		textField.setText("/Users/nunodias/Documents/jasml_0.10");
+		textField.setText("E:\\Faculdade\\3ºAno\\jas");
 
 		JPanel panel_1 = new JPanel();
 		panel.add(panel_1, BorderLayout.EAST);
@@ -136,22 +140,60 @@ public class GUI extends JFrame {
 			private void btnAbrirAction() {
 				// SET TABLE
 				ContentExcel excel = new ContentExcel();
-
-				ArrayList<String[]> data = new ArrayList<String[]>();
+				DefaultTableModel model = new DefaultTableModel(excel.tableHeight, excel.tableWidth);
+				table.setModel(model);
+				
+				File file = new File(textField.getText());
+				String excelPath = textField.getText() + File.separator + file.getName() + "_metrics.xlsx";
+				
+				try {
+					excel.setData(excelPath);
+					Iterator<Cell> cellIterator = excel.data.iterator();
+					short colorCode;
+					while(cellIterator.hasNext()) {
+						Cell cell = cellIterator.next();
+						model.setValueAt(cell.getStringCellValue(), cell.getRowIndex(), cell.getColumnIndex());
+						
+						colorCode = cell.getCellStyle().getFillForegroundColor();
+						
+						switch(colorCode) {
+							case 10:
+								renderer.redCells.add(cell);
+								break;
+							case 40:
+								renderer.blueCells.add(cell);
+								break;
+							case 64: 
+								renderer.whiteCells.add(cell);
+								break;
+							default:
+								renderer.greenCells.add(cell);
+								break;
+						}													
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				table.getColumnModel().getColumn(7).setCellRenderer(renderer);
+				table.getColumnModel().getColumn(10).setCellRenderer(renderer);
+				
+				lblValorPackages.setText(Integer.toString(excel.numberTotalPackages()));
+				lblValorClasses.setText(Integer.toString(excel.numberTotalClasses()));
+				lblValorMetodos.setText(Integer.toString(excel.numberTotalMethods()));
+				lblValorLinhas.setText(Integer.toString(excel.numberTotalLines()));
+				
+				/*ArrayList<String[]> data = new ArrayList<String[]>();
 
 				try {
-
-					String projectPath = textField.getText();
-					File file = new File(projectPath);
-					data = excel
-							.readBooksFromExcelFile(projectPath + File.separator + file.getName() + "_metrics.xlsx");
-
+					data = excel.readBooksFromExcelFile(textField.getText()+"\\jas_metrics.xlsx");
+					
 				} catch (IOException e) {
 					JOptionPane.showMessageDialog(null, "Metrics não existe!");
 				}
 
 				DefaultTableModel model = new DefaultTableModel();
-
+				
 				for (String s : data.get(0)) {
 					model.addColumn(s);
 				}
@@ -159,16 +201,16 @@ public class GUI extends JFrame {
 				for (String[] r : data) {
 					model.addRow(r);
 				}
-
+				
 				table.setModel(model);
-
+							
 				// SET Labels
 				lblValorPackages.setText(Integer.toString(excel.numberTotalPackages()));
 				lblValorClasses.setText(Integer.toString(excel.numberTotalClasses()));
 				lblValorMetodos.setText(Integer.toString(excel.numberTotalMethods()));
 				lblValorLinhas.setText(Integer.toString(excel.numberTotalLines()));
 				// missing indicators
-
+				*/
 			}
 		});
 
@@ -179,7 +221,8 @@ public class GUI extends JFrame {
 
 		table = new JTable();
 		scrollPane.setViewportView(table);
-
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		
 		JPanel panel_6 = new JPanel();
 		contentPane.add(panel_6, BorderLayout.EAST);
 		panel_6.setLayout(new BorderLayout(0, 0));
@@ -241,5 +284,5 @@ public class GUI extends JFrame {
 		panel_5.add(lblNumeroFalhas);
 
 		panel_5.add(lblValorFalhas);
-	}
+	}	
 }

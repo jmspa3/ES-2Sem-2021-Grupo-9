@@ -89,6 +89,7 @@ public class CompareCodeSmellsFiles {
 		}
 	}
 
+	// corrigir o código getcellvalue
 	private void goThroughResultingExcel(Iterator<Row> resulting_rowIterator, int resulting_gc_index,
 			int resulting_lm_index, String default_package_name, String default_class_name, String default_method_name,
 			boolean default_is_god_class, boolean default_is_long_method) {
@@ -96,7 +97,8 @@ public class CompareCodeSmellsFiles {
 		while (resulting_rowIterator.hasNext()) {
 			Row resulting_row = resulting_rowIterator.next();
 
-			String resulting_package_name = (String) QualityControlUtils.getCellValue(resulting_row.getCell(1));
+			String resulting_package_name = resulting_row.getCell(1).getStringCellValue();
+			// (String) QualityControlUtils.getCellValue(resulting_row.getCell(1))
 			String resulting_class_name = (String) QualityControlUtils.getCellValue(resulting_row.getCell(2));
 			String resulting_method_name = (String) QualityControlUtils.getCellValue(resulting_row.getCell(3));
 			boolean resulting_is_god_class = Boolean
@@ -120,14 +122,11 @@ public class CompareCodeSmellsFiles {
 	
 
 	public static void main(String[] args) {
-		StopWatch watch = new StopWatch();
-		watch.start();
 		CompareCodeSmellsFiles ccs = new CompareCodeSmellsFiles(
 				"/Users/nunodias/Downloads/Spreadsheet Files/Code_Smells.xlsx",
 				"/Users/nunodias/Documents/jasml_0.10/jasml_0.10_metrics.xlsx");
 		ccs.compareExcelSheets();
-		watch.stop();
-		System.out.println("execution time: " + watch.getTime());
+
 	}
 
 }

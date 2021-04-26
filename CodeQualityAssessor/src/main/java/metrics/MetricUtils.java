@@ -33,7 +33,7 @@ public class MetricUtils {
 	protected String getMethodName(Object o) {
 		String str = "";
 		if (o instanceof MethodDeclaration) {
-			String[] arr = getMethod_Name_Aux(o);
+			
 			MethodDeclaration md = (MethodDeclaration) o;
 			for (Parameter n : md.getParameters()) {
 				if (n.toString().contains(".")) {
@@ -42,13 +42,14 @@ public class MetricUtils {
 					md.getParameterByName(n.getNameAsString()).get().setType(s);
 				}
 			}
+			String[] arr = getMethod_Name_Aux(o);
 			StringBuffer sb = new StringBuffer();
 			for (int i = 0; i < arr.length; i++) {
 				sb.append(arr[i]);
 			}
 			str = sb.toString();
 		} else if (o instanceof ConstructorDeclaration) {
-			String[] arr = getConstructor_Name_Aux(o);
+			
 			ConstructorDeclaration cd = (ConstructorDeclaration) o;
 			for (Parameter n : cd.getParameters()) {
 				if (n.toString().contains(".")) {
@@ -57,6 +58,7 @@ public class MetricUtils {
 					cd.getParameterByName(n.getNameAsString()).get().setType(s);
 				}
 			}
+			String[] arr = getConstructor_Name_Aux(o);
 			StringBuffer sb = new StringBuffer();
 			for (int i = 0; i < arr.length; i++) {
 				sb.append(arr[i]);
