@@ -16,6 +16,11 @@ import javax.swing.ListSelectionModel;
 import Limits.*;
 import javax.swing.JPanel;
 
+/**
+ * GUIRegras builds an user interface to define and change code smell rules
+ * 
+ * @author 
+ */
 public class GUIRegras {
 	private ArrayList<Threshold> lista = new ArrayList<Threshold>();
 	private JFrame listaRegras;

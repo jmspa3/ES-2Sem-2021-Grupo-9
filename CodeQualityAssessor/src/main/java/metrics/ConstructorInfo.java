@@ -1,6 +1,5 @@
 package metrics;
 
-import java.util.ArrayList;
 import java.util.List;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
@@ -23,8 +22,6 @@ public class ConstructorInfo extends VoidVisitorAdapter<List<Metric>> {
 		super.visit(c, collector);
 		MetricUtils mu = new MetricUtils(cu);
 		Metric newmetric = new Metric();
-
-		ArrayList<String> temp = new ArrayList<String>();
 
 		ClassOrInterfaceDeclaration cid = null;
 		if (c.getParentNode().isPresent()) {

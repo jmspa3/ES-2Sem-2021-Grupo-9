@@ -51,7 +51,7 @@ public class ContentExcel {
 	
 			Workbook workbook = new XSSFWorkbook(inputStream);
 			Sheet sheet = workbook.getSheetAt(0);
-				
+			
 			numMethods = sheet.getLastRowNum();
 			tableWidth = 11;
 			tableHeight = numMethods+1;
@@ -82,7 +82,6 @@ public class ContentExcel {
 						} catch (NumberFormatException e) {
 							// no problem
 						}
-
 						break;
 					}
 					
@@ -170,7 +169,7 @@ public class ContentExcel {
 				excelFilePath + File.separator + file.getName() + "_metrics.xlsx")) {
 			workbook.write(outputStream);
 		}
-
+		workbook.close();
 	}
 
 	private void createHeaderRow(Sheet sheet) {
@@ -188,15 +187,15 @@ public class ContentExcel {
 
 		Cell cellPackage = row.createCell(1);
 		cellPackage.setCellStyle(cellStyle);
-		cellPackage.setCellValue("package");
+		cellPackage.setCellValue("Package");
 
 		Cell cellClass = row.createCell(2);
 		cellClass.setCellStyle(cellStyle);
-		cellClass.setCellValue("class");
+		cellClass.setCellValue("Class");
 
 		Cell cellMethod = row.createCell(3);
 		cellMethod.setCellStyle(cellStyle);
-		cellMethod.setCellValue("method");
+		cellMethod.setCellValue("Method");
 
 		Cell cellNOM_class = row.createCell(4);
 		cellNOM_class.setCellStyle(cellStyle);
@@ -266,6 +265,7 @@ public class ContentExcel {
 			FileOutputStream out = new FileOutputStream(new File(excelFilePath));
 			workbook.write(out);
 			out.close();
+			workbook.close();
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

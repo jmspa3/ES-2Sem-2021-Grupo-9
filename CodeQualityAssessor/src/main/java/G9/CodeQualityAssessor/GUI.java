@@ -26,6 +26,13 @@ import java.util.Iterator;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * Graphical User Interface
+ * <p>
+ * The GUI is the entry point of the application the user interacts with
+ * </p>
+ * @author 
+ */
 public class GUI extends JFrame {
 
 	private JPanel contentPane;
@@ -183,34 +190,6 @@ public class GUI extends JFrame {
 				lblValorMetodos.setText(Integer.toString(excel.numberTotalMethods()));
 				lblValorLinhas.setText(Integer.toString(excel.numberTotalLines()));
 				
-				/*ArrayList<String[]> data = new ArrayList<String[]>();
-
-				try {
-					data = excel.readBooksFromExcelFile(textField.getText()+"\\jas_metrics.xlsx");
-					
-				} catch (IOException e) {
-					JOptionPane.showMessageDialog(null, "Metrics não existe!");
-				}
-
-				DefaultTableModel model = new DefaultTableModel();
-				
-				for (String s : data.get(0)) {
-					model.addColumn(s);
-				}
-				data.remove(0);
-				for (String[] r : data) {
-					model.addRow(r);
-				}
-				
-				table.setModel(model);
-							
-				// SET Labels
-				lblValorPackages.setText(Integer.toString(excel.numberTotalPackages()));
-				lblValorClasses.setText(Integer.toString(excel.numberTotalClasses()));
-				lblValorMetodos.setText(Integer.toString(excel.numberTotalMethods()));
-				lblValorLinhas.setText(Integer.toString(excel.numberTotalLines()));
-				// missing indicators
-				*/
 			}
 		});
 
