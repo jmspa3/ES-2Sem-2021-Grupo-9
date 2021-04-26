@@ -143,8 +143,11 @@ public class GUI extends JFrame {
 				DefaultTableModel model = new DefaultTableModel(excel.tableHeight, excel.tableWidth);
 				table.setModel(model);
 				
+				File file = new File(textField.getText());
+				String excelPath = textField.getText() + File.separator + file.getName() + "_metrics.xlsx";
+				
 				try {
-					excel.setData(textField.getText() + File.separator + textField.getText().split(File.separator)[textField.getText().split(File.separator).length -1]  +"_metrics.xlsx");
+					excel.setData(excelPath);
 					Iterator<Cell> cellIterator = excel.data.iterator();
 					short colorCode;
 					while(cellIterator.hasNext()) {
@@ -169,7 +172,6 @@ public class GUI extends JFrame {
 						}													
 					}
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
