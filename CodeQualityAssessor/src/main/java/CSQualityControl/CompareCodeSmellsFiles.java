@@ -122,14 +122,11 @@ public class CompareCodeSmellsFiles {
 	
 
 	public static void main(String[] args) {
-		StopWatch watch = new StopWatch();
-		watch.start();
 		CompareCodeSmellsFiles ccs = new CompareCodeSmellsFiles(
 				"/Users/nunodias/Downloads/Spreadsheet Files/Code_Smells.xlsx",
 				"/Users/nunodias/Documents/jasml_0.10/jasml_0.10_metrics.xlsx");
 		ccs.compareExcelSheets();
-		watch.stop();
-		System.out.println("execution time: " + watch.getTime());
+
 	}
 
 }
