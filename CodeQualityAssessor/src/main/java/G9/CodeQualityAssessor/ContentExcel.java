@@ -20,6 +20,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import Limits.RuleHandler;
 import metrics.Metric;
 import metrics.MetricInfo;
 
@@ -51,7 +52,7 @@ public class ContentExcel {
 	
 			Workbook workbook = new XSSFWorkbook(inputStream);
 			Sheet sheet = workbook.getSheetAt(0);
-				
+			
 			numMethods = sheet.getLastRowNum();
 			tableWidth = 11;
 			tableHeight = numMethods+1;
@@ -82,7 +83,6 @@ public class ContentExcel {
 						} catch (NumberFormatException e) {
 							// no problem
 						}
-
 						break;
 					}
 					
@@ -113,7 +113,7 @@ public class ContentExcel {
 		return count;
 	}
 
-	private void writeBook(Metric m, Row row) {
+	private void writeBook(Metric m, Row row, CodeSmells cs) {
 		// id
 		Cell cell = row.createCell(0);
 		cell.setCellValue(m.getId());
@@ -137,7 +137,7 @@ public class ContentExcel {
 		cell.setCellValue(m.getWMC_class());
 		// is_god_class
 		cell = row.createCell(7);
-		cell.setCellValue("FALSE");
+		cell.setCellValue(cs.detect("is_God_Class", m));
 		// loc_method
 		cell = row.createCell(8);
 		cell.setCellValue(m.getLOC_method());
@@ -146,7 +146,7 @@ public class ContentExcel {
 		cell.setCellValue(m.getCYCLO_method());
 		// is_long_method
 		cell = row.createCell(10);
-		cell.setCellValue("FALSE");
+		cell.setCellValue(cs.detect("is_Long_Method", m));
 	}
 
 	// method that writes in Excel
@@ -160,9 +160,10 @@ public class ContentExcel {
 
 		int rowCount = 0;
 
+		CodeSmells cs = new CodeSmells(RuleHandler.getRules());
 		for (Metric m : listMetrica) {
 			Row row = sheet.createRow(++rowCount);
-			writeBook(m, row);
+			writeBook(m, row, cs);
 		}
 		File file = new File(excelFilePath);
 
@@ -170,7 +171,7 @@ public class ContentExcel {
 				excelFilePath + File.separator + file.getName() + "_metrics.xlsx")) {
 			workbook.write(outputStream);
 		}
-
+		workbook.close();
 	}
 
 	private void createHeaderRow(Sheet sheet) {
@@ -188,15 +189,15 @@ public class ContentExcel {
 
 		Cell cellPackage = row.createCell(1);
 		cellPackage.setCellStyle(cellStyle);
-		cellPackage.setCellValue("package");
+		cellPackage.setCellValue("Package");
 
 		Cell cellClass = row.createCell(2);
 		cellClass.setCellStyle(cellStyle);
-		cellClass.setCellValue("class");
+		cellClass.setCellValue("Class");
 
 		Cell cellMethod = row.createCell(3);
 		cellMethod.setCellStyle(cellStyle);
-		cellMethod.setCellValue("method");
+		cellMethod.setCellValue("Method");
 
 		Cell cellNOM_class = row.createCell(4);
 		cellNOM_class.setCellStyle(cellStyle);
@@ -266,6 +267,7 @@ public class ContentExcel {
 			FileOutputStream out = new FileOutputStream(new File(excelFilePath));
 			workbook.write(out);
 			out.close();
+			workbook.close();
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
