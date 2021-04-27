@@ -14,19 +14,6 @@ public class QualityControlUtils {
 	static XSSFCellStyle orange = CompareCodeSmellsFiles.orange;
 	static XSSFCellStyle red = CompareCodeSmellsFiles.red;
 
-	static Object getCellValue(Cell cell) {
-		switch (cell.getCellType()) {
-		case STRING:
-			return cell.getStringCellValue();
-		case BOOLEAN:
-			return cell.getBooleanCellValue();
-		case NUMERIC:
-			return cell.getNumericCellValue();
-		default:
-			return cell;
-		}
-	}
-
 	static int get_is_god_class_colIndex(XSSFSheet sheet) {
 		int god_class_index = 0;
 		for (Cell s : sheet.getRow(0)) {

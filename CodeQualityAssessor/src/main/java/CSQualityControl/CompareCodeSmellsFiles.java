@@ -71,13 +71,12 @@ public class CompareCodeSmellsFiles {
 		while (default_rowIterator.hasNext()) {
 			Row default_row = default_rowIterator.next();
 
-			String default_package_name = (String) QualityControlUtils.getCellValue(default_row.getCell(1));
-			String default_class_name = (String) QualityControlUtils.getCellValue(default_row.getCell(2));
-			String default_method_name = (String) QualityControlUtils.getCellValue(default_row.getCell(3));
-			boolean default_is_god_class = (boolean) QualityControlUtils
-					.getCellValue(default_row.getCell(default_gc_index));
-			boolean default_is_long_method = (boolean) QualityControlUtils
-					.getCellValue(default_row.getCell(default_lm_index));
+			String default_package_name = default_row.getCell(1).getStringCellValue();
+			String default_class_name = default_row.getCell(2).getStringCellValue();
+			String default_method_name = default_row.getCell(3).getStringCellValue();
+
+			boolean default_is_god_class = default_row.getCell(default_gc_index).getBooleanCellValue();
+			boolean default_is_long_method = default_row.getCell(default_lm_index).getBooleanCellValue();
 
 			goThroughResultingExcel(resulting_rowIterator, resulting_gc_index, resulting_lm_index, default_package_name,
 					default_class_name, default_method_name, default_is_god_class, default_is_long_method);
@@ -87,7 +86,6 @@ public class CompareCodeSmellsFiles {
 		}
 	}
 
-	// corrigir o código getcellvalue
 	private void goThroughResultingExcel(Iterator<Row> resulting_rowIterator, int resulting_gc_index,
 			int resulting_lm_index, String default_package_name, String default_class_name, String default_method_name,
 			boolean default_is_god_class, boolean default_is_long_method) {
@@ -96,28 +94,25 @@ public class CompareCodeSmellsFiles {
 			Row resulting_row = resulting_rowIterator.next();
 
 			String resulting_package_name = resulting_row.getCell(1).getStringCellValue();
-			// (String) QualityControlUtils.getCellValue(resulting_row.getCell(1))
-			String resulting_class_name = (String) QualityControlUtils.getCellValue(resulting_row.getCell(2));
-			String resulting_method_name = (String) QualityControlUtils.getCellValue(resulting_row.getCell(3));
-			boolean resulting_is_god_class = Boolean
-					.getBoolean((String) QualityControlUtils.getCellValue(resulting_row.getCell(resulting_gc_index)));
-			boolean resulting_is_long_method = Boolean
-					.getBoolean((String) QualityControlUtils.getCellValue(resulting_row.getCell(resulting_lm_index)));
+			String resulting_class_name = resulting_row.getCell(2).getStringCellValue();
+			String resulting_method_name = resulting_row.getCell(3).getStringCellValue();
+
+			boolean resulting_is_god_class = resulting_row.getCell(resulting_gc_index).getBooleanCellValue();
+			boolean resulting_is_long_method = resulting_row.getCell(resulting_lm_index).getBooleanCellValue();
 
 			if (default_package_name.equals(resulting_package_name) && default_class_name.equals(resulting_class_name)
 					&& default_method_name.equals(resulting_method_name)) {
 
-				QualityControlUtils.set_GOD_Class_Quality(default_is_god_class, resulting_is_god_class, resulting_row, resulting_gc_index);
+				QualityControlUtils.set_GOD_Class_Quality(default_is_god_class, resulting_is_god_class, resulting_row,
+						resulting_gc_index);
 
-				QualityControlUtils.set_LONG_Method_Quality(default_is_long_method, resulting_is_long_method, resulting_row,
-						resulting_lm_index);
+				QualityControlUtils.set_LONG_Method_Quality(default_is_long_method, resulting_is_long_method,
+						resulting_row, resulting_lm_index);
 
 			}
 		}
 
 	}
-
-	
 
 	public static void main(String[] args) {
 		CompareCodeSmellsFiles ccs = new CompareCodeSmellsFiles(

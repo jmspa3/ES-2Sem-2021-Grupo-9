@@ -33,7 +33,7 @@ public class MetricUtils {
 	protected String getMethodName(Object o) {
 		String str = "";
 		if (o instanceof MethodDeclaration) {
-			
+
 			MethodDeclaration md = (MethodDeclaration) o;
 			for (Parameter n : md.getParameters()) {
 				if (n.toString().contains(".")) {
@@ -49,7 +49,7 @@ public class MetricUtils {
 			}
 			str = sb.toString();
 		} else if (o instanceof ConstructorDeclaration) {
-			
+
 			ConstructorDeclaration cd = (ConstructorDeclaration) o;
 			for (Parameter n : cd.getParameters()) {
 				if (n.toString().contains(".")) {
