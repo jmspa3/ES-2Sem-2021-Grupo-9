@@ -20,21 +20,48 @@ public class MetricUtils {
 
 	private CompilationUnit cu;
 
+	/**
+	 * Constructor of MetricUtils class.
+	 *
+	 * @author Nuno Dias
+	 * @version 1.0
+	 * @param cu the file we are running trough
+	 * @see CompilationUnit
+	 */
 	public MetricUtils(CompilationUnit cu) {
 		this.cu = cu;
 	}
 
-	// get class name
+	/**
+	 * Retrieve the class name, given the CompilationUnit
+	 * 
+	 *
+	 * @author Nuno Dias
+	 * @version 1.0
+	 * @return {@link String}
+	 * @see CompilationUnit
+	 */
 	protected String getClassName() {
 		return cu.getPrimaryTypeName().get();
 	}
 
-	// get method name
-	protected String getMethodName(Object o) {
+	/**
+	 * Retrieve the method name, given a {@link MethodDeclaration} or a
+	 * {@link ConstructorDeclaration} instance
+	 * 
+	 *
+	 * @author Nuno Dias
+	 * @version 1.0
+	 * @param methodOrConstructor {@link MethodDeclaration} or
+	 *                            {@link ConstructorDeclaration} instance
+	 * @return {@link String}
+	 * @see Object
+	 */
+	protected String getMethodName(Object methodOrConstructor) {
 		String str = "";
-		if (o instanceof MethodDeclaration) {
+		if (methodOrConstructor instanceof MethodDeclaration) {
 
-			MethodDeclaration md = (MethodDeclaration) o;
+			MethodDeclaration md = (MethodDeclaration) methodOrConstructor;
 			for (Parameter n : md.getParameters()) {
 				if (n.toString().contains(".")) {
 					int i = n.toString().indexOf(".") + 1;
@@ -42,15 +69,15 @@ public class MetricUtils {
 					md.getParameterByName(n.getNameAsString()).get().setType(s);
 				}
 			}
-			String[] arr = getMethod_Name_Aux(o);
+			String[] arr = getMethod_Name_Aux(methodOrConstructor);
 			StringBuffer sb = new StringBuffer();
 			for (int i = 0; i < arr.length; i++) {
 				sb.append(arr[i]);
 			}
 			str = sb.toString();
-		} else if (o instanceof ConstructorDeclaration) {
+		} else if (methodOrConstructor instanceof ConstructorDeclaration) {
 
-			ConstructorDeclaration cd = (ConstructorDeclaration) o;
+			ConstructorDeclaration cd = (ConstructorDeclaration) methodOrConstructor;
 			for (Parameter n : cd.getParameters()) {
 				if (n.toString().contains(".")) {
 					int i = n.toString().indexOf(".") + 1;
@@ -58,7 +85,7 @@ public class MetricUtils {
 					cd.getParameterByName(n.getNameAsString()).get().setType(s);
 				}
 			}
-			String[] arr = getConstructor_Name_Aux(o);
+			String[] arr = getConstructor_Name_Aux(methodOrConstructor);
 			StringBuffer sb = new StringBuffer();
 			for (int i = 0; i < arr.length; i++) {
 				sb.append(arr[i]);
@@ -68,35 +95,84 @@ public class MetricUtils {
 		return str;
 	}
 
-	private String[] getMethod_Name_Aux(Object o) {
-		MethodDeclaration md = (MethodDeclaration) o;
+	/**
+	 * Auxiliary function for the getMethodName method, returning an list with the
+	 * components of a method declaration name
+	 * 
+	 *
+	 * @author Nuno Dias
+	 * @version 1.0
+	 * @param methodOrConstructor instance of {@link MethodDeclaration}
+	 * @return String[]
+	 * @see Object
+	 */
+	private String[] getMethod_Name_Aux(Object methodOrConstructor) {
+		MethodDeclaration md = (MethodDeclaration) methodOrConstructor;
 		String[] arr = md.getDeclarationAsString(false, false, false).split(" ");
 		arr = Arrays.copyOfRange(arr, 1, arr.length);
 		return arr;
 	}
 
-	private String[] getConstructor_Name_Aux(Object o) {
-		ConstructorDeclaration cd = (ConstructorDeclaration) o;
+	/**
+	 * Auxiliary function for the getMethodName method, returning an list with the
+	 * components of a constructor declaration name
+	 * 
+	 *
+	 * @author Nuno Dias
+	 * @version 1.0
+	 * @param methodOrConstructor instance of {@link ConstructorDeclaration}
+	 * @return String[]
+	 * @see Object
+	 */
+	private String[] getConstructor_Name_Aux(Object methodOrConstructor) {
+		ConstructorDeclaration cd = (ConstructorDeclaration) methodOrConstructor;
 		String[] arr = cd.getDeclarationAsString(false, false, false).split(" ");
 		arr = Arrays.copyOfRange(arr, 0, arr.length);
 		return arr;
 	}
 
-	// get class number of lines
+	/**
+	 * This method returns the number of lines of code of a class, using the already
+	 * initialized instance of {@link CompilationUnit}
+	 * 
+	 *
+	 * @author Nuno Dias
+	 * @version 1.0
+	 * @return {@link Integer}
+	 * @see CompilationUnit
+	 */
 	protected int getLOC_class() {
 		int classBegin = cu.getClassByName(getClassName()).get().getBegin().get().line;
 		int classEnd = cu.getEnd().get().line;
 		return classEnd - classBegin + 1;
 	}
 
-	// get class number of lines
+	/**
+	 * This method returns the number of lines of code of an inner class, using the
+	 * already initialized instance of {@link CompilationUnit}
+	 * 
+	 *
+	 * @author Nuno Dias
+	 * @version 1.0
+	 * @return {@link Integer}
+	 * @see ClassOrInterfaceDeclaration
+	 */
 	protected int getLOC_Inner_class(ClassOrInterfaceDeclaration cid) {
 		int classBegin = cid.getBegin().get().line;
 		int classEnd = cid.getEnd().get().line;
 		return classEnd - classBegin + 1;
 	}
 
-	// get package name
+	/**
+	 * This method returns the package name of the {@link CompilationUnit} we are
+	 * visiting
+	 * 
+	 *
+	 * @author Nuno Dias
+	 * @version 1.0
+	 * @return int
+	 * @see CompilationUnit
+	 */
 	protected String getPackageName() {
 		String packageName;
 		if (!(cu.getPackageDeclaration().orElse(null) == null)) {
@@ -108,37 +184,77 @@ public class MetricUtils {
 		return packageName;
 	}
 
-	// get method number of lines
-	protected int getLOC_Method(Object o) {
-		int begin = getLOC_Method_Begin_Line(o);
-		int end = getLOC_Method_End_Line(o);
+	/**
+	 * This method returns the number of lines of code of a method/constructor
+	 * 
+	 *
+	 * @author Nuno Dias
+	 * @version 1.0
+	 * @param methodOrConstructor {@link MethodDeclaration} or
+	 *                            {@link ConstructorDeclaration} instance
+	 * @return {@link Integer}
+	 */
+	protected int getLOC_Method(Object methodOrConstructor) {
+		int begin = getLOC_Method_Begin_Line(methodOrConstructor);
+		int end = getLOC_Method_End_Line(methodOrConstructor);
 		return end - begin + 1;
 	}
 
-	private int getLOC_Method_End_Line(Object o) {
+	/**
+	 * Auxiliary method of getLOC_Method() that returns the last line of a method
+	 * 
+	 *
+	 * @author Nuno Dias
+	 * @version 1.0
+	 * @param methodOrConstructor {@link MethodDeclaration} or
+	 *                            {@link ConstructorDeclaration} instance
+	 * @return {@link Integer}
+	 */
+	private int getLOC_Method_End_Line(Object methodOrConstructor) {
 		int end = 0;
-		if (o instanceof MethodDeclaration) {
-			end = ((MethodDeclaration) o).getEnd().get().line;
-		} else if (o instanceof ConstructorDeclaration) {
-			end = ((ConstructorDeclaration) o).getEnd().get().line;
+		if (methodOrConstructor instanceof MethodDeclaration) {
+			end = ((MethodDeclaration) methodOrConstructor).getEnd().get().line;
+		} else if (methodOrConstructor instanceof ConstructorDeclaration) {
+			end = ((ConstructorDeclaration) methodOrConstructor).getEnd().get().line;
 		}
 		return end;
 	}
 
-	private int getLOC_Method_Begin_Line(Object o) {
+	/**
+	 * Auxiliary method of getLOC_Method() that returns the first line of a method
+	 * 
+	 *
+	 * @author Nuno Dias
+	 * @version 1.0
+	 * @param methodOrConstructor {@link MethodDeclaration} or
+	 *                            {@link ConstructorDeclaration} instance
+	 * @return {@link Integer}
+	 */
+	private int getLOC_Method_Begin_Line(Object methodOrConstructor) {
 		int begin = 0;
-		if (o instanceof MethodDeclaration) {
-			begin = ((MethodDeclaration) o).getBegin().get().line;
-		} else if (o instanceof ConstructorDeclaration) {
-			begin = ((ConstructorDeclaration) o).getBegin().get().line;
+		if (methodOrConstructor instanceof MethodDeclaration) {
+			begin = ((MethodDeclaration) methodOrConstructor).getBegin().get().line;
+		} else if (methodOrConstructor instanceof ConstructorDeclaration) {
+			begin = ((ConstructorDeclaration) methodOrConstructor).getBegin().get().line;
 		}
 		return begin;
 	}
 
-	protected int getCYCLO_Method(Object o) {
+	
+	/**
+	 * Method that return the cyclomatic complexity of a method/constructor
+	 * 
+	 *
+	 * @author Nuno Dias
+	 * @version 1.0
+	 * @param methodOrConstructor {@link MethodDeclaration} or
+	 *                            {@link ConstructorDeclaration} instance
+	 * @return {@link Integer}
+	 */
+	protected int getCYCLO_Method(Object methodOrConstructor) {
 		int i = 1;
-		if (o instanceof MethodDeclaration) {
-			MethodDeclaration md = (MethodDeclaration) o;
+		if (methodOrConstructor instanceof MethodDeclaration) {
+			MethodDeclaration md = (MethodDeclaration) methodOrConstructor;
 			i += md.findAll(IfStmt.class).size();
 			i += md.findAll(WhileStmt.class).size();
 			i += md.findAll(ForStmt.class).size();
@@ -149,8 +265,8 @@ public class MetricUtils {
 			}
 			i += StringUtils.countMatches(md.toString(), "&&");
 			i += StringUtils.countMatches(md.toString(), "||");
-		} else if (o instanceof ConstructorDeclaration) {
-			ConstructorDeclaration cd = (ConstructorDeclaration) o;
+		} else if (methodOrConstructor instanceof ConstructorDeclaration) {
+			ConstructorDeclaration cd = (ConstructorDeclaration) methodOrConstructor;
 			i += cd.findAll(IfStmt.class).size();
 			i += cd.findAll(WhileStmt.class).size();
 			i += cd.findAll(ForStmt.class).size();

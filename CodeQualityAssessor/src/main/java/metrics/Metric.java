@@ -1,7 +1,5 @@
 package metrics;
 
-import java.util.ArrayList;
-
 public class Metric {
 
 	private int id;
