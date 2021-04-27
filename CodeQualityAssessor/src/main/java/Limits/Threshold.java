@@ -27,6 +27,21 @@ public class Threshold {
 		 this.name = name;
 	}
 	
+	public void editConditionalOp(String op) {
+		argument_operator[2] = op;
+	}
+	
+	//Edit all operators
+	public void editOperators(String op1, String op2) {
+		argument_operator[1] = op1;
+		argument_operator[4] = op2;
+	}
+	
+	//No longer Test Method, due to changes in Features to be released. -OLD: Test method, this is not to be played with in user version
+	public void editArgs(String arg1, String arg2) {
+		argument_operator[0] = arg1;
+		argument_operator[3] = arg2;
+	}	
 	
 	//1 for first condition, 4 for the second condition
 	public void editOperator(String op, int index) {
@@ -41,15 +56,7 @@ public class Threshold {
 	public int getNumber(int index) {
 		return editable_numbers[index];
 	}
-	
-	//Edit all operators
-	public void editOperators(String op1, String op2) {
-		argument_operator[1] = op1;
-		argument_operator[4] = op2;
-	}
-	
 
-	
 	public void insertCondition(String condicao) {
 		Scanner scanner =new Scanner(condicao);
 		for(int i = 0; i <= argument_operator.length && scanner.hasNext(); i++) {
@@ -89,9 +96,5 @@ public class Threshold {
 		return this.name;
 	}
 	
-	//Test method, this is not to be played with in user version
-	public void editArgs(String arg1, String arg2) {
-		argument_operator[0] = arg1;
-		argument_operator[3] = arg2;
-	}	
+	
 }

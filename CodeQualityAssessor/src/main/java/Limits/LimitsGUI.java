@@ -31,14 +31,17 @@ public class LimitsGUI extends JDialog implements MouseListener  {
 	private String salvar = "Alterar"; //Alterar condição e sair
 	private JTextField numero1;
 	private JTextField numero2;
-	private ArrayList<String> lista = new ArrayList<>();
+	private ArrayList<String> listaOperadores = new ArrayList<>();
+	private ArrayList<String> listaArgumentos = new ArrayList<>();
+	private ArrayList<String> listaOpCondicional = new ArrayList<>();
 	private Threshold threshold;
 	private JComboBox<String> operador2;
 	private JComboBox<String> operador1;
-	private JTextField argumento2;
-	private JTextField argumento1;
+	private JComboBox<String> argumento2;
+	private JComboBox<String> argumento1;
 	private JPanel panel;
 	private JPanel panel_1;
+	private JComboBox<String> logicOrAnd;
 
 	/**
 	 * Launch the application.
@@ -79,11 +82,21 @@ public class LimitsGUI extends JDialog implements MouseListener  {
 	 */
 	private void initialize(Threshold threshold) {		
 		this.threshold = threshold;
-		lista.add(">");
-		lista.add("<");
+		listaOperadores.add(">");
+		listaOperadores.add("<");
+		
+		listaOpCondicional.add("||");
+		listaOpCondicional.add("&&");
+		
+		listaArgumentos.add("NOM_class");
+		listaArgumentos.add("LOC_class");
+		listaArgumentos.add("WMC_class");
+		listaArgumentos.add("LOC_method");
+		listaArgumentos.add("CYCLO_method");
+
 		
 		DefaultListModel<String> listModel = new DefaultListModel<String>();
-		lista.forEach(r -> listModel.addElement(r));
+		listaOperadores.forEach(r -> listModel.addElement(r));
 		
 		framo = new JFrame();
 
@@ -118,10 +131,8 @@ public class LimitsGUI extends JDialog implements MouseListener  {
 		
 		//-----Primeira condição
 		
-		argumento1 = new JTextField(threshold.getArgument(0));
+		argumento1 = new JComboBox<String>();
 		panel.add(argumento1);
-		argumento1.setEditable(false);
-		argumento1.setColumns(10);	
 		
 		operador1 = new JComboBox<String>();
 		panel.add(operador1);
@@ -132,16 +143,17 @@ public class LimitsGUI extends JDialog implements MouseListener  {
 				numero1.setColumns(10);
 				
 				//-----Operador Lógico OR AND
+						
+				logicOrAnd = new JComboBox<String>();
+				panel.add(logicOrAnd);
 				
-				JLabel logicop = new JLabel(threshold.getArgument(2));
-				panel.add(logicop);
+		
+
 				
 				//-----Segunda condição
 				
-				argumento2 = new JTextField(threshold.getArgument(3));
+				argumento2 = new JComboBox<String>();
 				panel.add(argumento2);
-				argumento2.setEditable(false);
-				argumento2.setColumns(10);
 				
 		operador2 = new JComboBox<String>();
 		panel.add(operador2);
@@ -155,10 +167,18 @@ public class LimitsGUI extends JDialog implements MouseListener  {
 		guardarTotal.addMouseListener(this); 
 		guardarTotal.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		framo.getContentPane().add(guardarTotal, BorderLayout.SOUTH);
-		lista.forEach(r -> operador1.addItem(r));
-		lista.forEach(r -> operador2.addItem(r));
+		listaOperadores.forEach(r -> operador1.addItem(r));
+		listaOperadores.forEach(r -> operador2.addItem(r));
 		
-		operador1.setSelectedItem(threshold.getArgument(1));		
+		listaArgumentos.forEach(r -> argumento1.addItem(r));
+		listaArgumentos.forEach(r -> argumento2.addItem(r));
+		
+		listaOpCondicional.forEach(r -> logicOrAnd.addItem(r));
+		
+		argumento1.setSelectedItem(threshold.getArgument(0));
+		operador1.setSelectedItem(threshold.getArgument(1));
+		logicOrAnd.setSelectedItem(threshold.getArgument(2));
+		argumento2.setSelectedItem(threshold.getArgument(3));	
 		operador2.setSelectedItem(threshold.getArgument(4));
 
 	}
@@ -173,7 +193,9 @@ public class LimitsGUI extends JDialog implements MouseListener  {
 		
 		if(buttonText.equals(salvar)) {
 			threshold.editNumbers(Integer.parseInt(numero1.getText()), Integer.parseInt(numero2.getText()));
-			threshold.editOperators((String)operador1.getSelectedItem(), (String)operador2.getSelectedItem());
+			threshold.editOperators((String) operador1.getSelectedItem(), (String) operador2.getSelectedItem());
+			threshold.editArgs((String) argumento1.getSelectedItem(), (String) argumento2.getSelectedItem());
+			threshold.editConditionalOp((String) logicOrAnd.getSelectedItem());
 			framo.setVisible(false);
 			framo.dispose();
 		}		
