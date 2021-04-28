@@ -39,6 +39,9 @@ public class ContentExcel {
 	int tableWidth = 11;
 	int tableHeight = 256;
 	
+	int ruleNumber;
+	ArrayList<String> ruleNameList = new ArrayList<String>();
+	
 	/**
 	 * Reads the excel file and saves the cell information in a Vector
 	 * 
@@ -114,6 +117,8 @@ public class ContentExcel {
 	}
 
 	private void writeBook(Metric m, Row row, CodeSmells cs) {
+		
+		
 		// id
 		Cell cell = row.createCell(0);
 		cell.setCellValue(m.getId());
@@ -147,20 +152,35 @@ public class ContentExcel {
 		// is_long_method
 		cell = row.createCell(10);
 		cell.setCellValue(cs.detect("is_Long_Method", m));
+		
+		int it = 0;
+		for(String x: ruleNameList) {
+			if (it <= ruleNumber) {
+				cell = row.createCell(11 + it);
+				cell.setCellValue(cs.detect(x, m));
+				it++;
+			}
+		}
 	}
 
 	// method that writes in Excel
 	public void writeExcel(String excelFilePath) throws IOException {
 		Workbook workbook = new XSSFWorkbook();
 		Sheet sheet = workbook.createSheet();
-
+		
+		CodeSmells cs = new CodeSmells(RuleHandler.getRules());
+		ruleNameList = RuleHandler.getRuleNames();
+		ruleNumber = ruleNameList.size();
 		createHeaderRow(sheet);
-
+		//RuleHandler.addName(t.getName());
+		//it++;
+		//RuleHandler.setNumberRules(it);
 		List<Metric> listMetrica = getListBook(excelFilePath);
 
 		int rowCount = 0;
 
-		CodeSmells cs = new CodeSmells(RuleHandler.getRules());
+
+
 		for (Metric m : listMetrica) {
 			Row row = sheet.createRow(++rowCount);
 			writeBook(m, row, cs);
@@ -226,6 +246,16 @@ public class ContentExcel {
 		Cell is_Long_method = row.createCell(10);
 		is_Long_method.setCellStyle(cellStyle);
 		is_Long_method.setCellValue("is_Long_method");
+		
+		int it = 1;
+		for(String x: ruleNameList) {
+			if(it <= ruleNumber) {
+				Cell cell = row.createCell(10 + it);
+				cell.setCellStyle(cellStyle);
+				cell.setCellValue(x);
+				it++;
+			}
+		}
 
 	}
 

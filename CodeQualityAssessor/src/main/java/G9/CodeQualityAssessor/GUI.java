@@ -157,6 +157,7 @@ public class GUI extends JFrame {
 					excel.setData(excelPath);
 					Iterator<Cell> cellIterator = excel.data.iterator();
 					short colorCode;
+					int it = 0;
 					while(cellIterator.hasNext()) {
 						Cell cell = cellIterator.next();
 						model.setValueAt(cell.getStringCellValue(), cell.getRowIndex(), cell.getColumnIndex());
@@ -176,7 +177,9 @@ public class GUI extends JFrame {
 							default:
 								renderer.greenCells.add(cell);
 								break;
-						}													
+						}										
+						it++;
+						System.out.println(it);
 					}
 				} catch (IOException e) {
 					e.printStackTrace();

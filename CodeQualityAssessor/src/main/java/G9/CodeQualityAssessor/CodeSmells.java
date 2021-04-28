@@ -13,6 +13,7 @@ import metrics.Metric;
  */
 
 public class CodeSmells {
+	
 	HashMap<String, List<String>> rules = new HashMap<String, List<String>>();
 	
 	public CodeSmells (String r) {
