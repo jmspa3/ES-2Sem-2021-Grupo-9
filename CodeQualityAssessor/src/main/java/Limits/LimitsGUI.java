@@ -1,5 +1,10 @@
 package Limits;
 
+/**
+ * LimitsGUI enables changes to the selected Threshold
+ * 
+ * @author Jose/Tiago
+ */
 
 import javax.swing.JFrame;
 import java.awt.BorderLayout;

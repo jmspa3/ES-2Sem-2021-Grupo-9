@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
@@ -72,6 +73,32 @@ public class GUIRegras {
 		// Open rule editor if clicked
 		JButton editar = new JButton("Editar");
 		panel_1.add(editar);
+		
+		JButton criar = new JButton("Criar");
+		criar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+                String name = JOptionPane.showInputDialog(listaRegras, "Nome da Regra", null);
+    			Threshold th = new Threshold(name);
+    			lista.add(th);
+    			listModel.addElement(th);
+    			//mostrar_regras.add(listModel.lastElement());
+			}
+		});
+		panel_1.add(criar, BorderLayout.WEST);
+		
+		JButton apagar = new JButton("Apagar");
+		panel_1.add(apagar, BorderLayout.EAST);
+		apagar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int selected = mostrar_regras.getSelectedIndex();
+				if(selected >= 0 || selected < listModel.size()) {
+					lista.remove(mostrar_regras.getSelectedValue());
+	    			listModel.remove(mostrar_regras.getSelectedIndex());
+				}
+				//mostrar_regras.remove();
+			}
+		});
+		
 		editar.addActionListener(new ActionListener() {
 
 			@Override
@@ -104,7 +131,7 @@ public class GUIRegras {
 		if (!rulesLine.isEmpty()) {
 			String[] rules = rulesLine.split("\n", lista.size());
 			
-			Threshold c3 = new Threshold("viva");
+			/*Threshold c3 = new Threshold("viva");
 			c3.insertCondition("WMC_class > || NOM_class >");
 			c3.editNumbers(444, 75);
 
@@ -118,12 +145,35 @@ public class GUIRegras {
 
 			lista.add(c3);
 			lista.add(c4);
-			lista.add(c5);
+			lista.add(c5);*/
+			boolean isLong = false;
+			boolean isGod = false;
 			for (String rule : rules) {
+				
 				lista.add(ruleToThreshold(rule));
-
+				String[] arr = rule.split(";", 8);
+				if(arr[0].equals("is_Long_Method")) isLong = true;
+				else if(arr[0].equals("is_God_Class")) isGod = true;
+				
 
 			}
+			
+			if(!isLong) {
+				Threshold is_Long_Method = new Threshold("is_Long_Method");
+				is_Long_Method.insertCondition("LOC_method > || CYCLO_method >");
+				is_Long_Method.editNumbers(50, 10);
+				lista.add(is_Long_Method);
+
+			}
+			
+			if(!isGod) {
+				Threshold is_God_Class = new Threshold("is_God_Class");
+				is_God_Class.insertCondition("WMC_class > || NOM_class >");
+				is_God_Class.editNumbers(50, 10);
+				lista.add(is_God_Class);
+
+			}
+			
 		} else {
 
 			Threshold is_Long_Method = new Threshold("is_Long_Method");

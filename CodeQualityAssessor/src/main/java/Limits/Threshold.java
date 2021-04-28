@@ -1,5 +1,11 @@
 package Limits;
 
+/**
+ * Threshold defines a code smell, based on a condition
+ * 
+ * @author Jose/Tiago
+ */
+
 import java.util.Scanner;
 
 public class Threshold {
