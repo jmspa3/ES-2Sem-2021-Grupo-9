@@ -95,6 +95,26 @@ public class RuleHandler {
 		return rules;
 	}	
 	
+	public static int getNumberRules() {
+
+			int n = 0;
+			try {
+				String rules = "";
+				File file = new File(filePath);
+				Scanner reader = new Scanner(file);
+				while(reader.hasNextLine()) {
+					rules += reader.nextLine()+"\n";
+					n = n+1;
+				}
+				reader.close();
+			}catch(FileNotFoundException e) {
+				System.out.println("An error occured.");
+				e.printStackTrace();
+			}
+
+			setNumberRules(n);
+			return n;	
+	}
 	
 	public static void clearData() {
 		numberRules = 0;

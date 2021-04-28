@@ -10,6 +10,8 @@ import javax.swing.table.DefaultTableModel;
 
 import org.apache.poi.ss.usermodel.Cell;
 
+import Limits.RuleHandler;
+
 import javax.swing.JTextField;
 import java.awt.FlowLayout;
 import javax.swing.JButton;
@@ -147,7 +149,9 @@ public class GUI extends JFrame {
 			private void btnAbrirAction() {
 				// SET TABLE
 				ContentExcel excel = new ContentExcel();
-				DefaultTableModel model = new DefaultTableModel(excel.tableHeight, excel.tableWidth);
+				RuleHandler.getRules();
+				int numberRules = RuleHandler.getNumberRules();
+				DefaultTableModel model = new DefaultTableModel(excel.tableHeight, excel.tableWidth+numberRules+2);
 				table.setModel(model);
 				
 				File file = new File(textField.getText());
