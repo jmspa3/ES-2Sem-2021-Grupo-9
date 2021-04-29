@@ -25,7 +25,7 @@ public class CompareCodeSmellsFiles {
 	}
 
 	// Read the excel sheet contents
-	private void compareExcelSheets() {
+	public void compareExcelSheets() {
 		try {
 			FileInputStream default_file = new FileInputStream(new File(default_cs));
 			FileInputStream resulting_file = new FileInputStream(new File(resulting_cs));
@@ -55,7 +55,7 @@ public class CompareCodeSmellsFiles {
 		}
 	}
 
-	public void compareCodeSmells(XSSFSheet default_sheet, XSSFSheet resulting_sheet) {
+	private void compareCodeSmells(XSSFSheet default_sheet, XSSFSheet resulting_sheet) {
 		// Iterate through each rows one by one
 		Iterator<Row> default_rowIterator = default_sheet.iterator();
 		Iterator<Row> resulting_rowIterator = resulting_sheet.iterator();
@@ -116,7 +116,7 @@ public class CompareCodeSmellsFiles {
 
 	public static void main(String[] args) {
 		CompareCodeSmellsFiles ccs = new CompareCodeSmellsFiles(
-				"/Users/nunodias/Downloads/Spreadsheet Files/Code_Smells.xlsx",
+				"/Users/nunodias/Documents/Code_Smells.xlsx",
 				"/Users/nunodias/Documents/jasml_0.10/jasml_0.10_metrics.xlsx");
 		ccs.compareExcelSheets();
 	}
