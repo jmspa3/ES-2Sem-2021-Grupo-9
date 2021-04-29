@@ -25,7 +25,7 @@ public class CompareCodeSmellsFiles {
 	}
 
 	// Read the excel sheet contents
-	private void compareExcelSheets() {
+	public void compareExcelSheets() {
 		try {
 			FileInputStream default_file = new FileInputStream(new File(default_cs));
 			FileInputStream resulting_file = new FileInputStream(new File(resulting_cs));
