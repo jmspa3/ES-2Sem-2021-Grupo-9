@@ -179,8 +179,8 @@ public class GUI extends JFrame {
 				System.out.println("comparado2" +txtInsereAPath.getText());
 				System.out.print("/////////////////");
 				CompareCodeSmellsFiles ccs = new CompareCodeSmellsFiles(
-						excelPath,
-						txtInsereAPath.getText());
+						txtInsereAPath.getText(),
+						excelPath);
 				ccs.compareExcelSheets();
 
 			
