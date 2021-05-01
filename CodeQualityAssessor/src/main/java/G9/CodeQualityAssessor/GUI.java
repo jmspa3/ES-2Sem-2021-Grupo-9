@@ -129,6 +129,8 @@ public class GUI extends JFrame {
 				} else {
 					System.out.println("What did you do!?!");
 				}
+				
+				excelPath = file.getAbsolutePath();
 			}
 		});
 
