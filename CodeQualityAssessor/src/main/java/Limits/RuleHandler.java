@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -15,6 +16,8 @@ import java.util.Scanner;
 public class RuleHandler {
 
 	private static final String filePath = "ruleFile.txt";
+	private static ArrayList<String> ruleNameList = new ArrayList<String>() ;
+	private static int numberRules = 0;
 	
 	/**
 	 * Creates an empty file with the name specified in the variable filePath
@@ -60,23 +63,78 @@ public class RuleHandler {
 		}
 	}
 	
+
+	
 	/**
 	 * Reads the file specified in the variable filePath and returns a String with all the text
 	 * @return A string with all the text in the file
 	 */
 	public static String getRules() {
+		clearData();
 		String rules = "";
+		 int n = 0;
 		try {
 			File file = new File(filePath);
 			Scanner reader = new Scanner(file);
 			while(reader.hasNextLine()) {
 				rules += reader.nextLine()+"\n";
+				n = n+1;
 			}
 			reader.close();
 		}catch(FileNotFoundException e) {
 			System.out.println("An error occured.");
 			e.printStackTrace();
 		}
+
+		String[] r = rules.split("\n");
+		for(String rule: r) {
+			String[] arr = rule.split(";", 8);
+			addName(arr[0]);
+		}
+		setNumberRules(n);
 		return rules;
+	}	
+	
+	public static int getNumberRules() {
+
+			int n = 0;
+			try {
+				String rules = "";
+				File file = new File(filePath);
+				Scanner reader = new Scanner(file);
+				while(reader.hasNextLine()) {
+					rules += reader.nextLine()+"\n";
+					n = n+1;
+				}
+				reader.close();
+			}catch(FileNotFoundException e) {
+				System.out.println("An error occured.");
+				e.printStackTrace();
+			}
+
+			setNumberRules(n);
+			return n;	
+	}
+	
+	public static void clearData() {
+		numberRules = 0;
+		ruleNameList.clear();
+	}
+	
+	
+	public static void setNumberRules(int n) {
+		numberRules = n;
+	}
+	
+	public static void addName(String s) {
+		ruleNameList.add(s);
+	}
+	
+	public static int getRulesNumber() {
+		return numberRules;
+	}
+	
+	public static ArrayList<String> getRuleNames() {
+		return ruleNameList;
 	}
 }

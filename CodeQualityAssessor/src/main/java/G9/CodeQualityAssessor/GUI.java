@@ -10,6 +10,8 @@ import javax.swing.table.DefaultTableModel;
 
 import org.apache.poi.ss.usermodel.Cell;
 
+import Limits.RuleHandler;
+
 import javax.swing.JTextField;
 import java.awt.FlowLayout;
 import javax.swing.JButton;
@@ -147,7 +149,9 @@ public class GUI extends JFrame {
 			private void btnAbrirAction() {
 				// SET TABLE
 				ContentExcel excel = new ContentExcel();
-				DefaultTableModel model = new DefaultTableModel(excel.tableHeight, excel.tableWidth);
+				RuleHandler.getRules();
+				int numberRules = RuleHandler.getNumberRules();
+				DefaultTableModel model = new DefaultTableModel(excel.tableHeight, excel.tableWidth+numberRules+2);
 				table.setModel(model);
 				
 				File file = new File(textField.getText());
@@ -157,6 +161,7 @@ public class GUI extends JFrame {
 					excel.setData(excelPath);
 					Iterator<Cell> cellIterator = excel.data.iterator();
 					short colorCode;
+					int it = 0;
 					while(cellIterator.hasNext()) {
 						Cell cell = cellIterator.next();
 						model.setValueAt(cell.getStringCellValue(), cell.getRowIndex(), cell.getColumnIndex());
@@ -176,7 +181,9 @@ public class GUI extends JFrame {
 							default:
 								renderer.greenCells.add(cell);
 								break;
-						}													
+						}										
+						it++;
+						System.out.println(it);
 					}
 				} catch (IOException e) {
 					e.printStackTrace();

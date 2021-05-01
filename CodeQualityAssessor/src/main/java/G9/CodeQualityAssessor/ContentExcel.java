@@ -39,6 +39,9 @@ public class ContentExcel {
 	int tableWidth = 11;
 	int tableHeight = 256;
 	
+	int ruleNumber;
+	ArrayList<String> ruleNameList = new ArrayList<String>();
+	
 	/**
 	 * Reads the excel file and saves the cell information in a Vector
 	 * 
@@ -91,19 +94,35 @@ public class ContentExcel {
 			workbook.close();
 	}
 	
+	
+	/**
+	 * Returns the total number of packages that are safe in a hashset(this not repeat the name of the same package) 
+	 */
 
 	public int numberTotalPackages() {
 		return listPackages.size() - 1;
 	}
+	
+	/**
+	 * Returns the total number of methods
+	 */
 
 	public int numberTotalMethods() {
 		return numMethods;
 	}
+	
+	/**
+	 * Returns the total number of classes that are safe in a hashset.
+	 */
 
 	public int numberTotalClasses() {
 		return listClasses.size() - 1;
 	}
 
+	/**
+	 * Returns the total number of lines.
+	 */ 
+	
 	public int numberTotalLines() {
 		int count = 0;
 
@@ -113,7 +132,16 @@ public class ContentExcel {
 		return count;
 	}
 
+	/**
+	 * Creates the cell in the book of the excel and for the specified cell puts the value of the corresponding metric.s
+	 * 
+	 * @param m 
+	 * @param row
+	 * @param cs
+	 */ 
+	
 	private void writeBook(Metric m, Row row, CodeSmells cs) {
+		
 		// id
 		Cell cell = row.createCell(0);
 		cell.setCellValue(m.getId());
@@ -147,20 +175,40 @@ public class ContentExcel {
 		// is_long_method
 		cell = row.createCell(10);
 		cell.setCellValue(cs.detect("is_Long_Method", m));
+		
+		int it = 0;
+		for(String x: ruleNameList) {
+			if (it <= ruleNumber) {
+				cell = row.createCell(11 + it);
+				cell.setCellValue(cs.detect(x, m));
+				it++;
+			}
+		}
 	}
 
-	// method that writes in Excel
+	/**
+	 * Writes content in the excel.
+	 * 
+	 * @param excelFilePath
+	 */ 
+	
 	public void writeExcel(String excelFilePath) throws IOException {
 		Workbook workbook = new XSSFWorkbook();
 		Sheet sheet = workbook.createSheet();
-
+		
+		CodeSmells cs = new CodeSmells(RuleHandler.getRules());
+		ruleNameList = RuleHandler.getRuleNames();
+		ruleNumber = ruleNameList.size();
 		createHeaderRow(sheet);
-
+		//RuleHandler.addName(t.getName());
+		//it++;
+		//RuleHandler.setNumberRules(it);
 		List<Metric> listMetrica = getListBook(excelFilePath);
 
 		int rowCount = 0;
 
-		CodeSmells cs = new CodeSmells(RuleHandler.getRules());
+
+
 		for (Metric m : listMetrica) {
 			Row row = sheet.createRow(++rowCount);
 			writeBook(m, row, cs);
@@ -173,6 +221,12 @@ public class ContentExcel {
 		}
 		workbook.close();
 	}
+	
+	/**
+	 * Creates the specified Header in the cell and in the row 0  with a style. (i.e methodid, classes, package, etc)
+	 * 
+	 * @param sheet
+	 */ 
 
 	private void createHeaderRow(Sheet sheet) {
 
@@ -226,18 +280,34 @@ public class ContentExcel {
 		Cell is_Long_method = row.createCell(10);
 		is_Long_method.setCellStyle(cellStyle);
 		is_Long_method.setCellValue("is_Long_method");
+		
+		int it = 1;
+		for(String x: ruleNameList) {
+			if(it <= ruleNumber) {
+				Cell cell = row.createCell(10 + it);
+				cell.setCellStyle(cellStyle);
+				cell.setCellValue(x);
+				it++;
+			}
+		}
 
 	}
 
-	// dummy data
+	/**
+	 * 
+	 * Returns the list in the book of the excel, it means the list of metrics.
+	 * @param projectPath
+	 */ 
+	
 
 	public List<Metric> getListBook(String projectPath) throws FileNotFoundException {
 		MetricInfo m = new MetricInfo(projectPath);
 		List<Metric> list = m.getMetrics();
 		return list;
 	}
+	
 
-	public void insertData(String excelFilePath) {
+/*	public void insertData(String excelFilePath) {
 		try {
 			// Get the excel file.
 			FileInputStream file = new FileInputStream(new File(excelFilePath));
@@ -274,5 +344,5 @@ public class ContentExcel {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 }

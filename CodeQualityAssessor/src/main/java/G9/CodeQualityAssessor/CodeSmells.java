@@ -1,5 +1,6 @@
 package G9.CodeQualityAssessor;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -7,13 +8,20 @@ import metrics.Metric;
 
 
 /**
- * 
- * @author carlos, carolina
+ * Code Smells deals with the treatment of rules specified by the user.
+ * @author Carlos, Carolina
  *
  */
 
 public class CodeSmells {
+	
 	HashMap<String, List<String>> rules = new HashMap<String, List<String>>();
+	
+	/**
+	 * Split the rules file in the specified conditions and save in a HashMap that receives a String of the line and the condition. 
+	 * 
+	 * @param r a String representing the rules in the file 
+	 */
 	
 	public CodeSmells (String r) {
 		String [] lines = r.split("\\r?\\n");
@@ -24,6 +32,13 @@ public class CodeSmells {
 			rules.put(splitedLine[0], conditions);
 		}
 	}
+	
+	/**
+	 * Method that detects which is the metric, equality, value from the condition specified in the HashMap.
+	 * Returns a boolean from the condition specified, if true it means that the condition for the rule was well done and if false it means that it wasn't.
+	 * @param rulename a String representing the name of the rule (ie. is_Long_Method)
+	 * @param metric represents a Metric
+	 */
 
 	
 	public boolean detect(String ruleName, Metric metric) {
@@ -57,6 +72,14 @@ public class CodeSmells {
 		
 		return isSmelly;
 	}
+	
+	/**
+	 * Method that returns a boolean between the value of the metric and the specified value in the many cases of equality.
+	 * @param metricName a String representing the name of the rule (ie. is_Long_Method)
+	 * @param equality a String representing the equality(>,<,=)
+	 * @param value a String representing the value.
+	 * @param metric 
+	 */
 
 
 	private boolean funcao2(String metricName, String equality, String value, Metric metric) {
