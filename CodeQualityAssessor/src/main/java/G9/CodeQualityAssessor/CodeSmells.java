@@ -41,7 +41,7 @@ public class CodeSmells {
 	 */
 
 	
-	public boolean detect(String ruleName, Metric metric) {
+	public String detect(String ruleName, Metric metric) {
 		List<String> condition = rules.get(ruleName);
 		Boolean isSmelly = null;
 		String operator= null;
@@ -70,7 +70,7 @@ public class CodeSmells {
 			} 
 		}
 		
-		return isSmelly;
+		return String.valueOf(isSmelly);
 	}
 	
 	/**
