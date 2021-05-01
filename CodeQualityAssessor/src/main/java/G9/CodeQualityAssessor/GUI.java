@@ -130,7 +130,7 @@ public class GUI extends JFrame {
 					System.out.println("What did you do!?!");
 				}
 				
-				excelPath = file.getAbsolutePath();
+				excelPath = textField.getText() + File.separator +  file.getName() + "_metrics.xlsx";
 			}
 		});
 
