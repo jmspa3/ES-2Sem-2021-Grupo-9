@@ -165,7 +165,7 @@ public class ContentExcel {
 		cell.setCellValue(m.getWMC_class());
 		// is_god_class
 		cell = row.createCell(7);
-		cell.setCellValue(cs.detect("is_God_Class", m));
+		cell.setCellValue(Boolean.toString(cs.detect("is_God_Class", m)));
 		// loc_method
 		cell = row.createCell(8);
 		cell.setCellValue(m.getLOC_method());
@@ -174,7 +174,7 @@ public class ContentExcel {
 		cell.setCellValue(m.getCYCLO_method());
 		// is_long_method
 		cell = row.createCell(10);
-		cell.setCellValue(cs.detect("is_Long_Method", m));
+		cell.setCellValue(Boolean.toString(cs.detect("is_Long_Method", m)));
 		
 		int it = 0;
 		for(String x: ruleNameList) {
