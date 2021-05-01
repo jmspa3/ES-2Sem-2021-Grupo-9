@@ -32,7 +32,7 @@ public class GUI extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtInsereAPath;
 	private JTextField textField;
-	
+
 	private JTable table;
 	private String excelPath;
 	private JLabel lblValorPackages = new JLabel();
@@ -106,7 +106,7 @@ public class GUI extends JFrame {
 
 		JButton btnProcurar = new JButton("Procurar ");
 		panel_1_1.add(btnProcurar);
-		
+
 		btnProcurar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnProcurarAction();
@@ -129,7 +129,7 @@ public class GUI extends JFrame {
 				} else {
 					System.out.println("What did you do!?!");
 				}
-				
+
 				excelPath = file.getAbsolutePath();
 			}
 		});
@@ -156,7 +156,7 @@ public class GUI extends JFrame {
 					if (file.exists()) {
 						txtInsereAPath.setText(file.getAbsolutePath());
 						System.out.println("Comparado:" + txtInsereAPath.getText());
-						
+
 					}
 				} else if (values == JFileChooser.CANCEL_OPTION) {
 					System.out.println("No file is selected");
@@ -169,27 +169,22 @@ public class GUI extends JFrame {
 
 		JButton btnComparar = new JButton("Comparar");
 		panel_1.add(btnComparar);
-		
+
 		btnComparar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnCompararAction();
 			}
 
 			private void btnCompararAction() {
-				System.out.print("/////////////////");		
-				System.out.println("original2" + excelPath);
-				System.out.println("comparado2" +txtInsereAPath.getText());
 				System.out.print("/////////////////");
-				CompareCodeSmellsFiles ccs = new CompareCodeSmellsFiles(
-						txtInsereAPath.getText(),
-						excelPath);
+				System.out.println("original2" + excelPath);
+				System.out.println("comparado2" + txtInsereAPath.getText());
+				System.out.print("/////////////////");
+				CompareCodeSmellsFiles ccs = new CompareCodeSmellsFiles(txtInsereAPath.getText(), excelPath);
 				ccs.compareExcelSheets();
 
-			
 			}
 		});
-		
-		
 
 		btnAbrirXLSS.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -201,99 +196,72 @@ public class GUI extends JFrame {
 				ContentExcel excel = new ContentExcel();
 				DefaultTableModel model = new DefaultTableModel(excel.tableHeight, excel.tableWidth);
 				table.setModel(model);
-				
+
 				File file = new File(textField.getText());
-				excelPath = textField.getText() + File.separator +  file.getName() + "_metrics.xlsx";
-				
+				excelPath = textField.getText() + File.separator + file.getName() + "_metrics.xlsx";
+
 				try {
 					excel.setData(excelPath);
 					Iterator<Cell> cellIterator = excel.data.iterator();
 					short colorCode;
-					while(cellIterator.hasNext()) {
+					while (cellIterator.hasNext()) {
 						Cell cell = cellIterator.next();
 						model.setValueAt(cell.getStringCellValue(), cell.getRowIndex(), cell.getColumnIndex());
-						
+
 						colorCode = cell.getCellStyle().getFillForegroundColor();
-						
-						switch(colorCode) {
-							case 10:
-								renderer.redCells.add(cell);
-								break;
-							case 40:
-								renderer.blueCells.add(cell);
-								break;
-							case 64: 
-								renderer.whiteCells.add(cell);
-								break;
-							default:
-								renderer.greenCells.add(cell);
-								break;
-						}													
+
+						switch (colorCode) {
+						case 10:
+							renderer.redCells.add(cell);
+							break;
+						case 40:
+							renderer.blueCells.add(cell);
+							break;
+						case 64:
+							renderer.whiteCells.add(cell);
+							break;
+						default:
+							renderer.greenCells.add(cell);
+							break;
+						}
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				
+
 				table.getColumnModel().getColumn(7).setCellRenderer(renderer);
 				table.getColumnModel().getColumn(10).setCellRenderer(renderer);
-				
+
 				lblValorPackages.setText(Integer.toString(excel.numberTotalPackages()));
 				lblValorClasses.setText(Integer.toString(excel.numberTotalClasses()));
 				lblValorMetodos.setText(Integer.toString(excel.numberTotalMethods()));
 				lblValorLinhas.setText(Integer.toString(excel.numberTotalLines()));
-				
-				/*ArrayList<String[]> data = new ArrayList<String[]>();
 
-				try {
-					data = excel.readBooksFromExcelFile(textField.getText()+"\\jas_metrics.xlsx");
-					
-				} catch (IOException e) {
-					JOptionPane.showMessageDialog(null, "Metrics não existe!");
-				}
-
-				DefaultTableModel model = new DefaultTableModel();
-				
-				for (String s : data.get(0)) {
-					model.addColumn(s);
-				}
-				data.remove(0);
-				for (String[] r : data) {
-					model.addRow(r);
-				}
-				
-				table.setModel(model);
-							
-				// SET Labels
-				lblValorPackages.setText(Integer.toString(excel.numberTotalPackages()));
-				lblValorClasses.setText(Integer.toString(excel.numberTotalClasses()));
-				lblValorMetodos.setText(Integer.toString(excel.numberTotalMethods()));
-				lblValorLinhas.setText(Integer.toString(excel.numberTotalLines()));
-				// missing indicators
-				*/
+				/*
+				 * ArrayList<String[]> data = new ArrayList<String[]>();
+				 * 
+				 * try { data =
+				 * excel.readBooksFromExcelFile(textField.getText()+"\\jas_metrics.xlsx");
+				 * 
+				 * } catch (IOException e) { JOptionPane.showMessageDialog(null,
+				 * "Metrics não existe!"); }
+				 * 
+				 * DefaultTableModel model = new DefaultTableModel();
+				 * 
+				 * for (String s : data.get(0)) { model.addColumn(s); } data.remove(0); for
+				 * (String[] r : data) { model.addRow(r); }
+				 * 
+				 * table.setModel(model);
+				 * 
+				 * // SET Labels
+				 * lblValorPackages.setText(Integer.toString(excel.numberTotalPackages()));
+				 * lblValorClasses.setText(Integer.toString(excel.numberTotalClasses()));
+				 * lblValorMetodos.setText(Integer.toString(excel.numberTotalMethods()));
+				 * lblValorLinhas.setText(Integer.toString(excel.numberTotalLines())); //
+				 * missing indicators
+				 */
 			}
 		});
-		
-
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 
 		JPanel panel_1_2_1 = new JPanel();
 		panel.add(panel_1_2_1);
@@ -301,8 +269,7 @@ public class GUI extends JFrame {
 
 		JButton btnCriarXLSS = new JButton("Criar XLSS");
 		panel_1_2_1.add(btnCriarXLSS);
-		
-		
+
 		btnCriarXLSS.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnCriarAction();
@@ -318,7 +285,6 @@ public class GUI extends JFrame {
 				}
 			}
 		});
-
 
 		JScrollPane scrollPane = new JScrollPane();
 		contentPane.add(scrollPane, BorderLayout.CENTER);
