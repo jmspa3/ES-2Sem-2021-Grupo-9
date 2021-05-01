@@ -214,16 +214,20 @@ public class GUI extends JFrame {
 						case 10:
 							renderer.redCells.add(cell);
 							break;
+						case 17:
+							renderer.greenCells.add(cell);
+							break;
 						case 40:
 							renderer.blueCells.add(cell);
 							break;
-						case 64:
-							renderer.whiteCells.add(cell);
-							break;
-						default:
+						case 53:
 							renderer.orangeCells.add(cell);
 							break;
+						default:
+							renderer.whiteCells.add(cell);
+							break;
 						}
+						
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
