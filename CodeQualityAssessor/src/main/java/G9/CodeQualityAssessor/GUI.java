@@ -2,45 +2,39 @@ package G9.CodeQualityAssessor;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.util.Iterator;
 
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import org.apache.poi.ss.usermodel.Cell;
 
-import Limits.RuleHandler;
+import CSQualityControl.CompareCodeSmellsFiles;
 
-import javax.swing.JTextField;
-import java.awt.FlowLayout;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JTable;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import java.awt.GridLayout;
-import javax.swing.SwingConstants;
-import javax.swing.JScrollPane;
-import java.io.File;
-import java.io.IOException;
-import java.util.Iterator;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-/**
- * Graphical User Interface
- * <p>
- * The GUI is the entry point of the application the user interacts with
- * </p>
- * @author 
- */
 public class GUI extends JFrame {
 
 	private JPanel contentPane;
+	private JTextField txtInsereAPath;
 	private JTextField textField;
+	
 	private JTable table;
-
+	private String excelPath;
 	private JLabel lblValorPackages = new JLabel();
 	private JLabel lblValorClasses = new JLabel();
 	private JLabel lblValorMetodos = new JLabel();
@@ -50,7 +44,7 @@ public class GUI extends JFrame {
 	private JLabel lblValorFalhas = new JLabel();
 
 	ColorRenderer renderer = new ColorRenderer();
-	
+
 	/**
 	 * Launch the application.
 	 */
@@ -70,7 +64,7 @@ public class GUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	
+
 	public GUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1260, 720);
@@ -81,20 +75,38 @@ public class GUI extends JFrame {
 
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.NORTH);
-		panel.setLayout(new BorderLayout(0, 0));
 
 		textField = new JTextField();
-		panel.add(textField);
+
 		textField.setColumns(10);
+		// to save time / need to change later
+		textField.setText("E:\\Faculdade\\3ºAno\\ja");
+		panel.setLayout(new GridLayout(0, 3, 0, 0));
+		panel.add(textField);
+
+		txtInsereAPath = new JTextField();
+		txtInsereAPath.setHorizontalAlignment(SwingConstants.CENTER);
+
+		txtInsereAPath.setColumns(10);
+		panel.add(txtInsereAPath);
 
 		// to save time / need to change later
-		textField.setText("E:\\Faculdade\\3ºAno\\jas");
+		txtInsereAPath.setText("Insere a path da pasta do ficheiro a comparar");
 
-		JPanel panel_1 = new JPanel();
-		panel.add(panel_1, BorderLayout.EAST);
-		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		JPanel panel_1_2 = new JPanel();
+		panel.add(panel_1_2);
+		panel_1_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-		JButton btnProcurar = new JButton("Procurar");
+		JButton btnAbrirXLSS = new JButton("Abrir XLSS");
+		panel_1_2.add(btnAbrirXLSS);
+
+		JPanel panel_1_1 = new JPanel();
+		panel.add(panel_1_1);
+		panel_1_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+
+		JButton btnProcurar = new JButton("Procurar ");
+		panel_1_1.add(btnProcurar);
+		
 		btnProcurar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnProcurarAction();
@@ -110,7 +122,7 @@ public class GUI extends JFrame {
 				if (values == JFileChooser.APPROVE_OPTION) {
 					if (file.exists()) {
 						textField.setText(file.getAbsolutePath());
-						System.out.println(file.getAbsolutePath());
+						System.out.println("Original:" + file.getAbsolutePath());
 					}
 				} else if (values == JFileChooser.CANCEL_OPTION) {
 					System.out.println("No file is selected");
@@ -119,28 +131,64 @@ public class GUI extends JFrame {
 				}
 			}
 		});
-		panel_1.add(btnProcurar);
 
-		JButton btnCriarXLSS = new JButton("Criar XLSS");
-		btnCriarXLSS.addActionListener(new ActionListener() {
+		JPanel panel_1 = new JPanel();
+
+		panel.add(panel_1);
+		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+
+		JButton btnProcurarComparar = new JButton("Procurar");
+		btnProcurarComparar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				btnCriarAction();
+				btnProcurarAction();
 			}
 
-			private void btnCriarAction() {
-				// write metrics to file
-				try {
-					new ContentExcel().writeExcel(textField.getText());
-					JOptionPane.showMessageDialog(null, "Success!");
-				} catch (IOException e) {
-					JOptionPane.showMessageDialog(null, "Failure!");
+			private void btnProcurarAction() {
+				JFileChooser fc = new JFileChooser();
+				fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+
+				int values = fc.showOpenDialog(btnProcurar);
+				File file = fc.getSelectedFile();
+
+				if (values == JFileChooser.APPROVE_OPTION) {
+					if (file.exists()) {
+						txtInsereAPath.setText(file.getAbsolutePath());
+						System.out.println("Comparado:" + txtInsereAPath.getText());
+						
+					}
+				} else if (values == JFileChooser.CANCEL_OPTION) {
+					System.out.println("No file is selected");
+				} else {
+					System.out.println("What did you do!?!");
 				}
 			}
 		});
+		panel_1.add(btnProcurarComparar);
 
-		panel_1.add(btnCriarXLSS);
+		JButton btnComparar = new JButton("Comparar");
+		panel_1.add(btnComparar);
+		
+		btnComparar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnCompararAction();
+			}
 
-		JButton btnAbrirXLSS = new JButton("Abrir XLS");
+			private void btnCompararAction() {
+				System.out.print("/////////////////");		
+				System.out.println("original2" + excelPath);
+				System.out.println("comparado2" +txtInsereAPath.getText());
+				System.out.print("/////////////////");
+				CompareCodeSmellsFiles ccs = new CompareCodeSmellsFiles(
+						excelPath,
+						txtInsereAPath.getText());
+				ccs.compareExcelSheets();
+
+			
+			}
+		});
+		
+		
+
 		btnAbrirXLSS.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnAbrirAction();
@@ -149,19 +197,16 @@ public class GUI extends JFrame {
 			private void btnAbrirAction() {
 				// SET TABLE
 				ContentExcel excel = new ContentExcel();
-				RuleHandler.getRules();
-				int numberRules = RuleHandler.getNumberRules();
-				DefaultTableModel model = new DefaultTableModel(excel.tableHeight, excel.tableWidth+numberRules+2);
+				DefaultTableModel model = new DefaultTableModel(excel.tableHeight, excel.tableWidth);
 				table.setModel(model);
 				
 				File file = new File(textField.getText());
-				String excelPath = textField.getText() + File.separator + file.getName() + "_metrics.xlsx";
+				excelPath = textField.getText() + File.separator +  file.getName() + "_metrics.xlsx";
 				
 				try {
 					excel.setData(excelPath);
 					Iterator<Cell> cellIterator = excel.data.iterator();
 					short colorCode;
-					int it = 0;
 					while(cellIterator.hasNext()) {
 						Cell cell = cellIterator.next();
 						model.setValueAt(cell.getStringCellValue(), cell.getRowIndex(), cell.getColumnIndex());
@@ -181,9 +226,7 @@ public class GUI extends JFrame {
 							default:
 								renderer.greenCells.add(cell);
 								break;
-						}										
-						it++;
-						System.out.println(it);
+						}													
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -197,10 +240,83 @@ public class GUI extends JFrame {
 				lblValorMetodos.setText(Integer.toString(excel.numberTotalMethods()));
 				lblValorLinhas.setText(Integer.toString(excel.numberTotalLines()));
 				
+				/*ArrayList<String[]> data = new ArrayList<String[]>();
+
+				try {
+					data = excel.readBooksFromExcelFile(textField.getText()+"\\jas_metrics.xlsx");
+					
+				} catch (IOException e) {
+					JOptionPane.showMessageDialog(null, "Metrics não existe!");
+				}
+
+				DefaultTableModel model = new DefaultTableModel();
+				
+				for (String s : data.get(0)) {
+					model.addColumn(s);
+				}
+				data.remove(0);
+				for (String[] r : data) {
+					model.addRow(r);
+				}
+				
+				table.setModel(model);
+							
+				// SET Labels
+				lblValorPackages.setText(Integer.toString(excel.numberTotalPackages()));
+				lblValorClasses.setText(Integer.toString(excel.numberTotalClasses()));
+				lblValorMetodos.setText(Integer.toString(excel.numberTotalMethods()));
+				lblValorLinhas.setText(Integer.toString(excel.numberTotalLines()));
+				// missing indicators
+				*/
+			}
+		});
+		
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+		JPanel panel_1_2_1 = new JPanel();
+		panel.add(panel_1_2_1);
+		panel_1_2_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+
+		JButton btnCriarXLSS = new JButton("Criar XLSS");
+		panel_1_2_1.add(btnCriarXLSS);
+		
+		
+		btnCriarXLSS.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnCriarAction();
+			}
+
+			private void btnCriarAction() {
+				// write metrics to file
+				try {
+					new ContentExcel().writeExcel(textField.getText());
+					JOptionPane.showMessageDialog(null, "Success!");
+				} catch (IOException e) {
+					JOptionPane.showMessageDialog(null, "Failure!");
+				}
 			}
 		});
 
-		panel_1.add(btnAbrirXLSS);
 
 		JScrollPane scrollPane = new JScrollPane();
 		contentPane.add(scrollPane, BorderLayout.CENTER);
@@ -208,7 +324,7 @@ public class GUI extends JFrame {
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		
+
 		JPanel panel_6 = new JPanel();
 		contentPane.add(panel_6, BorderLayout.EAST);
 		panel_6.setLayout(new BorderLayout(0, 0));
@@ -270,5 +386,5 @@ public class GUI extends JFrame {
 		panel_5.add(lblNumeroFalhas);
 
 		panel_5.add(lblValorFalhas);
-	}	
+	}
 }
