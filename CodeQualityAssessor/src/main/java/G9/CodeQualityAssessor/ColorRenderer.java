@@ -26,7 +26,7 @@ public class ColorRenderer extends DefaultTableCellRenderer implements TableCell
 	private static final long serialVersionUID = -203974302716089912L;
 	public Vector<org.apache.poi.ss.usermodel.Cell> redCells = new Vector<org.apache.poi.ss.usermodel.Cell>();
 	public Vector<org.apache.poi.ss.usermodel.Cell> blueCells = new Vector<org.apache.poi.ss.usermodel.Cell>();
-	public Vector<org.apache.poi.ss.usermodel.Cell> greenCells = new Vector<org.apache.poi.ss.usermodel.Cell>();
+	public Vector<org.apache.poi.ss.usermodel.Cell> orangeCells = new Vector<org.apache.poi.ss.usermodel.Cell>();
 	public Vector<org.apache.poi.ss.usermodel.Cell> whiteCells = new Vector<org.apache.poi.ss.usermodel.Cell>();
 	
 	public ColorRenderer() {
@@ -53,8 +53,8 @@ public class ColorRenderer extends DefaultTableCellRenderer implements TableCell
 				for(org.apache.poi.ss.usermodel.Cell c : blueCells) {
 					if(c.getColumnIndex()==column && c.getRowIndex()==row) setBackground(Color.cyan);
 				}
-				for(org.apache.poi.ss.usermodel.Cell c : greenCells) {
-					if(c.getColumnIndex()==column && c.getRowIndex()==row) setBackground(Color.green);
+				for(org.apache.poi.ss.usermodel.Cell c : orangeCells) {
+					if(c.getColumnIndex()==column && c.getRowIndex()==row) setBackground(Color.orange);
 				}
 				for(org.apache.poi.ss.usermodel.Cell c : whiteCells) {
 					if(c.getColumnIndex()==column && c.getRowIndex()==row) setBackground(Color.white);

@@ -181,8 +181,8 @@ public class GUI extends JFrame {
 				System.out.println("comparado2" +txtInsereAPath.getText());
 				System.out.print("/////////////////");
 				CompareCodeSmellsFiles ccs = new CompareCodeSmellsFiles(
-						excelPath,
-						txtInsereAPath.getText());
+						txtInsereAPath.getText(),
+						excelPath);
 				ccs.compareExcelSheets();
 
 			
@@ -226,7 +226,7 @@ public class GUI extends JFrame {
 								renderer.whiteCells.add(cell);
 								break;
 							default:
-								renderer.greenCells.add(cell);
+								renderer.orangeCells.add(cell);
 								break;
 						}													
 					}
