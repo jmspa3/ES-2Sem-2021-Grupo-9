@@ -34,8 +34,7 @@ public class Test_Threshold
     }  
     @Before  
     public void setUp() throws Exception {  
-        System.out.println("Setup");
-        
+        System.out.println("Setup");        
         t = new Threshold("RegraTeste");
     	t.editArgs("arg1", "arg2");
     	t.editConditionalOp("||");
@@ -43,44 +42,46 @@ public class Test_Threshold
     	t.editOperators("<", ">");
     }  
     
+    @Test
+    public void testGetName() {
+    	assertEquals("RegraTeste", t.getName());
+    }
+    
+    
+    @Test
+    public void testGetArgument() {
+    	assertEquals("arg1", t.getArgument(0));
+    	assertEquals("arg2", t.getArgument(3));
+    	assertEquals("||", t.getArgument(2));  	
+    	t.editConditionalOp("&&");
+    	assertEquals("&&", t.getArgument(2));
+    	assertEquals("<", t.getArgument(1));
+    	assertEquals(">", t.getArgument(4));
+    }
+    
+    @Test
+    public void testGetNumber() {
+    	assertEquals(123, t.getNumber(0));
+    	assertEquals(321, t.getNumber(1));
+    }
+    
+    @Test
+    public void testToString() {
+    	assertEquals("RegraTeste", t.toString());
+    	assertEquals("RegraTeste222", new Threshold("RegraTeste222").toString());
+    }
+    
     //Will test every method of threshold
     @Test
     public void testThresholdGeneral() {
-    	
-
-    	
-    	   	
-    	assertEquals("RegraTeste", t.getName());
-    	assertEquals("arg1", t.getArgument(0));
-    	assertEquals("arg2", t.getArgument(3));
-    	assertEquals("||", t.getArgument(2));
-    	
-    	t.editConditionalOp("&&");
-    	assertEquals("&&", t.getArgument(2));
-
-    	
-    	assertEquals(123, t.getNumber(0));
-    	assertEquals(321, t.getNumber(1));
-    	assertEquals("<", t.getArgument(1));
-    	assertEquals(">", t.getArgument(4));
-    	assertEquals("RegraTeste", t.toString());
-    	
     	String[] test = new String[5];
-    	test[1] = "<"; test[4] = ">";
-    	
+    	test[1] = "<"; test[4] = ">";   	
     	for(int i = 0; i < 4; i++) {
     		if(i == 1 || i == 4) {
     			if(test[i] == t.getArgument(1))
-    				assertTrue(true);
-    			
-    		
-    		}
-    		
-    	}
-    	
-    	assertEquals("RegraTeste222", new Threshold("RegraTeste222").toString());
-
-
+    				assertTrue(true); 		
+    		}  		
+    	}    	
     }
     
     @Test
@@ -93,10 +94,20 @@ public class Test_Threshold
     
     @Test(expected = IllegalArgumentException.class)
     public void testEditOperatorFAIL() {
-		t.editOperator("ddd", -1);
-		t.editOperator("d", 2);
-		t.editOperator("<d", 3);
-		t.editOperator("<dd", 7);
+    	Threshold tmp = new Threshold("tmp");
+    	tmp.editOperator("ddd", -1);
+    	tmp.editOperator("d", 2);
+    	tmp.editOperator("<d", 3);
+    	tmp.editOperator("<dd", 7);
+    }
+    
+    @Test
+    public void testEditOperator() {
+    	Threshold tmp = new Threshold("tmp");
+    	tmp.editOperator("<", 1);
+    	tmp.editOperator(">", 4);
+    	assertEquals("<", t.getArgument(1));
+    	assertEquals(">", t.getArgument(4));
     }
     
     @Test
