@@ -51,7 +51,7 @@ public class Threshold {
 	
 	//1 for first condition, 4 for the second condition
 	public void editOperator(String op, int index) {
-		if(index != 1 || index != 4) throw new IllegalArgumentException();
+		if(index != 1 && index != 4) throw new IllegalArgumentException();
 		argument_operator[index] = op;
 	}
 	
@@ -67,7 +67,7 @@ public class Threshold {
 		Scanner scanner =new Scanner(condicao);
 		for(int i = 0; i <= argument_operator.length && scanner.hasNext(); i++) {
 			argument_operator[i] = scanner.next();
-			System.out.println(argument_operator[i]);
+			//System.out.println(argument_operator[i]);
 		}
 		scanner.close();
 	}
@@ -81,7 +81,7 @@ public class Threshold {
 	
 	//Edit number of condition based on index
 	public void editNumber(int n, int index) {
-		if (index > 2 || index < 0) throw new IllegalArgumentException("O índice está mal, por favor corrija-o (apenas pode ser 0 ou 1)");
+		if (index >= 2 || index < 0) throw new IllegalArgumentException("O índice está mal, por favor corrija-o (apenas pode ser 0 ou 1)");
 		editable_numbers[index] = n;
 	}
 	
