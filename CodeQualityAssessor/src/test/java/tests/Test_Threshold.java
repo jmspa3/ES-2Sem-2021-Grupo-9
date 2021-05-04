@@ -118,19 +118,27 @@ public class Test_Threshold
     }
     
 
-    
+ 
     @Test
     public void testEditNumber() {
-    	for(int i = 0; i < 2; i++) {
-    		t.editNumber(60+i, i);
-    		assertEquals(60+i, t.getNumber(i));
-    	}
+    	t.editNumber(1515555, 0);
+    	assertEquals(1515555, t.getNumber(0));
+    	t.editNumber(312, 1);
+    	assertEquals(312, t.getNumber(1));
+
     }
     
     @Test(expected = IllegalArgumentException.class)
     public void testEditNumberFAIL() {
     		t.editNumber(63, 4);
     		t.editNumber(42, -1);
+    		t.editNumber(63, 2);
+    		t.editNumber(42, 3);
+    		t.editNumber(63, -2);
+    		t.editNumber(42, -3);
+    		t.editNumber(63, 5);
+    		t.editNumber(42, -4);
+        	assertEquals(42, t.getNumber(-4));
     }
     
     @After  
