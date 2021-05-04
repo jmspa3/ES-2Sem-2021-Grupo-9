@@ -114,11 +114,11 @@ public class CompareCodeSmellsFiles {
 
 	}
 
-	public static void main(String[] args) {
-		CompareCodeSmellsFiles ccs = new CompareCodeSmellsFiles(
-				"/Users/nunodias/Documents/Code_Smells.xlsx",
-				"/Users/nunodias/Documents/jasml_0.10/jasml_0.10_metrics.xlsx");
-		ccs.compareExcelSheets();
-	}
+//	public static void main(String[] args) {
+//		CompareCodeSmellsFiles ccs = new CompareCodeSmellsFiles(
+//				"/Users/nunodias/Documents/Code_Smells.xlsx",
+//				"/Users/nunodias/Documents/jasml_0.10/jasml_0.10_metrics.xlsx");
+//		ccs.compareExcelSheets();
+//	}
 
 }

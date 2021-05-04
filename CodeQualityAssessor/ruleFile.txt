@@ -1,2 +1,0 @@
-is_Long_Method;LOC_method;>;50;&&;CYCLO_method;<;10
-is_God_Class;WMC_class;<;50;&&;NOM_class;>;12
