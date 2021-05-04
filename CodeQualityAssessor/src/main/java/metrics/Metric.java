@@ -1,7 +1,5 @@
 package metrics;
 
-import com.github.javaparser.ast.CompilationUnit;
-
 /**
  * <h1>Metric</h1> This is the aux class to set and get the metrics.
  *
