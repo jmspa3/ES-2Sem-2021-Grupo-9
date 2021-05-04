@@ -29,16 +29,16 @@ public class Test_RuleHandler {
 	        
 	        if(!new File("ruleFile.txt").exists()) {
 	        	RuleHandler.createFile();
-	        	RuleHandler.write("LOC_method > 10 || CYCLO_method > 50");
-	        	RuleHandler.write("WMC_class > 10 || NOM_class > 50");
+	        	RuleHandler.write("is_Long_Method;LOC_method;>;50;||;CYCLO_method;<;10");
+	        	RuleHandler.write("is_God_Class;WMC_class;==;50;||;NOM_class;>;12");
 
 	        }
-	        RuleHandler.createFile();
+//	        RuleHandler.createFile();
 	    }  
 	    
 	    @Test
 	    public void testGetRules() {
-	    	assertTrue("LOC_method > 10 || CYCLO_method > 50\nWMC_class > 10 || NOM_class > 50\n".equals(RuleHandler.getRules()));
+	    	assertTrue("is_Long_Method;LOC_method;>;50;||;CYCLO_method;<;10\nis_God_Class;WMC_class;==;50;||;NOM_class;>;12\n".equals(RuleHandler.getRules()));
 	    }
 	    
 	    //Will test methods of RuleHandler if applicable
@@ -82,11 +82,11 @@ public class Test_RuleHandler {
 	    	assertEquals("ruleFile.txt", new File("ruleFile.txt").exists() ? "ruleFile.txt" : "does not exist");
 	    }
 	    
-	    @Test
-	    public void testDeleteFile() {
-	    	RuleHandler.deleteFile();
-	    	assertEquals("ruleFile.txt", new File("ruleFile.txt").exists() ? "does not exist" : "ruleFile.txt");
-	    }
+//	    @Test
+//	    public void testDeleteFile() {
+//	    	RuleHandler.deleteFile();
+//	    	assertEquals("ruleFile.txt", new File("ruleFile.txt").exists() ? "does not exist" : "ruleFile.txt");
+//	    }
 	    
 	    @After  
 	    public void tearDown() throws Exception {  

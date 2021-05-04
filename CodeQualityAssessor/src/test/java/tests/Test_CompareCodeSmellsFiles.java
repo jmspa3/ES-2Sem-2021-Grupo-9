@@ -14,7 +14,7 @@ public class Test_CompareCodeSmellsFiles {
 	@Before
 	public void setUp() throws Exception {
 		ccs = new CompareCodeSmellsFiles(
-				"jasml_0.10_metrics.xlsx",
+				"Code_Smells.xlsx",
 				"jasml_0.10_metrics.xlsx");
 		
 		System.out.println("Setup");

@@ -54,7 +54,7 @@ public class Test_ContentExcel {
 	public void testWriteExcel() {
 		content = new ContentExcel();
 		try {
-			content.writeExcel("jasml_0.10.zip_expanded_metrics.xlsx");
+			new ContentExcel().writeExcel("/Users/nunodias/Documents/GitHub/ES-2Sem-2021-Grupo-9/CodeQualityAssessor");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
