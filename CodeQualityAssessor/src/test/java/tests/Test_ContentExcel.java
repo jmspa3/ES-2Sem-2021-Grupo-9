@@ -53,8 +53,10 @@ public class Test_ContentExcel {
 	@Test
 	public void testWriteExcel() {
 		content = new ContentExcel();
+        String currentpath = System.getProperty("user.dir");
+
 		try {
-			new ContentExcel().writeExcel("/Users/nunodias/Documents/GitHub/ES-2Sem-2021-Grupo-9/CodeQualityAssessor");
+			new ContentExcel().writeExcel(currentpath);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
