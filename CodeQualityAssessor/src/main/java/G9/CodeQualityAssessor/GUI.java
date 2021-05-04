@@ -43,7 +43,6 @@ public class GUI extends JFrame {
 	private JLabel lblValorAcertos = new JLabel();
 	private JLabel lblValorFalhas = new JLabel();
 
-	ColorRenderer renderer = new ColorRenderer();
 
 	/**
 	 * Launch the application.
@@ -192,6 +191,9 @@ public class GUI extends JFrame {
 			}
 
 			private void btnAbrirAction() {
+				
+				ColorRenderer renderer = new ColorRenderer();
+				
 				// SET TABLE
 				ContentExcel excel = new ContentExcel();
 				DefaultTableModel model = new DefaultTableModel(excel.tableHeight, excel.tableWidth);
@@ -241,29 +243,6 @@ public class GUI extends JFrame {
 				lblValorMetodos.setText(Integer.toString(excel.numberTotalMethods()));
 				lblValorLinhas.setText(Integer.toString(excel.numberTotalLines()));
 
-				/*
-				 * ArrayList<String[]> data = new ArrayList<String[]>();
-				 * 
-				 * try { data =
-				 * excel.readBooksFromExcelFile(textField.getText()+"\\jas_metrics.xlsx");
-				 * 
-				 * } catch (IOException e) { JOptionPane.showMessageDialog(null,
-				 * "Metrics não existe!"); }
-				 * 
-				 * DefaultTableModel model = new DefaultTableModel();
-				 * 
-				 * for (String s : data.get(0)) { model.addColumn(s); } data.remove(0); for
-				 * (String[] r : data) { model.addRow(r); }
-				 * 
-				 * table.setModel(model);
-				 * 
-				 * // SET Labels
-				 * lblValorPackages.setText(Integer.toString(excel.numberTotalPackages()));
-				 * lblValorClasses.setText(Integer.toString(excel.numberTotalClasses()));
-				 * lblValorMetodos.setText(Integer.toString(excel.numberTotalMethods()));
-				 * lblValorLinhas.setText(Integer.toString(excel.numberTotalLines())); //
-				 * missing indicators
-				 */
 			}
 		});
 
