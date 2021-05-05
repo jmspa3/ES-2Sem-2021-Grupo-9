@@ -26,6 +26,7 @@ import javax.swing.table.DefaultTableModel;
 import org.apache.poi.ss.usermodel.Cell;
 
 import CSQualityControl.CompareCodeSmellsFiles;
+import CSQualityControl.QualityControlUtils;
 
 public class GUI extends JFrame {
 
@@ -201,7 +202,10 @@ public class GUI extends JFrame {
 
 				File file = new File(textField.getText());
 				excelPath = textField.getText() + File.separator + file.getName() + "_metrics.xlsx";
-
+				
+				int god_col = 0;
+				int long_col = 0;
+				
 				try {
 					excel.setData(excelPath);
 					Iterator<Cell> cellIterator = excel.data.iterator();
@@ -209,7 +213,12 @@ public class GUI extends JFrame {
 					while (cellIterator.hasNext()) {
 						Cell cell = cellIterator.next();
 						model.setValueAt(cell.getStringCellValue(), cell.getRowIndex(), cell.getColumnIndex());
-
+						if(cell.getStringCellValue().toLowerCase().equals("is_god_class"))
+							god_col = cell.getColumnIndex();
+						else
+							if(cell.getStringCellValue().toLowerCase().equals("is_long_method"))
+								long_col = cell.getColumnIndex();
+						
 						colorCode = cell.getCellStyle().getFillForegroundColor();
 
 						switch (colorCode) {
@@ -234,10 +243,11 @@ public class GUI extends JFrame {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-
-				table.getColumnModel().getColumn(7).setCellRenderer(renderer);
-				table.getColumnModel().getColumn(10).setCellRenderer(renderer);
-
+				
+				renderer.setColumns(god_col, long_col);
+				table.getColumnModel().getColumn(god_col).setCellRenderer(renderer);
+				table.getColumnModel().getColumn(long_col).setCellRenderer(renderer);
+				
 				lblValorPackages.setText(Integer.toString(excel.numberTotalPackages()));
 				lblValorClasses.setText(Integer.toString(excel.numberTotalClasses()));
 				lblValorMetodos.setText(Integer.toString(excel.numberTotalMethods()));

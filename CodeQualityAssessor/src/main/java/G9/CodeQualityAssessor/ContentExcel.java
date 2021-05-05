@@ -36,8 +36,8 @@ public class ContentExcel {
 	ArrayList<String[]> r = new ArrayList<String[]>(); // colocar linhas
 
 	Vector<Cell> data = new Vector<Cell>();
-	int tableWidth = 11;
-	int tableHeight = 256;
+	int tableWidth = 30;
+	int tableHeight = 300;
 	
 	int ruleNumber;
 	ArrayList<String> ruleNameList = new ArrayList<String>();
@@ -164,26 +164,26 @@ public class ContentExcel {
 		cell = row.createCell(6);
 		cell.setCellValue(m.getWMC_class());
 		// is_god_class
-		cell = row.createCell(7);
-		cell.setCellValue(cs.detect("is_God_Class", m));
+		//cell = row.createCell(7);
+		//cell.setCellValue(cs.detect("is_God_Class", m));
 		// loc_method
-		cell = row.createCell(8);
+		cell = row.createCell(7);
 		cell.setCellValue(m.getLOC_method());
 		// cyclo_method
-		cell = row.createCell(9);
+		cell = row.createCell(8);
 		cell.setCellValue(m.getCYCLO_method());
 		// is_long_method
-		cell = row.createCell(10);
-		cell.setCellValue(cs.detect("is_Long_Method", m));
+		//cell = row.createCell(10);
+		//cell.setCellValue(cs.detect("is_Long_Method", m));
 		
-//		int it = 0;
-//		for(String x: ruleNameList) {
-//			if (it <= ruleNumber) {
-//				cell = row.createCell(11 + it);
-//				cell.setCellValue(cs.detect(x, m));
-//				it++;
-//			}
-//		}
+		int it = 1;
+		for(String x: ruleNameList) {
+		if (it <= ruleNumber) {
+				cell = row.createCell(8 + it);
+				cell.setCellValue(cs.detect(x, m));
+				it++;
+			}
+		}
 	}
 
 	/**
@@ -265,31 +265,31 @@ public class ContentExcel {
 		cellWMC_class.setCellStyle(cellStyle);
 		cellWMC_class.setCellValue("WMC_class");
 
-		Cell is_God_class = row.createCell(7);
+/*		Cell is_God_class = row.createCell(7);
 		is_God_class.setCellStyle(cellStyle);
-		is_God_class.setCellValue("is_God_class");
+		is_God_class.setCellValue("is_God_class");*/
 
-		Cell cellLOC_method = row.createCell(8);
+		Cell cellLOC_method = row.createCell(7);
 		cellLOC_method.setCellStyle(cellStyle);
 		cellLOC_method.setCellValue("LOC_method");
 
-		Cell cellCyclo_method = row.createCell(9);
+		Cell cellCyclo_method = row.createCell(8);
 		cellCyclo_method.setCellStyle(cellStyle);
 		cellCyclo_method.setCellValue("CYCLO_method");
 
-		Cell is_Long_method = row.createCell(10);
+/*		Cell is_Long_method = row.createCell(10);
 		is_Long_method.setCellStyle(cellStyle);
-		is_Long_method.setCellValue("is_Long_method");
+		is_Long_method.setCellValue("is_Long_method");*/
 		
-//		int it = 1;
-//		for(String x: ruleNameList) {
-//			if(it <= ruleNumber) {
-//				Cell cell = row.createCell(10 + it);
-//				cell.setCellStyle(cellStyle);
-//				cell.setCellValue(x);
-//				it++;
-//			}
-//		}
+		int it = 1;
+		for(String x: ruleNameList) {
+			if(it <= ruleNumber) {
+				Cell cell = row.createCell(8 + it);
+				cell.setCellStyle(cellStyle);
+				cell.setCellValue(x);
+			it++;
+			}
+		}
 
 	}
 
