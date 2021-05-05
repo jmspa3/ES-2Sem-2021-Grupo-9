@@ -36,8 +36,8 @@ public class ContentExcel {
 	ArrayList<String[]> r = new ArrayList<String[]>(); // colocar linhas
 
 	Vector<Cell> data = new Vector<Cell>();
-	int tableWidth = 30;
-	int tableHeight = 300;
+	int tableWidth = 0;
+	int tableHeight = 0;
 	
 	int ruleNumber;
 	ArrayList<String> ruleNameList = new ArrayList<String>();
@@ -55,10 +55,7 @@ public class ContentExcel {
 	
 			Workbook workbook = new XSSFWorkbook(inputStream);
 			Sheet sheet = workbook.getSheetAt(0);
-			
 			numMethods = sheet.getLastRowNum();
-			tableWidth = 11 + 4;
-			tableHeight = numMethods+1;
 			
 			Iterator<Row> rowIterator = sheet.iterator();
 			while(rowIterator.hasNext()) {
@@ -204,7 +201,8 @@ public class ContentExcel {
 		//it++;
 		//RuleHandler.setNumberRules(it);
 		List<Metric> listMetrica = getListBook(excelFilePath);
-
+		System.out.println(ruleNumber);
+		tableWidth += ruleNumber;
 		int rowCount = 0;
 
 
@@ -345,4 +343,20 @@ public class ContentExcel {
 			e.printStackTrace();
 		}
 	}*/
+	
+	
+	public void setExcelWidthAndHeight(String excelFilePath) throws IOException {
+		FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
+		Workbook workbook = new XSSFWorkbook(inputStream);
+		Sheet sheet = workbook.getSheetAt(0);
+		
+		tableHeight = 1 + sheet.getLastRowNum();
+		
+		RuleHandler.getRules();
+		ruleNumber = RuleHandler.getRulesNumber();
+		
+		tableWidth = 9 + ruleNumber;
+		
+		workbook.close();
+	}
 }

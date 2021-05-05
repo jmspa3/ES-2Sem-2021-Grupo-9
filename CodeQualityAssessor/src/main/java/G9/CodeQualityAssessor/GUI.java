@@ -80,7 +80,7 @@ public class GUI extends JFrame {
 
 		textField.setColumns(10);
 		// to save time / need to change later
-		textField.setText("E:\\Faculdade\\3ºAno\\ja");
+		textField.setText("E:\\Faculdade\\3ºAno\\jas");
 		panel.setLayout(new GridLayout(0, 3, 0, 0));
 		panel.add(textField);
 
@@ -193,12 +193,7 @@ public class GUI extends JFrame {
 
 			private void btnAbrirAction() {
 				
-				ColorRenderer renderer = new ColorRenderer();
-				
-				// SET TABLE
-				ContentExcel excel = new ContentExcel();
-				DefaultTableModel model = new DefaultTableModel(excel.tableHeight, excel.tableWidth);
-				table.setModel(model);
+				ColorRenderer renderer = new ColorRenderer();				
 
 				File file = new File(textField.getText());
 				excelPath = textField.getText() + File.separator + file.getName() + "_metrics.xlsx";
@@ -207,6 +202,11 @@ public class GUI extends JFrame {
 				int long_col = 0;
 				
 				try {
+					ContentExcel excel = new ContentExcel();
+					excel.setExcelWidthAndHeight(excelPath);
+					DefaultTableModel model = new DefaultTableModel(excel.tableHeight, excel.tableWidth);
+					table.setModel(model);
+					
 					excel.setData(excelPath);
 					Iterator<Cell> cellIterator = excel.data.iterator();
 					short colorCode;
@@ -240,18 +240,17 @@ public class GUI extends JFrame {
 						}
 						
 					}
+					renderer.setColumns(god_col, long_col);
+					table.getColumnModel().getColumn(god_col).setCellRenderer(renderer);
+					table.getColumnModel().getColumn(long_col).setCellRenderer(renderer);
+					
+					lblValorPackages.setText(Integer.toString(excel.numberTotalPackages()));
+					lblValorClasses.setText(Integer.toString(excel.numberTotalClasses()));
+					lblValorMetodos.setText(Integer.toString(excel.numberTotalMethods()));
+					lblValorLinhas.setText(Integer.toString(excel.numberTotalLines()));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				
-				renderer.setColumns(god_col, long_col);
-				table.getColumnModel().getColumn(god_col).setCellRenderer(renderer);
-				table.getColumnModel().getColumn(long_col).setCellRenderer(renderer);
-				
-				lblValorPackages.setText(Integer.toString(excel.numberTotalPackages()));
-				lblValorClasses.setText(Integer.toString(excel.numberTotalClasses()));
-				lblValorMetodos.setText(Integer.toString(excel.numberTotalMethods()));
-				lblValorLinhas.setText(Integer.toString(excel.numberTotalLines()));
 
 			}
 		});
