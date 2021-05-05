@@ -220,20 +220,6 @@ public class Test_MetricInfo {
 
 	}
 	
-	@Test
-	public void testRunTroughJavaFilesPrint() {
-		createJavaFileDir();
-		mi = new MetricInfo(currentpath);
-		try {
-			mi.runTroughJavaFilesPrint();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		deleteJavaFileDir();
-
-	}
-	
 	/*@After
 	public void deleteTemp() {
         File file1 = new File(currentpath + "\\testDIRtestxxx\\javatestxxx.java"); 
