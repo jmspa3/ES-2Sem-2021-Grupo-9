@@ -284,32 +284,32 @@ public class GUI extends JFrame {
 		panel_6.add(panel_2);
 		panel_2.setLayout(new GridLayout(4, 2, 0, 0));
 
-		JLabel lblNumeroPackages = new JLabel("N\u00FAmero Total de Packages:");
-		lblNumeroPackages.setHorizontalAlignment(SwingConstants.RIGHT);
+		JLabel lblNumeroPackages = new JLabel("  N\u00FAmero Total de Packages:  ");
+		lblNumeroPackages.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_2.add(lblNumeroPackages);
 
-		lblValorPackages.setHorizontalAlignment(SwingConstants.CENTER);
+		lblValorPackages.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_2.add(lblValorPackages);
 
-		JLabel lblNumeroClasses = new JLabel("N\u00FAmero Total de Classes:");
-		lblNumeroClasses.setHorizontalAlignment(SwingConstants.RIGHT);
+		JLabel lblNumeroClasses = new JLabel("  N\u00FAmero Total de Classes:  ");
+		lblNumeroClasses.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_2.add(lblNumeroClasses);
 
-		lblValorClasses.setHorizontalAlignment(SwingConstants.CENTER);
+		lblValorClasses.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_2.add(lblValorClasses);
 
-		JLabel lblNumeroMetodos = new JLabel("N\u00FAmero Total de M\u00E9todos:");
-		lblNumeroMetodos.setHorizontalAlignment(SwingConstants.RIGHT);
+		JLabel lblNumeroMetodos = new JLabel("  N\u00FAmero Total de M\u00E9todos:  ");
+		lblNumeroMetodos.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_2.add(lblNumeroMetodos);
 
-		lblValorMetodos.setHorizontalAlignment(SwingConstants.CENTER);
+		lblValorMetodos.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_2.add(lblValorMetodos);
 
-		JLabel lblNumeroLinhas = new JLabel("N\u00FAmero Total de Linhas:");
-		lblNumeroLinhas.setHorizontalAlignment(SwingConstants.RIGHT);
+		JLabel lblNumeroLinhas = new JLabel("  N\u00FAmero Total de Linhas:  ");
+		lblNumeroLinhas.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_2.add(lblNumeroLinhas);
 
-		lblValorLinhas.setHorizontalAlignment(SwingConstants.CENTER);
+		lblValorLinhas.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_2.add(lblValorLinhas);
 
 		JPanel panel_7 = new JPanel();
@@ -324,18 +324,18 @@ public class GUI extends JFrame {
 		});
 		panel_7.add(btnRegras);
 
-		JPanel panel_5 = new JPanel();
-		panel_7.add(panel_5, BorderLayout.SOUTH);
-		panel_5.setLayout(new GridLayout(2, 2, 0, 0));
-
-		JLabel lblNumeroAcertos = new JLabel("N\u00FAmero Total de Acertos:");
-		panel_5.add(lblNumeroAcertos);
-
-		panel_5.add(lblValorAcertos);
-
-		JLabel lblNumeroFalhas = new JLabel("N\u00FAmero Total de Falhas:");
-		panel_5.add(lblNumeroFalhas);
-
-		panel_5.add(lblValorFalhas);
+//		JPanel panel_5 = new JPanel();
+//		panel_7.add(panel_5, BorderLayout.SOUTH);
+//		panel_5.setLayout(new GridLayout(2, 2, 0, 0));
+//
+//		JLabel lblNumeroAcertos = new JLabel("N\u00FAmero Total de Acertos:");
+//		panel_5.add(lblNumeroAcertos);
+//
+//		panel_5.add(lblValorAcertos);
+//
+//		JLabel lblNumeroFalhas = new JLabel("N\u00FAmero Total de Falhas:");
+//		panel_5.add(lblNumeroFalhas);
+//
+//		panel_5.add(lblValorFalhas);
 	}
 }

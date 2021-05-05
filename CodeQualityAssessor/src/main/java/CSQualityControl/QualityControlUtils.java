@@ -7,8 +7,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
-import metrics.Metric;
-
 /**
  * <h1>QualityControlUtils</h1> This is the auxiliary class to compare code
  * smells between 2 files. Used on "CompareCodeSmellsFiles" class.
