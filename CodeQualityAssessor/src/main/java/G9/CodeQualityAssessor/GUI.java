@@ -106,6 +106,25 @@ public class GUI extends JFrame {
 
 		JButton btnProcurar = new JButton("Procurar ");
 		panel_1_1.add(btnProcurar);
+		
+				JButton btnCriarXLSS = new JButton("Criar XLSS");
+				panel_1_1.add(btnCriarXLSS);
+				
+						btnCriarXLSS.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								btnCriarAction();
+							}
+				
+							private void btnCriarAction() {
+								// write metrics to file
+								try {
+									new ContentExcel().writeExcel(textField.getText());
+									JOptionPane.showMessageDialog(null, "Success!");
+								} catch (IOException e) {
+									JOptionPane.showMessageDialog(null, "Failure!");
+								}
+							}
+						});
 
 		btnProcurar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -258,25 +277,6 @@ public class GUI extends JFrame {
 		JPanel panel_1_2_1 = new JPanel();
 		panel.add(panel_1_2_1);
 		panel_1_2_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-
-		JButton btnCriarXLSS = new JButton("Criar XLSS");
-		panel_1_2_1.add(btnCriarXLSS);
-
-		btnCriarXLSS.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				btnCriarAction();
-			}
-
-			private void btnCriarAction() {
-				// write metrics to file
-				try {
-					new ContentExcel().writeExcel(textField.getText());
-					JOptionPane.showMessageDialog(null, "Success!");
-				} catch (IOException e) {
-					JOptionPane.showMessageDialog(null, "Failure!");
-				}
-			}
-		});
 
 		JScrollPane scrollPane = new JScrollPane();
 		contentPane.add(scrollPane, BorderLayout.CENTER);
