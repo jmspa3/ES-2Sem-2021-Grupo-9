@@ -57,7 +57,7 @@ public class ContentExcel {
 			Sheet sheet = workbook.getSheetAt(0);
 			
 			numMethods = sheet.getLastRowNum();
-			tableWidth = 11;
+			tableWidth = 11 + 4;
 			tableHeight = numMethods+1;
 			
 			Iterator<Row> rowIterator = sheet.iterator();
@@ -176,14 +176,14 @@ public class ContentExcel {
 		cell = row.createCell(10);
 		cell.setCellValue(Boolean.toString(cs.detect("is_Long_Method", m)));
 		
-		int it = 0;
-		for(String x: ruleNameList) {
-			if (it <= ruleNumber) {
-				cell = row.createCell(11 + it);
-				cell.setCellValue(cs.detect(x, m));
-				it++;
-			}
-		}
+//		int it = 0;
+//		for(String x: ruleNameList) {
+//			if (it <= ruleNumber) {
+//				cell = row.createCell(11 + it);
+//				cell.setCellValue(cs.detect(x, m));
+//				it++;
+//			}
+//		}
 	}
 
 	/**
@@ -281,15 +281,15 @@ public class ContentExcel {
 		is_Long_method.setCellStyle(cellStyle);
 		is_Long_method.setCellValue("is_Long_method");
 		
-		int it = 1;
-		for(String x: ruleNameList) {
-			if(it <= ruleNumber) {
-				Cell cell = row.createCell(10 + it);
-				cell.setCellStyle(cellStyle);
-				cell.setCellValue(x);
-				it++;
-			}
-		}
+//		int it = 1;
+//		for(String x: ruleNameList) {
+//			if(it <= ruleNumber) {
+//				Cell cell = row.createCell(10 + it);
+//				cell.setCellStyle(cellStyle);
+//				cell.setCellValue(x);
+//				it++;
+//			}
+//		}
 
 	}
 

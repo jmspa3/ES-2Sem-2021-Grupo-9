@@ -11,12 +11,32 @@ public class ConstructorInfo extends VoidVisitorAdapter<List<Metric>> {
 	private CompilationUnit cu;
 	private int id;
 
+	/**
+	 * Constructor of ConstructorInfo class.
+	 *
+	 * @author Nuno Dias
+	 * @version 1.0
+	 * @param cu the file we are running trough 
+	 * @param id the id/number of the method/contructor we are visiting
+	 * @see CompilationUnit
+	 */
 	public ConstructorInfo(CompilationUnit cu, int id) {
 		this.cu = cu;
 		this.id = id;
 	}
 
-	// visit all constructors and return all info about each one
+	/**
+	 * This method visits all constructors, one by one, returns all information about each one, putting it in
+	 * a new Metric instance and adding it to a List<Metric>.
+	 * 
+	 *
+	 * @author Nuno Dias
+	 * @version 1.0
+	 * @param c the constructor that is going to be visited
+	 * @param collector the list we are adding this new Metric with all the information to
+	 * @return Nothing.
+	 * @see Metric, ConstructorDeclaration
+	 */
 	@Override
 	public void visit(ConstructorDeclaration c, List<Metric> collector) {
 		super.visit(c, collector);
@@ -39,6 +59,20 @@ public class ConstructorInfo extends VoidVisitorAdapter<List<Metric>> {
 		collector.add(newmetric);
 	}
 
+	
+	/**
+	 * This method uses the MetricUtils methods to extract all information about a constructor and adds it to the new Metric.
+	 * 
+	 *
+	 * @author Nuno Dias
+	 * @version 1.0
+	 * @param c the method that is going to be visited
+	 * @param mu instance of the MetricUtils class, used to retrieve information about a certain method/constructor
+	 * @param newmetric the instance of Metric receiving the information
+	 * @param cid gives us some type of information, like the class name or LOC_Class
+	 * @return Nothing.
+	 * @see Metric, {@link ConstructorDeclaration}, {@link MetricUtils}, {@link ClassOrInterfaceDeclaration}
+	 */
 	private void newMetricCreator(ConstructorDeclaration c, MetricUtils mu, Metric newmetric,
 			ClassOrInterfaceDeclaration cid) {
 		newmetric.setId(id++);
