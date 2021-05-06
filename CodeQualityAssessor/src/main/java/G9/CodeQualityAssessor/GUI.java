@@ -27,6 +27,8 @@ import org.apache.poi.ss.usermodel.Cell;
 
 import CSQualityControl.CompareCodeSmellsFiles;
 import CSQualityControl.QualityControlUtils;
+import javax.swing.ImageIcon;
+import java.awt.Color;
 
 public class GUI extends JFrame {
 
@@ -277,6 +279,30 @@ public class GUI extends JFrame {
 		JPanel panel_1_2_1 = new JPanel();
 		panel.add(panel_1_2_1);
 		panel_1_2_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		JLabel FalsoNegativo = new JLabel("FalsoNegativo");
+		FalsoNegativo.setToolTipText("Cor de acerto em caso de Falso Negativo");
+		FalsoNegativo.setBackground(Color.RED);
+		FalsoNegativo.setOpaque(true);
+		panel_1_2_1.add(FalsoNegativo);
+		
+		JLabel FalsoPositivo = new JLabel("FalsoPositivo");
+		FalsoPositivo.setToolTipText("Cor de acerto em caso de Falso Positivo");
+		FalsoPositivo.setBackground(Color.ORANGE);
+		FalsoPositivo.setOpaque(true);
+		panel_1_2_1.add(FalsoPositivo);
+		
+		JLabel VerdadeiroNegativo = new JLabel("VerdadeiroNegativo");
+		VerdadeiroNegativo.setToolTipText("Cor de acerto em caso de Verdadeiro Negativo");
+		VerdadeiroNegativo.setBackground(Color.CYAN);
+		VerdadeiroNegativo.setOpaque(true);
+		panel_1_2_1.add(VerdadeiroNegativo);
+		
+		JLabel VerdadeiroPositivo = new JLabel("VerdadeiroPositivo");
+		VerdadeiroPositivo.setToolTipText("Cor de acerto em caso de VerdadeiroPositivo");
+		VerdadeiroPositivo.setBackground(Color.GREEN);
+		VerdadeiroPositivo.setOpaque(true);
+		panel_1_2_1.add(VerdadeiroPositivo);
 
 		JScrollPane scrollPane = new JScrollPane();
 		contentPane.add(scrollPane, BorderLayout.CENTER);
