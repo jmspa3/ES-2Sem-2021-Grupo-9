@@ -99,8 +99,8 @@ public class GUI extends JFrame {
 		panel.add(panel_1_2);
 		panel_1_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-		JButton btnAbrirXLSS = new JButton("Abrir XLSS");
-		panel_1_2.add(btnAbrirXLSS);
+		JButton btnAbrirXLSX = new JButton("Abrir XLSX");
+		panel_1_2.add(btnAbrirXLSX);
 
 		JPanel panel_1_1 = new JPanel();
 		panel.add(panel_1_1);
@@ -109,10 +109,10 @@ public class GUI extends JFrame {
 		JButton btnProcurar = new JButton("Procurar ");
 		panel_1_1.add(btnProcurar);
 		
-				JButton btnCriarXLSS = new JButton("Criar XLSS");
-				panel_1_1.add(btnCriarXLSS);
+				JButton btnCriarXLSX = new JButton("Criar XLSX");
+				panel_1_1.add(btnCriarXLSX);
 				
-						btnCriarXLSS.addActionListener(new ActionListener() {
+						btnCriarXLSX.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								btnCriarAction();
 							}
@@ -207,7 +207,7 @@ public class GUI extends JFrame {
 			}
 		});
 
-		btnAbrirXLSS.addActionListener(new ActionListener() {
+		btnAbrirXLSX.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnAbrirAction();
 			}
