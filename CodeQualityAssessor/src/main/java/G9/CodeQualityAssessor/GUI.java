@@ -78,8 +78,10 @@ public class GUI extends JFrame {
 		textField = new JTextField();
 
 		textField.setColumns(10);
-		// to save time / need to change later
-		textField.setText("E:\\Faculdade\\3ºAno\\ja");
+
+		textField.setText("Insere a path da pasta do projeto a analisar");
+		textField.setHorizontalAlignment(SwingConstants.CENTER);
+
 		panel.setLayout(new GridLayout(0, 3, 0, 0));
 		panel.add(textField);
 
