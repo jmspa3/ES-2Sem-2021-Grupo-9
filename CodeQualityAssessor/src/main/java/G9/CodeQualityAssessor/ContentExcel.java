@@ -33,7 +33,7 @@ public class ContentExcel {
 	int numMethods;
 	HashSet<String> listClasses = new HashSet<String>();
 	HashMap<String, Integer> totalLines = new HashMap<String, Integer>();
-	ArrayList<String[]> r = new ArrayList<String[]>(); // colocar linhas
+	ArrayList<String[]> r = new ArrayList<String[]>(); // put lines
 
 	Vector<Cell> data = new Vector<Cell>();
 	int tableWidth = 0;
@@ -296,53 +296,11 @@ public class ContentExcel {
 	 * Returns the list in the book of the excel, it means the list of metrics.
 	 * @param projectPath
 	 */ 
-	
-
 	public List<Metric> getListBook(String projectPath) throws FileNotFoundException {
 		MetricInfo m = new MetricInfo(projectPath);
 		List<Metric> list = m.getMetrics();
 		return list;
 	}
-	
-
-/*	public void insertData(String excelFilePath) {
-		try {
-			// Get the excel file.
-			FileInputStream file = new FileInputStream(new File(excelFilePath));
-
-			// Get first sheet from the workbook.
-			// If there have >1 sheet in your workbook, you can change it here IF you want
-			// to edit other sheets.
-			Workbook workbook = new XSSFWorkbook(file);
-			Sheet firstSheet = workbook.getSheetAt(0);
-			// Get the row of your desired cell.
-			// Let's say that your desired cell is at row 2.
-			Row row = firstSheet.getRow(1);
-			// Get the column of your desired cell in your selected row.
-			// Let's say that your desired cell is at column 2.
-			Cell column = row.getCell(1);
-			// If the cell is String type.If double or else you can change it.
-			String updatename = column.getStringCellValue();
-			// New content for desired cell.
-			updatename = "Lala";
-			// Print out the updated content.
-			System.out.println(updatename);
-			// Set the new content to your desired cell(column).
-			column.setCellValue(updatename);
-			// Close the excel file.
-			file.close();
-			// Where you want to save the updated sheet.
-			FileOutputStream out = new FileOutputStream(new File(excelFilePath));
-			workbook.write(out);
-			out.close();
-			workbook.close();
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}*/
 	
 	
 	public void setExcelWidthAndHeight(String excelFilePath) throws IOException {
