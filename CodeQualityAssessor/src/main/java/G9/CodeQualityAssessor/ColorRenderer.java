@@ -29,10 +29,17 @@ public class ColorRenderer extends DefaultTableCellRenderer implements TableCell
 	public Vector<org.apache.poi.ss.usermodel.Cell> blueCells = new Vector<org.apache.poi.ss.usermodel.Cell>();
 	public Vector<org.apache.poi.ss.usermodel.Cell> orangeCells = new Vector<org.apache.poi.ss.usermodel.Cell>();
 	public Vector<org.apache.poi.ss.usermodel.Cell> whiteCells = new Vector<org.apache.poi.ss.usermodel.Cell>();
+	int god_col;
+	int long_col;
 	
 	public ColorRenderer() {
 		super();
 		setOpaque(true);
+	}
+	
+	public void setColumns(int go_d, int lon_g) {
+		god_col = go_d;
+		long_col = lon_g;
 	}
 	
 	/**
@@ -47,7 +54,7 @@ public class ColorRenderer extends DefaultTableCellRenderer implements TableCell
 		if (row==0) setBackground(Color.white);
 		
 		if(row>0) {
-			if(column == 7 || column == 10) {
+			if(column == god_col || column == long_col) {
 				for(org.apache.poi.ss.usermodel.Cell c : greenCells) {
 					if(c.getColumnIndex()==column && c.getRowIndex()==row) setBackground(Color.green);
 				}

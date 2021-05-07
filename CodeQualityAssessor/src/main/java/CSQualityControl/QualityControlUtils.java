@@ -29,7 +29,7 @@ public class QualityControlUtils {
 	 * @param sheet the sheet from the excel file we want to get the index from
 	 * @return {@link Integer}
 	 */
-	static int get_is_god_class_colIndex(XSSFSheet sheet) {
+	public static int get_is_god_class_colIndex(XSSFSheet sheet) {
 		int god_class_index = 0;
 		for (Cell s : sheet.getRow(0)) {
 			if (s.getStringCellValue().toLowerCase().equals("is_god_class")) {
@@ -47,7 +47,7 @@ public class QualityControlUtils {
 	 * @param sheet the sheet from the excel file we want to get the index from
 	 * @return {@link Integer}
 	 */
-	static int get_is_long_method_colIndex(XSSFSheet sheet) {
+	public static int get_is_long_method_colIndex(XSSFSheet sheet) {
 		int long_method_index = 0;
 		for (Cell s : sheet.getRow(0)) {
 			if (s.getStringCellValue().toLowerCase().equals("is_long_method")) {

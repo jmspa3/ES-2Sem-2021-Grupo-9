@@ -1,2 +1,3 @@
 is_Long_Method;LOC_method;>;35;&&;CYCLO_method;>;11
 is_God_Class;WMC_class;>;250;||;NOM_class;>;40
+poqwer;LOC_class;>;5;&&;WMC_class;>;20
