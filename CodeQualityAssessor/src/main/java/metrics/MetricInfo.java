@@ -13,17 +13,12 @@ import com.github.javaparser.ast.visitor.VoidVisitor;
 /**
  * <h1>MetricInfo</h1> This is the main class to get the information about
  * Metrics of a certain project.
- * <p>
- * To print the Metrics info in the console, use runTroughJavaFilesPrint(). To
- * get the list of Metrics, use getMetrics().
- * 
  *
  * @author Nuno Dias
  * @version 1.0
  */
 public class MetricInfo {
 
-	// Attributes
 	private ArrayList<String> pathnames;
 	private List<Metric> methodList;
 
@@ -143,39 +138,4 @@ public class MetricInfo {
 
 		return consAndMethodInfo;
 	}
-
-	/**
-	 * This method runs through a list of metrics and prints each informations in
-	 * the console.
-	 * 
-	 * @author Nuno Dias
-	 * @version 1.0
-	 * @param List<Metric> list of metrics
-	 * @return Nothing.
-	 */
-	private void showMetrics(List<Metric> methodList) throws FileNotFoundException {
-		methodList.forEach(n -> System.out.println("method id: " + n.getId() + "\n" + "package: "
-				+ n.getMethod_package() + "\n" + "class: " + n.getClass_Name() + "\n" + "method: " + n.getMethod_name()
-				+ "\n" + "LOC_class: " + n.getLOC_class() + "\n" + "LOC_method: " + n.getLOC_method() + "\n"
-				+ "CYCLO_method: " + n.getCYCLO_method() + "\n" + "NOM_class: " + n.getNOM_class() + "\n"
-				+ "WMC_class: " + n.getWMC_class() + "\n"));
-	}
-
-	/**
-	 * This method runs through files and prints the Metrics information in the
-	 * console, using showMetrics() method.
-	 *
-	 * @author Nuno Dias
-	 * @version 1.0
-	 * @return Nothing.
-	 */
-	public void runTroughJavaFilesPrint() throws FileNotFoundException {
-		showMetrics(getMetrics());
-	}
-
-//	// just for testing (to be removed)
-//	public static void main(String[] args) throws FileNotFoundException {
-//		MetricInfo tm = new MetricInfo("/Users/nunodias/Documents/jasml_0.10");
-//		tm.runTroughJavaFilesPrint();
-//	}
 }

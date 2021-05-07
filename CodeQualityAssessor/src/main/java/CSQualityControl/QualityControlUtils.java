@@ -7,6 +7,13 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
+/**
+ * <h1>QualityControlUtils</h1> This is the auxiliary class to compare code
+ * smells between 2 files. Used on "CompareCodeSmellsFiles" class.
+ *
+ * @author Nuno Dias
+ * @version 1.0
+ */
 public class QualityControlUtils {
 
 	static XSSFCellStyle sky_blue = CompareCodeSmellsFiles.sky_blue;
@@ -14,7 +21,15 @@ public class QualityControlUtils {
 	static XSSFCellStyle orange = CompareCodeSmellsFiles.orange;
 	static XSSFCellStyle red = CompareCodeSmellsFiles.red;
 
-	static int get_is_god_class_colIndex(XSSFSheet sheet) {
+	/**
+	 * This method gets the column index of "is_god_class".
+	 *
+	 * @author Nuno Dias
+	 * @version 1.0
+	 * @param sheet the sheet from the excel file we want to get the index from
+	 * @return {@link Integer}
+	 */
+	public static int get_is_god_class_colIndex(XSSFSheet sheet) {
 		int god_class_index = 0;
 		for (Cell s : sheet.getRow(0)) {
 			if (s.getStringCellValue().toLowerCase().equals("is_god_class")) {
@@ -24,7 +39,15 @@ public class QualityControlUtils {
 		return god_class_index;
 	}
 
-	static int get_is_long_method_colIndex(XSSFSheet sheet) {
+	/**
+	 * This method gets the column index of "is_long_method".
+	 *
+	 * @author Nuno Dias
+	 * @version 1.0
+	 * @param sheet the sheet from the excel file we want to get the index from
+	 * @return {@link Integer}
+	 */
+	public static int get_is_long_method_colIndex(XSSFSheet sheet) {
 		int long_method_index = 0;
 		for (Cell s : sheet.getRow(0)) {
 			if (s.getStringCellValue().toLowerCase().equals("is_long_method")) {
@@ -34,6 +57,19 @@ public class QualityControlUtils {
 		return long_method_index;
 	}
 
+	/**
+	 * This method sets the "god_class" quality control, using a code of colors.
+	 *
+	 * @author Nuno Dias
+	 * @version 1.0
+	 * @param default_is_god_class   value (boolean) of the "is_god_class" cell from
+	 *                               the default excel
+	 * @param resulting_is_god_class value (boolean) of the "is_god_class" cell from
+	 *                               the resulting excel
+	 * @param resulting_row          row of the resulting excel currently in
+	 * @param resulting_gc_index     index of the "is_god_class" column
+	 * @return Nothing.
+	 */
 	static void set_GOD_Class_Quality(boolean default_is_god_class, boolean resulting_is_god_class, Row resulting_row,
 			int resulting_gc_index) {
 
@@ -52,6 +88,19 @@ public class QualityControlUtils {
 		}
 	}
 
+	/**
+	 * This method sets the "long_method" quality control, using a code of colors.
+	 *
+	 * @author Nuno Dias
+	 * @version 1.0
+	 * @param default_is_long_method   value (boolean) of the "is_long_method" cell
+	 *                                 from the default excel
+	 * @param resulting_is_long_method value (boolean) of the "is_long_method" cell
+	 *                                 from the resulting excel
+	 * @param resulting_row            row of the resulting excel currently in
+	 * @param resulting_lm_index       index of the "is_long_method" column
+	 * @return Nothing.
+	 */
 	static void set_LONG_Method_Quality(boolean default_is_long_method, boolean resulting_is_long_method,
 			Row resulting_row, int resulting_lm_index) {
 
@@ -70,6 +119,14 @@ public class QualityControlUtils {
 		}
 	}
 
+	/**
+	 * This method sets the color schema used to show the quality control.
+	 *
+	 * @author Nuno Dias
+	 * @version 1.0
+	 * @param resulting_sheet the sheet from the resulting excel file
+	 * @return Nothing.
+	 */
 	static void setColorSchema(XSSFSheet resulting_sheet) {
 
 		sky_blue = resulting_sheet.getWorkbook().createCellStyle();

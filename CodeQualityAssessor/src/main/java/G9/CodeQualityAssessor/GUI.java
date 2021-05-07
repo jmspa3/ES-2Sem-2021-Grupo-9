@@ -26,6 +26,9 @@ import javax.swing.table.DefaultTableModel;
 import org.apache.poi.ss.usermodel.Cell;
 
 import CSQualityControl.CompareCodeSmellsFiles;
+import CSQualityControl.QualityControlUtils;
+import javax.swing.ImageIcon;
+import java.awt.Color;
 
 public class GUI extends JFrame {
 
@@ -43,7 +46,6 @@ public class GUI extends JFrame {
 	private JLabel lblValorAcertos = new JLabel();
 	private JLabel lblValorFalhas = new JLabel();
 
-	ColorRenderer renderer = new ColorRenderer();
 
 	/**
 	 * Launch the application.
@@ -80,7 +82,7 @@ public class GUI extends JFrame {
 
 		textField.setColumns(10);
 		// to save time / need to change later
-		textField.setText("E:\\Faculdade\\3ºAno\\ja");
+		textField.setText("E:\\Faculdade\\3ºAno\\jas");
 		panel.setLayout(new GridLayout(0, 3, 0, 0));
 		panel.add(textField);
 
@@ -106,6 +108,25 @@ public class GUI extends JFrame {
 
 		JButton btnProcurar = new JButton("Procurar ");
 		panel_1_1.add(btnProcurar);
+		
+				JButton btnCriarXLSS = new JButton("Criar XLSS");
+				panel_1_1.add(btnCriarXLSS);
+				
+						btnCriarXLSS.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								btnCriarAction();
+							}
+				
+							private void btnCriarAction() {
+								// write metrics to file
+								try {
+									new ContentExcel().writeExcel(textField.getText());
+									JOptionPane.showMessageDialog(null, "Success!");
+								} catch (IOException e) {
+									JOptionPane.showMessageDialog(null, "Failure!");
+								}
+							}
+						});
 
 		btnProcurar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -192,22 +213,33 @@ public class GUI extends JFrame {
 			}
 
 			private void btnAbrirAction() {
-				// SET TABLE
-				ContentExcel excel = new ContentExcel();
-				DefaultTableModel model = new DefaultTableModel(excel.tableHeight, excel.tableWidth);
-				table.setModel(model);
+				
+				ColorRenderer renderer = new ColorRenderer();				
 
 				File file = new File(textField.getText());
 				excelPath = textField.getText() + File.separator + file.getName() + "_metrics.xlsx";
-
+				
+				int god_col = 0;
+				int long_col = 0;
+				
 				try {
+					ContentExcel excel = new ContentExcel();
+					excel.setExcelWidthAndHeight(excelPath);
+					DefaultTableModel model = new DefaultTableModel(excel.tableHeight, excel.tableWidth);
+					table.setModel(model);
+					
 					excel.setData(excelPath);
 					Iterator<Cell> cellIterator = excel.data.iterator();
 					short colorCode;
 					while (cellIterator.hasNext()) {
 						Cell cell = cellIterator.next();
 						model.setValueAt(cell.getStringCellValue(), cell.getRowIndex(), cell.getColumnIndex());
-
+						if(cell.getStringCellValue().toLowerCase().equals("is_god_class"))
+							god_col = cell.getColumnIndex();
+						else
+							if(cell.getStringCellValue().toLowerCase().equals("is_long_method"))
+								long_col = cell.getColumnIndex();
+						
 						colorCode = cell.getCellStyle().getFillForegroundColor();
 
 						switch (colorCode) {
@@ -229,66 +261,48 @@ public class GUI extends JFrame {
 						}
 						
 					}
+					renderer.setColumns(god_col, long_col);
+					table.getColumnModel().getColumn(god_col).setCellRenderer(renderer);
+					table.getColumnModel().getColumn(long_col).setCellRenderer(renderer);
+					
+					lblValorPackages.setText(Integer.toString(excel.numberTotalPackages()));
+					lblValorClasses.setText(Integer.toString(excel.numberTotalClasses()));
+					lblValorMetodos.setText(Integer.toString(excel.numberTotalMethods()));
+					lblValorLinhas.setText(Integer.toString(excel.numberTotalLines()));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 
-				table.getColumnModel().getColumn(7).setCellRenderer(renderer);
-				table.getColumnModel().getColumn(10).setCellRenderer(renderer);
-
-				lblValorPackages.setText(Integer.toString(excel.numberTotalPackages()));
-				lblValorClasses.setText(Integer.toString(excel.numberTotalClasses()));
-				lblValorMetodos.setText(Integer.toString(excel.numberTotalMethods()));
-				lblValorLinhas.setText(Integer.toString(excel.numberTotalLines()));
-
-				/*
-				 * ArrayList<String[]> data = new ArrayList<String[]>();
-				 * 
-				 * try { data =
-				 * excel.readBooksFromExcelFile(textField.getText()+"\\jas_metrics.xlsx");
-				 * 
-				 * } catch (IOException e) { JOptionPane.showMessageDialog(null,
-				 * "Metrics não existe!"); }
-				 * 
-				 * DefaultTableModel model = new DefaultTableModel();
-				 * 
-				 * for (String s : data.get(0)) { model.addColumn(s); } data.remove(0); for
-				 * (String[] r : data) { model.addRow(r); }
-				 * 
-				 * table.setModel(model);
-				 * 
-				 * // SET Labels
-				 * lblValorPackages.setText(Integer.toString(excel.numberTotalPackages()));
-				 * lblValorClasses.setText(Integer.toString(excel.numberTotalClasses()));
-				 * lblValorMetodos.setText(Integer.toString(excel.numberTotalMethods()));
-				 * lblValorLinhas.setText(Integer.toString(excel.numberTotalLines())); //
-				 * missing indicators
-				 */
 			}
 		});
 
 		JPanel panel_1_2_1 = new JPanel();
 		panel.add(panel_1_2_1);
 		panel_1_2_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-
-		JButton btnCriarXLSS = new JButton("Criar XLSS");
-		panel_1_2_1.add(btnCriarXLSS);
-
-		btnCriarXLSS.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				btnCriarAction();
-			}
-
-			private void btnCriarAction() {
-				// write metrics to file
-				try {
-					new ContentExcel().writeExcel(textField.getText());
-					JOptionPane.showMessageDialog(null, "Success!");
-				} catch (IOException e) {
-					JOptionPane.showMessageDialog(null, "Failure!");
-				}
-			}
-		});
+		
+		JLabel FalsoNegativo = new JLabel("FalsoNegativo");
+		FalsoNegativo.setToolTipText("Cor de acerto em caso de Falso Negativo");
+		FalsoNegativo.setBackground(Color.RED);
+		FalsoNegativo.setOpaque(true);
+		panel_1_2_1.add(FalsoNegativo);
+		
+		JLabel FalsoPositivo = new JLabel("FalsoPositivo");
+		FalsoPositivo.setToolTipText("Cor de acerto em caso de Falso Positivo");
+		FalsoPositivo.setBackground(Color.ORANGE);
+		FalsoPositivo.setOpaque(true);
+		panel_1_2_1.add(FalsoPositivo);
+		
+		JLabel VerdadeiroNegativo = new JLabel("VerdadeiroNegativo");
+		VerdadeiroNegativo.setToolTipText("Cor de acerto em caso de Verdadeiro Negativo");
+		VerdadeiroNegativo.setBackground(Color.CYAN);
+		VerdadeiroNegativo.setOpaque(true);
+		panel_1_2_1.add(VerdadeiroNegativo);
+		
+		JLabel VerdadeiroPositivo = new JLabel("VerdadeiroPositivo");
+		VerdadeiroPositivo.setToolTipText("Cor de acerto em caso de VerdadeiroPositivo");
+		VerdadeiroPositivo.setBackground(Color.GREEN);
+		VerdadeiroPositivo.setOpaque(true);
+		panel_1_2_1.add(VerdadeiroPositivo);
 
 		JScrollPane scrollPane = new JScrollPane();
 		contentPane.add(scrollPane, BorderLayout.CENTER);
@@ -305,32 +319,32 @@ public class GUI extends JFrame {
 		panel_6.add(panel_2);
 		panel_2.setLayout(new GridLayout(4, 2, 0, 0));
 
-		JLabel lblNumeroPackages = new JLabel("N\u00FAmero Total de Packages:");
-		lblNumeroPackages.setHorizontalAlignment(SwingConstants.RIGHT);
+		JLabel lblNumeroPackages = new JLabel("  N\u00FAmero Total de Packages:  ");
+		lblNumeroPackages.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_2.add(lblNumeroPackages);
 
-		lblValorPackages.setHorizontalAlignment(SwingConstants.CENTER);
+		lblValorPackages.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_2.add(lblValorPackages);
 
-		JLabel lblNumeroClasses = new JLabel("N\u00FAmero Total de Classes:");
-		lblNumeroClasses.setHorizontalAlignment(SwingConstants.RIGHT);
+		JLabel lblNumeroClasses = new JLabel("  N\u00FAmero Total de Classes:  ");
+		lblNumeroClasses.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_2.add(lblNumeroClasses);
 
-		lblValorClasses.setHorizontalAlignment(SwingConstants.CENTER);
+		lblValorClasses.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_2.add(lblValorClasses);
 
-		JLabel lblNumeroMetodos = new JLabel("N\u00FAmero Total de M\u00E9todos:");
-		lblNumeroMetodos.setHorizontalAlignment(SwingConstants.RIGHT);
+		JLabel lblNumeroMetodos = new JLabel("  N\u00FAmero Total de M\u00E9todos:  ");
+		lblNumeroMetodos.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_2.add(lblNumeroMetodos);
 
-		lblValorMetodos.setHorizontalAlignment(SwingConstants.CENTER);
+		lblValorMetodos.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_2.add(lblValorMetodos);
 
-		JLabel lblNumeroLinhas = new JLabel("N\u00FAmero Total de Linhas:");
-		lblNumeroLinhas.setHorizontalAlignment(SwingConstants.RIGHT);
+		JLabel lblNumeroLinhas = new JLabel("  N\u00FAmero Total de Linhas:  ");
+		lblNumeroLinhas.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_2.add(lblNumeroLinhas);
 
-		lblValorLinhas.setHorizontalAlignment(SwingConstants.CENTER);
+		lblValorLinhas.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_2.add(lblValorLinhas);
 
 		JPanel panel_7 = new JPanel();
@@ -345,18 +359,18 @@ public class GUI extends JFrame {
 		});
 		panel_7.add(btnRegras);
 
-		JPanel panel_5 = new JPanel();
-		panel_7.add(panel_5, BorderLayout.SOUTH);
-		panel_5.setLayout(new GridLayout(2, 2, 0, 0));
-
-		JLabel lblNumeroAcertos = new JLabel("N\u00FAmero Total de Acertos:");
-		panel_5.add(lblNumeroAcertos);
-
-		panel_5.add(lblValorAcertos);
-
-		JLabel lblNumeroFalhas = new JLabel("N\u00FAmero Total de Falhas:");
-		panel_5.add(lblNumeroFalhas);
-
-		panel_5.add(lblValorFalhas);
+//		JPanel panel_5 = new JPanel();
+//		panel_7.add(panel_5, BorderLayout.SOUTH);
+//		panel_5.setLayout(new GridLayout(2, 2, 0, 0));
+//
+//		JLabel lblNumeroAcertos = new JLabel("N\u00FAmero Total de Acertos:");
+//		panel_5.add(lblNumeroAcertos);
+//
+//		panel_5.add(lblValorAcertos);
+//
+//		JLabel lblNumeroFalhas = new JLabel("N\u00FAmero Total de Falhas:");
+//		panel_5.add(lblNumeroFalhas);
+//
+//		panel_5.add(lblValorFalhas);
 	}
 }

@@ -152,24 +152,24 @@ public class GUIRegras {
 				
 				lista.add(ruleToThreshold(rule));
 				String[] arr = rule.split(";", 8);
-				if(arr[0].equals("is_Long_Method")) isLong = true;
-				else if(arr[0].equals("is_God_Class")) isGod = true;
+				if(arr[0].toLowerCase().equals("is_long_method")) isLong = true;
+				else if(arr[0].toLowerCase().equals("is_god_class")) isGod = true;
 				
 
 			}
 			
 			if(!isLong) {
-				Threshold is_Long_Method = new Threshold("is_Long_Method");
-				is_Long_Method.insertCondition("LOC_method > || CYCLO_method >");
-				is_Long_Method.editNumbers(50, 10);
+				Threshold is_Long_Method = new Threshold("is_long_method");
+				is_Long_Method.insertCondition("LOC_method > && CYCLO_method >");
+				is_Long_Method.editNumbers(35, 11);
 				lista.add(is_Long_Method);
 
 			}
 			
 			if(!isGod) {
-				Threshold is_God_Class = new Threshold("is_God_Class");
+				Threshold is_God_Class = new Threshold("is_god_class");
 				is_God_Class.insertCondition("WMC_class > || NOM_class >");
-				is_God_Class.editNumbers(50, 10);
+				is_God_Class.editNumbers(250, 40);
 				lista.add(is_God_Class);
 
 			}
@@ -177,12 +177,12 @@ public class GUIRegras {
 		} else {
 
 			Threshold is_Long_Method = new Threshold("is_Long_Method");
-			is_Long_Method.insertCondition("LOC_method > || CYCLO_method >");
-			is_Long_Method.editNumbers(50, 10);
+			is_Long_Method.insertCondition("LOC_method > && CYCLO_method >");
+			is_Long_Method.editNumbers(35, 11);
 
 			Threshold is_God_Class = new Threshold("is_God_Class");
 			is_God_Class.insertCondition("WMC_class > || NOM_class >");
-			is_God_Class.editNumbers(50, 10);
+			is_God_Class.editNumbers(250, 40);
 
 
 			lista.add(is_Long_Method);
