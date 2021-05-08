@@ -1,0 +1,57 @@
+Limits.LimitsGUI	private void initialize(Limits.Threshold) 	panel	B1	0/27
+Limits.LimitsGUI	private void initialize(Limits.Threshold) 	panel_1	B1	0/10
+Limits.LimitsGUI	private void initialize(Limits.Threshold) 	listaArgumentos	B1	0/5
+metrics.MetricInfo	public void findJavaFilePaths(java.io.File) 	fil	B2	0/5
+metrics.MetricInfo	public void findJavaFilePaths(java.io.File) 	fil	B3	0/4
+metrics.MetricInfo	public void findJavaFilePaths(java.io.File) 	pathnames	B2	0/5
+metrics.MetricInfo	public void findJavaFilePaths(java.io.File) 	pathnames	B3	0/4
+Limits.LimitsGUI	private void initialize(Limits.Threshold) 	listModel	B1	0/4
+G9.CodeQualityAssessor.GUIRegras	private void getThresholds() 	is_God_Class	B12	0/3
+G9.CodeQualityAssessor.GUIRegras	private void getThresholds() 	is_Long_Method	B12	0/3
+Limits.LimitsGUI	private void initialize(Limits.Threshold) 	condicao	B1	0/3
+Limits.LimitsGUI	private void initialize(Limits.Threshold) 	framo	B1	0/3
+Limits.LimitsGUI	private void initialize(Limits.Threshold) 	guardarTotal	B1	0/3
+Limits.LimitsGUI	private void initialize(Limits.Threshold) 	regra_1	B1	0/3
+Limits.LimitsGUI	private void initialize(Limits.Threshold) 	regralabel	B1	0/3
+Limits.Threshold	public void insertCondition(java.lang.String) 	scanner	B2	0/3
+G9.CodeQualityAssessor.GUIRegras	private void getThresholds() 	is_Long_Method	B9	0/3
+G9.CodeQualityAssessor.GUIRegras	private void getThresholds() 	is_God_Class	B11	0/3
+G9.CodeQualityAssessor.CodeSmells	public java.lang.String detect(java.lang.String, metrics.Metric) 	operator	B10	0/2
+Limits.LimitsGUI	private void initialize(Limits.Threshold) 	argumento1	B1	0/2
+Limits.LimitsGUI	private void initialize(Limits.Threshold) 	argumento2	B1	0/2
+Limits.LimitsGUI	private void initialize(Limits.Threshold) 	listaOpCondicional	B1	0/2
+Limits.LimitsGUI	private void initialize(Limits.Threshold) 	listaOperadores	B1	0/2
+Limits.LimitsGUI	private void initialize(Limits.Threshold) 	logicOrAnd	B1	0/2
+Limits.LimitsGUI	private void initialize(Limits.Threshold) 	numero1	B1	0/2
+Limits.LimitsGUI	private void initialize(Limits.Threshold) 	numero2	B1	0/2
+Limits.LimitsGUI	private void initialize(Limits.Threshold) 	operador1	B1	0/2
+Limits.LimitsGUI	private void initialize(Limits.Threshold) 	operador2	B1	0/2
+Limits.LimitsGUI	public void mousePressed(java.awt.event.MouseEvent) 	threshold	B1	2/6
+Limits.LimitsGUI	public void mousePressed(java.awt.event.MouseEvent) 	threshold	B2	0/4
+G9.CodeQualityAssessor.GUIRegras	private void getThresholds() 	isGod	B3	3/5
+G9.CodeQualityAssessor.GUIRegras	private void getThresholds() 	isGod	B4	2/4
+G9.CodeQualityAssessor.GUIRegras	private void getThresholds() 	isGod	B6	0/2
+G9.CodeQualityAssessor.ContentExcel	public void setData(java.lang.String) throws java.io.IOException	totalLines	B1	14/20
+G9.CodeQualityAssessor.ContentExcel	public void setData(java.lang.String) throws java.io.IOException	totalLines	B2	10/16
+G9.CodeQualityAssessor.ContentExcel	public void setData(java.lang.String) throws java.io.IOException	totalLines	B3	9/15
+G9.CodeQualityAssessor.ContentExcel	public void setData(java.lang.String) throws java.io.IOException	totalLines	B4	7/12
+G9.CodeQualityAssessor.ContentExcel	public void setData(java.lang.String) throws java.io.IOException	totalLines	B5	5/9
+Limits.LimitsGUI	public void mousePressed(java.awt.event.MouseEvent) 	framo	B1	2/3
+G9.CodeQualityAssessor.GUIRegras	private void getThresholds() 	isLong	B3	3/4
+G9.CodeQualityAssessor.GUIRegras	private void getThresholds() 	isLong	B4	2/3
+G9.CodeQualityAssessor.ContentExcel	public void setData(java.lang.String) throws java.io.IOException	data	B1	9/10
+G9.CodeQualityAssessor.ContentExcel	public void setData(java.lang.String) throws java.io.IOException	data	B2	5/6
+G9.CodeQualityAssessor.ContentExcel	public void setData(java.lang.String) throws java.io.IOException	data	B3	4/5
+G9.CodeQualityAssessor.ContentExcel	public void setData(java.lang.String) throws java.io.IOException	data	B4	2/3
+G9.CodeQualityAssessor.ContentExcel	public void setData(java.lang.String) throws java.io.IOException	data	B5	1/2
+G9.CodeQualityAssessor.ContentExcel	public void setData(java.lang.String) throws java.io.IOException	listPackages	B1	13/15
+G9.CodeQualityAssessor.ContentExcel	public void setData(java.lang.String) throws java.io.IOException	listPackages	B2	9/11
+G9.CodeQualityAssessor.ContentExcel	public void setData(java.lang.String) throws java.io.IOException	listPackages	B3	8/10
+G9.CodeQualityAssessor.ContentExcel	public void setData(java.lang.String) throws java.io.IOException	listPackages	B4	6/8
+G9.CodeQualityAssessor.ContentExcel	public void setData(java.lang.String) throws java.io.IOException	listPackages	B5	5/7
+G9.CodeQualityAssessor.ContentExcel	public void setData(java.lang.String) throws java.io.IOException	key	B5	6/7
+G9.CodeQualityAssessor.ContentExcel	public void setData(java.lang.String) throws java.io.IOException	listClasses	B1	14/15
+G9.CodeQualityAssessor.ContentExcel	public void setData(java.lang.String) throws java.io.IOException	listClasses	B2	10/11
+G9.CodeQualityAssessor.ContentExcel	public void setData(java.lang.String) throws java.io.IOException	listClasses	B3	9/10
+G9.CodeQualityAssessor.ContentExcel	public void setData(java.lang.String) throws java.io.IOException	listClasses	B4	7/8
+G9.CodeQualityAssessor.ContentExcel	public void setData(java.lang.String) throws java.io.IOException	listClasses	B5	6/7

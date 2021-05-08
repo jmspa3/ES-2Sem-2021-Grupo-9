@@ -1,0 +1,3 @@
+Refactoring Type	Source Entity	Target Class	Source/Target accessed members	Rate it!
+Move Method	G9.CodeQualityAssessor.CodeSmells::compareLogic(java.lang.String, java.lang.String, java.lang.String, metrics.Metric):boolean	metrics.Metric	0/1	
+Move Method	G9.CodeQualityAssessor.ContentExcel::writeBook(metrics.Metric, org.apache.poi.ss.usermodel.Row, G9.CodeQualityAssessor.CodeSmells):void	metrics.Metric	2/9	
