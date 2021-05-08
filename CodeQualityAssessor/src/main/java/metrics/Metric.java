@@ -117,6 +117,13 @@ public class Metric {
 		return String.valueOf(WMC_class);
 	}
 
+	/**
+	 * 
+	 * Given a string returns the value of the metric with that name
+	 * 
+	 * @param metricName
+	 * @return {@link Integer}
+	 */
 	public int getValueByMetricName(String metricName) {
 		switch (metricName) {
 		case "LOC_class":

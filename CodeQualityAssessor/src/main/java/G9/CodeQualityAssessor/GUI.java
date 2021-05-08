@@ -26,12 +26,19 @@ import javax.swing.table.DefaultTableModel;
 import org.apache.poi.ss.usermodel.Cell;
 
 import CSQualityControl.CompareCodeSmellsFiles;
-import CSQualityControl.QualityControlUtils;
-import javax.swing.ImageIcon;
 import java.awt.Color;
 
+/**
+ * Application entry point
+ * 
+ * @author 
+ */
 public class GUI extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtInsereAPath;
 	private JTextField textField;
@@ -43,8 +50,6 @@ public class GUI extends JFrame {
 	private JLabel lblValorMetodos = new JLabel();
 	private JLabel lblValorLinhas = new JLabel();
 
-	private JLabel lblValorAcertos = new JLabel();
-	private JLabel lblValorFalhas = new JLabel();
 
 
 	/**
@@ -81,7 +86,6 @@ public class GUI extends JFrame {
 		textField = new JTextField();
 		textField.setHorizontalAlignment(SwingConstants.CENTER);
 		textField.setColumns(10);
-		// to save time / need to change later
 		textField.setText("Insira o path do projeto");
 		panel.setLayout(new GridLayout(0, 3, 0, 0));
 		panel.add(textField);
@@ -92,7 +96,6 @@ public class GUI extends JFrame {
 		txtInsereAPath.setColumns(10);
 		panel.add(txtInsereAPath);
 
-		// to save time / need to change later
 		txtInsereAPath.setText("Insira o path da pasta do ficheiro a comparar");
 
 		JPanel panel_1_2 = new JPanel();
@@ -118,7 +121,6 @@ public class GUI extends JFrame {
 							}
 				
 							private void btnCriarAction() {
-								// write metrics to file
 								try {
 									new ContentExcel().writeExcel(textField.getText());
 									JOptionPane.showMessageDialog(null, "Success!");
@@ -197,10 +199,6 @@ public class GUI extends JFrame {
 			}
 
 			private void btnCompararAction() {
-				System.out.print("/////////////////");
-				System.out.println("original2" + excelPath);
-				System.out.println("comparado2" + txtInsereAPath.getText());
-				System.out.print("/////////////////");
 				CompareCodeSmellsFiles ccs = new CompareCodeSmellsFiles(txtInsereAPath.getText(), excelPath);
 				ccs.compareExcelSheets();
 
@@ -358,19 +356,5 @@ public class GUI extends JFrame {
 			}
 		});
 		panel_7.add(btnRegras);
-
-//		JPanel panel_5 = new JPanel();
-//		panel_7.add(panel_5, BorderLayout.SOUTH);
-//		panel_5.setLayout(new GridLayout(2, 2, 0, 0));
-//
-//		JLabel lblNumeroAcertos = new JLabel("N\u00FAmero Total de Acertos:");
-//		panel_5.add(lblNumeroAcertos);
-//
-//		panel_5.add(lblValorAcertos);
-//
-//		JLabel lblNumeroFalhas = new JLabel("N\u00FAmero Total de Falhas:");
-//		panel_5.add(lblNumeroFalhas);
-//
-//		panel_5.add(lblValorFalhas);
 	}
 }

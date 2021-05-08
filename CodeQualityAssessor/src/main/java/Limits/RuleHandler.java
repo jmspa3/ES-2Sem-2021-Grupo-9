@@ -95,45 +95,42 @@ public class RuleHandler {
 		return rules;
 	}	
 	
-	public static int getNumberRules() {
-
-			int n = 0;
-			try {
-				String rules = "";
-				File file = new File(filePath);
-				Scanner reader = new Scanner(file);
-				while(reader.hasNextLine()) {
-					rules += reader.nextLine()+"\n";
-					n = n+1;
-				}
-				reader.close();
-			}catch(FileNotFoundException e) {
-				System.out.println("An error occured.");
-				e.printStackTrace();
-			}
-
-			setNumberRules(n);
-			return n;	
-	}
-	
+	/**
+	 * Clears the data in the object
+	 */
 	public static void clearData() {
 		numberRules = 0;
 		ruleNameList.clear();
 	}
 	
-	
+	/**
+	 * Sets the number of rules to the user input n
+	 * @param n
+	 */
 	public static void setNumberRules(int n) {
 		numberRules = n;
 	}
 	
+	/**
+	 * Adds the name of the rule to an array
+	 * @param s
+	 */
 	public static void addName(String s) {
 		ruleNameList.add(s);
 	}
 	
+	/**
+	 * 
+	 * @return the number of rules in the Rule File
+	 */
 	public static int getRulesNumber() {
 		return numberRules;
 	}
 	
+	/**
+	 * 
+	 * @return the List of rule names
+	 */
 	public static ArrayList<String> getRuleNames() {
 		return ruleNameList;
 	}

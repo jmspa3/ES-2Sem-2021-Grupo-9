@@ -18,7 +18,7 @@ public class Threshold {
 	
 	private String name = "";
 	
-	/**
+	/*
 	 * Practical Example 
 	 * let X > 23 || Y == 9023, then:
 	 * argument_operator[0] = X
@@ -107,7 +107,6 @@ public class Threshold {
 		Scanner scanner =new Scanner(condicao);
 		for(int i = 0; i <= argument_operator.length && scanner.hasNext(); i++) {
 			argument_operator[i] = scanner.next();
-			//System.out.println(argument_operator[i]);
 		}
 		scanner.close();
 	}

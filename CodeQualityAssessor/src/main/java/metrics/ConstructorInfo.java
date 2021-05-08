@@ -6,6 +6,13 @@ import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
+/**
+ * 
+ * Class extends functionality from JavaParser to visit Constructors from java files
+ * 
+ * @author Nuno Dias
+ *
+ */
 public class ConstructorInfo extends VoidVisitorAdapter<List<Metric>> {
 
 	private CompilationUnit cu;

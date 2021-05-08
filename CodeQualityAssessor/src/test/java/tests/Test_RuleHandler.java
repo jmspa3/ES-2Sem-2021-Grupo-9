@@ -46,7 +46,7 @@ public class Test_RuleHandler {
 	    public void testRuleHandler() {
 	    	
 	    	
-	    	assertEquals(2, RuleHandler.getNumberRules());
+	    	
 	    	RuleHandler.clearData();
 	    	assertEquals(0, RuleHandler.getRulesNumber());
 	    	
@@ -82,11 +82,6 @@ public class Test_RuleHandler {
 	    	assertEquals("ruleFile.txt", new File("ruleFile.txt").exists() ? "ruleFile.txt" : "does not exist");
 	    }
 	    
-//	    @Test
-//	    public void testDeleteFile() {
-//	    	RuleHandler.deleteFile();
-//	    	assertEquals("ruleFile.txt", new File("ruleFile.txt").exists() ? "does not exist" : "ruleFile.txt");
-//	    }
 	    
 	    @After  
 	    public void tearDown() throws Exception {  

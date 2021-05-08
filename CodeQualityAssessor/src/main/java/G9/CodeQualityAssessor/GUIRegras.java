@@ -20,7 +20,7 @@ import javax.swing.JPanel;
 /**
  * GUIRegras builds an user interface to define and change code smell rules
  * 
- * @author
+ * @author Carlos
  */
 public class GUIRegras {
 	private ArrayList<Threshold> lista = new ArrayList<Threshold>();
@@ -33,13 +33,11 @@ public class GUIRegras {
 		listaRegras.getContentPane().setLayout(new BorderLayout());
 		listaRegras.setResizable(false);
 
-		// Get list with rules
 		getThresholds();
 
 		DefaultListModel<Threshold> listModel = new DefaultListModel<Threshold>();
 		lista.forEach(r -> listModel.addElement(r));
 
-		// Display rules
 		JList<Threshold> mostrar_regras = new JList<Threshold>(listModel);
 		mostrar_regras.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		mostrar_regras.setLayoutOrientation(JList.VERTICAL);
@@ -55,22 +53,21 @@ public class GUIRegras {
 				RuleHandler.deleteFile();
 				RuleHandler.clearData();
 				RuleHandler.createFile();
-				//int it = 0;
+		
 				for (Threshold t : lista) {
 					RuleHandler.write(t.getName() + ";" + t.getArgument(0) + ";" + t.getArgument(1) + ";"
 							+ t.getNumber(0) + ";" + t.getArgument(2) + ";" + t.getArgument(3) + ";" + t.getArgument(4)
 							+ ";" + t.getNumber(1));
-					//RuleHandler.addName(t.getName());
-					//it++;
+					
 				}
-				//RuleHandler.setNumberRules(it);
+				
 			}
 		});
 
 		panel_1.setLayout(new BorderLayout(0, 0));
 		panel_1.add(guardar, BorderLayout.SOUTH);
 
-		// Open rule editor if clicked
+		
 		JButton editar = new JButton("Editar");
 		panel_1.add(editar);
 		
@@ -81,7 +78,7 @@ public class GUIRegras {
     			Threshold th = new Threshold(name);
     			lista.add(th);
     			listModel.addElement(th);
-    			//mostrar_regras.add(listModel.lastElement());
+    			
 			}
 		});
 		panel_1.add(criar, BorderLayout.WEST);
@@ -95,7 +92,7 @@ public class GUIRegras {
 					lista.remove(mostrar_regras.getSelectedValue());
 	    			listModel.remove(mostrar_regras.getSelectedIndex());
 				}
-				//mostrar_regras.remove();
+				
 			}
 		});
 		
@@ -103,10 +100,10 @@ public class GUIRegras {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (listModel.getSize() == 0) { // No rules //Isn't this kind of useless since we always create the two
-												// rules: is_Long_Method and is_God_Class?
+				if (listModel.getSize() == 0) { 
+												
 					editar.setEnabled(false);
-				} else { // Selected an index.
+				} else { 
 					JDialog regra = new JDialog(listaRegras);
 					regra.setModal(true);
 					LimitsGUI editarRegra = new LimitsGUI(mostrar_regras.getSelectedValue(), regra);
@@ -124,38 +121,24 @@ public class GUIRegras {
 		listaRegras.setVisible(true);
 	}
 
+	
+	/**
+	 * Reads Code Smells rules from RuleHandler and presents them as a list
+	 */
 	private void getThresholds() {
-		// Create our custom Thresholds
-
+		
 		String rulesLine = RuleHandler.getRules();
 		if (!rulesLine.isEmpty()) {
 			String[] rules = rulesLine.split("\n", lista.size());
 			
-			/*Threshold c3 = new Threshold("viva");
-			c3.insertCondition("WMC_class > || NOM_class >");
-			c3.editNumbers(444, 75);
-
-			Threshold c4 = new Threshold("viva2");
-			c4.insertCondition("WMC_class > || NOM_class >");
-			c4.editNumbers(4, 1);
-
-			Threshold c5 = new Threshold("viva3");
-			c5.insertCondition("WMC_class > || NOM_class >");
-			c5.editNumbers(222, 11);
-
-			lista.add(c3);
-			lista.add(c4);
-			lista.add(c5);*/
+			
 			boolean isLong = false;
 			boolean isGod = false;
-			for (String rule : rules) {
-				
+			for (String rule : rules) {	
 				lista.add(ruleToThreshold(rule));
 				String[] arr = rule.split(";", 8);
 				if(arr[0].toLowerCase().equals("is_long_method")) isLong = true;
 				else if(arr[0].toLowerCase().equals("is_god_class")) isGod = true;
-				
-
 			}
 			
 			if(!isLong) {
@@ -190,8 +173,15 @@ public class GUIRegras {
 		}
 	}
 
+	
+	/**
+	 * 
+	 * Given a rule as a type String returns a Threshold
+	 * 
+	 * @param rule
+	 * @return Threshold object
+	 */
 	public Threshold ruleToThreshold(String rule) {
-
 		String[] arr = rule.split(";", 8);
 
 		System.out.println(arr[1] + " " + arr[2] + " " + arr[4] + " " + arr[5] + " " + arr[6]);

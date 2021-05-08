@@ -23,9 +23,14 @@ import javax.swing.JDialog;
 
 import javax.swing.JPanel;
 
+/**
+ * 
+ * LimitsGUI builds an user interface to set the rules for the selected code smell.
+ * 
+ * @author Tiago, Zé
+ */
 public class LimitsGUI extends JDialog implements MouseListener  {
 	
-	//implements ActionListener
 
 	/**
 	 * 
@@ -48,25 +53,6 @@ public class LimitsGUI extends JDialog implements MouseListener  {
 	private JPanel panel_1;
 	private JComboBox<String> logicOrAnd;
 
-	/**
-	 * Launch the application.
-	 */
-	
-	/* Test main 
-	 * 
-	 * public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {		
-					//LimitsGUI window = new LimitsGUI();
-					//window.initialize();
-					//window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}*/
 
 	/**
 	 * Create the application.
@@ -134,7 +120,6 @@ public class LimitsGUI extends JDialog implements MouseListener  {
 		condicao.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		condicao.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		//-----Primeira condição
 		
 		argumento1 = new JComboBox<String>();
 		panel.add(argumento1);

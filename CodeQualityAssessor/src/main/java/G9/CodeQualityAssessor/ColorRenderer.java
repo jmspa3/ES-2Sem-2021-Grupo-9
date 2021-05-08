@@ -29,14 +29,18 @@ public class ColorRenderer extends DefaultTableCellRenderer implements TableCell
 	public Vector<org.apache.poi.ss.usermodel.Cell> blueCells = new Vector<org.apache.poi.ss.usermodel.Cell>();
 	public Vector<org.apache.poi.ss.usermodel.Cell> orangeCells = new Vector<org.apache.poi.ss.usermodel.Cell>();
 	public Vector<org.apache.poi.ss.usermodel.Cell> whiteCells = new Vector<org.apache.poi.ss.usermodel.Cell>();
-	int god_col;
-	int long_col;
+	private int god_col;
+	private int long_col;
 	
 	public ColorRenderer() {
 		super();
 		setOpaque(true);
 	}
 	
+	/**
+	 * @param go_d Number of the godClass column in the Excel sheet
+	 * @param lon_g	Number of the longMethod column in the Excel sheet
+	 */
 	public void setColumns(int go_d, int lon_g) {
 		god_col = go_d;
 		long_col = lon_g;

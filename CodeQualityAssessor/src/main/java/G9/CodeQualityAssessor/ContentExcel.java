@@ -45,7 +45,7 @@ public class ContentExcel {
 	/**
 	 * Reads the excel file and saves the cell information in a Vector
 	 * 
-	 * @param excelFilePath a String representing the excel Path
+	 * @param excelFilePath A String representing the excel Path
 	 * @throws IOException
 	 * @author Daniel
 	 */
@@ -93,7 +93,7 @@ public class ContentExcel {
 	
 	
 	/**
-	 * Returns the total number of packages that are safe in a hashset(this not repeat the name of the same package) 
+	 * @return the total number of packages that are safe in a hashset(this not repeat the name of the same package) 
 	 */
 
 	public int numberTotalPackages() {
@@ -101,7 +101,7 @@ public class ContentExcel {
 	}
 	
 	/**
-	 * Returns the total number of methods
+	 * @return the total number of methods
 	 */
 
 	public int numberTotalMethods() {
@@ -109,7 +109,7 @@ public class ContentExcel {
 	}
 	
 	/**
-	 * Returns the total number of classes that are safe in a hashset.
+	 * @return the total number of classes that are safe in a hashset.
 	 */
 
 	public int numberTotalClasses() {
@@ -117,7 +117,7 @@ public class ContentExcel {
 	}
 
 	/**
-	 * Returns the total number of lines.
+	 * @return the total number of lines.
 	 */ 
 	
 	public int numberTotalLines() {
@@ -197,11 +197,7 @@ public class ContentExcel {
 		ruleNameList = RuleHandler.getRuleNames();
 		ruleNumber = ruleNameList.size();
 		createHeaderRow(sheet);
-		//RuleHandler.addName(t.getName());
-		//it++;
-		//RuleHandler.setNumberRules(it);
 		List<Metric> listMetrica = getListBook(excelFilePath);
-		System.out.println(ruleNumber);
 		tableWidth += ruleNumber;
 		int rowCount = 0;
 
@@ -263,9 +259,6 @@ public class ContentExcel {
 		cellWMC_class.setCellStyle(cellStyle);
 		cellWMC_class.setCellValue("WMC_class");
 
-/*		Cell is_God_class = row.createCell(7);
-		is_God_class.setCellStyle(cellStyle);
-		is_God_class.setCellValue("is_God_class");*/
 
 		Cell cellLOC_method = row.createCell(7);
 		cellLOC_method.setCellStyle(cellStyle);
@@ -275,9 +268,6 @@ public class ContentExcel {
 		cellCyclo_method.setCellStyle(cellStyle);
 		cellCyclo_method.setCellValue("CYCLO_method");
 
-/*		Cell is_Long_method = row.createCell(10);
-		is_Long_method.setCellStyle(cellStyle);
-		is_Long_method.setCellValue("is_Long_method");*/
 		
 		int it = 1;
 		for(String x: ruleNameList) {
@@ -291,10 +281,9 @@ public class ContentExcel {
 
 	}
 
-	/**
-	 * 
-	 * Returns the list in the book of the excel, it means the list of metrics.
+	/** 
 	 * @param projectPath
+	 * @return list in the book of the excel, it means the list of metrics.
 	 */ 
 	
 
@@ -304,47 +293,11 @@ public class ContentExcel {
 		return list;
 	}
 	
-
-/*	public void insertData(String excelFilePath) {
-		try {
-			// Get the excel file.
-			FileInputStream file = new FileInputStream(new File(excelFilePath));
-
-			// Get first sheet from the workbook.
-			// If there have >1 sheet in your workbook, you can change it here IF you want
-			// to edit other sheets.
-			Workbook workbook = new XSSFWorkbook(file);
-			Sheet firstSheet = workbook.getSheetAt(0);
-			// Get the row of your desired cell.
-			// Let's say that your desired cell is at row 2.
-			Row row = firstSheet.getRow(1);
-			// Get the column of your desired cell in your selected row.
-			// Let's say that your desired cell is at column 2.
-			Cell column = row.getCell(1);
-			// If the cell is String type.If double or else you can change it.
-			String updatename = column.getStringCellValue();
-			// New content for desired cell.
-			updatename = "Lala";
-			// Print out the updated content.
-			System.out.println(updatename);
-			// Set the new content to your desired cell(column).
-			column.setCellValue(updatename);
-			// Close the excel file.
-			file.close();
-			// Where you want to save the updated sheet.
-			FileOutputStream out = new FileOutputStream(new File(excelFilePath));
-			workbook.write(out);
-			out.close();
-			workbook.close();
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}*/
-	
-	
+	/**
+	 * Sets the class tableWidth size and tableHeight given an excel File
+	 * @param excelFilePath
+	 * @throws IOException
+	 */
 	public void setExcelWidthAndHeight(String excelFilePath) throws IOException {
 		FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
 		Workbook workbook = new XSSFWorkbook(inputStream);

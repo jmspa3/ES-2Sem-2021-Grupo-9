@@ -16,6 +16,13 @@ import com.github.javaparser.ast.stmt.IfStmt;
 import com.github.javaparser.ast.stmt.SwitchStmt;
 import com.github.javaparser.ast.stmt.WhileStmt;
 
+/**
+ * 
+ * Helper class to the visitor classes.
+ * 
+ * @author Nuno Dias
+ *
+ */
 public class MetricUtils {
 
 	private CompilationUnit cu;
