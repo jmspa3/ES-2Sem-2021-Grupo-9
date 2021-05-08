@@ -21,4 +21,4 @@
 - ruleFile.txt é o ficheiro que contém as regras das métricas.
 
 #### Observações JAR
-- É possível não conseguir escolher alguns Paths no caso de se estar a utilizar Mac.
+- É possível não conseguir escolher alguns Paths no caso de se estar a utilizar Mac devido a permissões. Caso se queira executar no Mac será preciso usar Sudo no terminal.
