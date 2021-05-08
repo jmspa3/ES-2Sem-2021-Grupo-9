@@ -96,7 +96,7 @@ public class GUI extends JFrame {
 		txtInsereAPath.setColumns(10);
 		panel.add(txtInsereAPath);
 
-		txtInsereAPath.setText("Insira o path da pasta do ficheiro a comparar");
+		txtInsereAPath.setText("Insira o path da do ficheiro de comparação");
 
 		JPanel panel_1_2 = new JPanel();
 		panel.add(panel_1_2);
