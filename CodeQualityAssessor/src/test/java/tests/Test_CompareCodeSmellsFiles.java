@@ -1,5 +1,7 @@
 package tests;
 
+import java.io.IOException;
+
 import javax.swing.JTable;
 
 import org.junit.Before;
@@ -27,7 +29,11 @@ public class Test_CompareCodeSmellsFiles {
 	@Test
 	public void testCompareExcelSheets() {
 		
-		ccs.compareExcelSheets();
+		try {
+			ccs.compareExcelSheets();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

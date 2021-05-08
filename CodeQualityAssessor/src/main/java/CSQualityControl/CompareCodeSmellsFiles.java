@@ -3,6 +3,7 @@ package CSQualityControl;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Iterator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
@@ -49,9 +50,10 @@ public class CompareCodeSmellsFiles {
 	 *
 	 * @author Nuno Dias
 	 * @version 1.0
+	 * @throws IOException 
 	 */
-	public void compareExcelSheets() {
-		try {
+	public void compareExcelSheets() throws IOException {
+		
 			FileInputStream default_file = new FileInputStream(new File(default_cs));
 			FileInputStream resulting_file = new FileInputStream(new File(resulting_cs));
 
@@ -74,9 +76,7 @@ public class CompareCodeSmellsFiles {
 			default_workbook.close();
 			outputStream.close();
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
 	}
 
 	/**

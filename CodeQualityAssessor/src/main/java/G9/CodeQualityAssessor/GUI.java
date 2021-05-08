@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -196,12 +197,20 @@ public class GUI extends JFrame {
 		btnComparar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnCompararAction();
+				
 			}
 
-			private void btnCompararAction() {
+			private void btnCompararAction(){
+				
 				CompareCodeSmellsFiles ccs = new CompareCodeSmellsFiles(txtInsereAPath.getText(), excelPath);
-				ccs.compareExcelSheets();
-
+				try {
+					ccs.compareExcelSheets();
+					JOptionPane.showMessageDialog(null, "Success!");
+				} catch (IOException e) {
+					JOptionPane.showMessageDialog(null, "Failure!");
+				}
+				
+				
 			}
 		});
 
