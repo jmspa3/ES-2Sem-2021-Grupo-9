@@ -34,8 +34,8 @@ public class CodeSmells {
 	
 	/**
 	 * Method that detects which is the metric, equality, value from the condition specified in the HashMap.
-	 * Returns a boolean from the condition specified, if true it means that the condition for the rule was well done and if false it means that it wasn't.
-	 * @param rulename a String representing the name of the rule (ie. is_Long_Method)
+	 * <p>Returns a boolean from the condition specified, if true it means that the condition for the rule was well done and if false it means that it wasn't.
+	 * @param ruleName a String representing the name of the rule (ie. is_Long_Method)
 	 * @param metric represents a Metric
 	 */
 

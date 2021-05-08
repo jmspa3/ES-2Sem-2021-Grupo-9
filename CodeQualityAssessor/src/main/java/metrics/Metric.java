@@ -1,7 +1,8 @@
 package metrics;
 
 /**
- * <h1>Metric</h1> This is the aux class to set and get the metrics.
+ * Metric
+ * <p> This is the aux class to set and get the metrics.
  *
  * @author Nuno Dias
  * @version 1.0
@@ -145,7 +146,7 @@ public class Metric {
 	 *
 	 * @author Nuno Dias
 	 * @version 1.0
-	 * @return {@link Void}
+	 * @param id
 	 */
 	public void setId(int id) {
 		this.id = id;
@@ -156,7 +157,7 @@ public class Metric {
 	 *
 	 * @author Nuno Dias
 	 * @version 1.0
-	 * @return {@link Void}
+	 * @param method_package
 	 */
 	public void setMethod_package(String method_package) {
 		this.method_package = method_package;
@@ -167,7 +168,7 @@ public class Metric {
 	 *
 	 * @author Nuno Dias
 	 * @version 1.0
-	 * @return {@link Void}
+	 * @param method_class
 	 */
 	public void setClass_Name(String method_class) {
 		this.method_class = method_class;
@@ -178,7 +179,7 @@ public class Metric {
 	 *
 	 * @author Nuno Dias
 	 * @version 1.0
-	 * @return {@link Void}
+	 * @param method_name
 	 */
 	public void setMethod_name(String method_name) {
 		this.method_name = method_name;
@@ -189,7 +190,7 @@ public class Metric {
 	 *
 	 * @author Nuno Dias
 	 * @version 1.0
-	 * @return {@link Void}
+	 * @param lOC_class
 	 */
 	public void setLOC_class(int lOC_class) {
 		LOC_class = lOC_class;
@@ -200,7 +201,7 @@ public class Metric {
 	 *
 	 * @author Nuno Dias
 	 * @version 1.0
-	 * @return {@link Void}
+	 * @param lOC_method
 	 */
 	public void setLOC_method(int lOC_method) {
 		LOC_method = lOC_method;
@@ -211,7 +212,7 @@ public class Metric {
 	 *
 	 * @author Nuno Dias
 	 * @version 1.0
-	 * @return {@link Void}
+	 * @param cYCLO_method
 	 */
 	public void setCYCLO_method(int cYCLO_method) {
 		CYCLO_method = cYCLO_method;
@@ -222,7 +223,7 @@ public class Metric {
 	 *
 	 * @author Nuno Dias
 	 * @version 1.0
-	 * @return {@link Void}
+	 * @param nOM_class
 	 */
 	public void setNOM_class(int nOM_class) {
 		NOM_class = nOM_class;
@@ -233,7 +234,7 @@ public class Metric {
 	 *
 	 * @author Nuno Dias
 	 * @version 1.0
-	 * @return {@link Void}
+	 * @param wMC_class
 	 */
 	public void setWMC_class(int wMC_class) {
 		WMC_class = wMC_class;

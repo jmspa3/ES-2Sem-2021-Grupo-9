@@ -56,12 +56,10 @@ public class LimitsGUI extends JDialog implements MouseListener  {
 
 	/**
 	 * Create the application.
-	 * @param listaRegras 
-	 * @param actionListener 
-	 * @wbp.parser.entryPoint
+	 * @param threshold
+	 * @param listaRegra
 	 */
 	public LimitsGUI(Threshold threshold, JDialog listaRegra) {
-		//this.parent = listaRegra;
 		initialize(threshold);
 		framo.setVisible(true);
 	}

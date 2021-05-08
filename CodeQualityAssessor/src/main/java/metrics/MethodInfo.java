@@ -35,15 +35,13 @@ public class MethodInfo extends VoidVisitorAdapter<List<Metric>> {
 
 	/**
 	 * This method visits all methods, one by one, returns all information about each one, putting it in
-	 * a new Metric instance and adding it to a List<Metric>.
+	 * a new Metric instance and adding it to a List.
 	 * 
 	 *
 	 * @author Nuno Dias
 	 * @version 1.0
 	 * @param md instance of MethodDeclaration, the method that is going to be visited
 	 * @param collector the list we are adding this new Metric with all the information to
-	 * @return Nothing.
-	 * @see Metric, {@link MethodDeclaration}
 	 */
 	@Override
 	public void visit(MethodDeclaration md, List<Metric> collector) {

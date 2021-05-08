@@ -8,7 +8,8 @@ import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 /**
- * <h1>QualityControlUtils</h1> This is the auxiliary class to compare code
+ * QualityControlUtils
+ * <p> This is the auxiliary class to compare code
  * smells between 2 files. Used on "CompareCodeSmellsFiles" class.
  *
  * @author Nuno Dias

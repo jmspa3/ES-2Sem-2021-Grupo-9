@@ -45,7 +45,9 @@ public class Threshold {
 	}
 	
 	/**
-	 * @param op Conditional Operator (|| or &&)
+	 * Edits the argument operator given a String 
+	 * 
+	 * @param op 
 	 */
 	public void editConditionalOp(String op) {
 		argument_operator[2] = op;
@@ -114,7 +116,7 @@ public class Threshold {
 	/**
 	 * Method which returns first half or second half of the Threshold
 	 * Insert True to return the first condition, False for the second
-	 * @param First if true -> first condition, else second condition
+	 * @param first if true -> first condition, else second condition
 	 * @return Desired condition
 	 */
 	public String getCondition(boolean first) {

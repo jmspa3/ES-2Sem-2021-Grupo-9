@@ -10,7 +10,8 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
- * <h1>CompareCodeSmellsFiles</h1> This is the main class to compare code smells
+ * CompareCodeSmellsFiles 
+ * <p>This is the main class to compare code smells
  * between 2 files.
  *
  * @author Nuno Dias
@@ -48,7 +49,6 @@ public class CompareCodeSmellsFiles {
 	 *
 	 * @author Nuno Dias
 	 * @version 1.0
-	 * @return Nothing.
 	 */
 	public void compareExcelSheets() {
 		try {

@@ -11,7 +11,8 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.visitor.VoidVisitor;
 
 /**
- * <h1>MetricInfo</h1> This is the main class to get the information about
+ * MetricInfo
+ * <p> This is the main class to get the information about
  * Metrics of a certain project.
  *
  * @author Nuno Dias
@@ -43,7 +44,6 @@ public class MetricInfo {
 	 * @author Nuno Dias
 	 * @version 1.0
 	 * @param file new File with the given directory PATH
-	 * @return Nothing.
 	 * @see File
 	 */
 	public void findJavaFilePaths(File file) {
@@ -95,8 +95,7 @@ public class MetricInfo {
 	 *
 	 * @author Nuno Dias
 	 * @version 1.0
-	 * @return List<Metric> list of metrics
-	 * @see Metric
+	 * @return list of metrics
 	 */
 	public List<Metric> getMetrics() throws FileNotFoundException {
 		int count = 1;
