@@ -79,13 +79,13 @@ public class GUI extends JFrame {
 		contentPane.add(panel, BorderLayout.NORTH);
 
 		textField = new JTextField();
-
+		textField.setHorizontalAlignment(SwingConstants.CENTER);
 		textField.setColumns(10);
 		// to save time / need to change later
-		textField.setText("E:\\Faculdade\\3ºAno\\jas");
+		textField.setText("Insira o path do projeto");
 		panel.setLayout(new GridLayout(0, 3, 0, 0));
 		panel.add(textField);
-
+		
 		txtInsereAPath = new JTextField();
 		txtInsereAPath.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -93,7 +93,7 @@ public class GUI extends JFrame {
 		panel.add(txtInsereAPath);
 
 		// to save time / need to change later
-		txtInsereAPath.setText("Insere a path da pasta do ficheiro a comparar");
+		txtInsereAPath.setText("Insira o path da pasta do ficheiro a comparar");
 
 		JPanel panel_1_2 = new JPanel();
 		panel.add(panel_1_2);
@@ -281,25 +281,25 @@ public class GUI extends JFrame {
 		panel_1_2_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JLabel FalsoNegativo = new JLabel("FalsoNegativo");
-		FalsoNegativo.setToolTipText("Cor de acerto em caso de Falso Negativo");
+		FalsoNegativo.setToolTipText("Aplicação da regra não deteta code smell e a coluna de comparação é TRUE");
 		FalsoNegativo.setBackground(Color.RED);
 		FalsoNegativo.setOpaque(true);
 		panel_1_2_1.add(FalsoNegativo);
 		
 		JLabel FalsoPositivo = new JLabel("FalsoPositivo");
-		FalsoPositivo.setToolTipText("Cor de acerto em caso de Falso Positivo");
+		FalsoPositivo.setToolTipText("Aplicação da regra deteta code smell e a coluna de comparação é FALSE");
 		FalsoPositivo.setBackground(Color.ORANGE);
 		FalsoPositivo.setOpaque(true);
 		panel_1_2_1.add(FalsoPositivo);
 		
 		JLabel VerdadeiroNegativo = new JLabel("VerdadeiroNegativo");
-		VerdadeiroNegativo.setToolTipText("Cor de acerto em caso de Verdadeiro Negativo");
+		VerdadeiroNegativo.setToolTipText("Aplicação da regra não deteta code smell e a coluna de comparação é FALSE");
 		VerdadeiroNegativo.setBackground(Color.CYAN);
 		VerdadeiroNegativo.setOpaque(true);
 		panel_1_2_1.add(VerdadeiroNegativo);
 		
 		JLabel VerdadeiroPositivo = new JLabel("VerdadeiroPositivo");
-		VerdadeiroPositivo.setToolTipText("Cor de acerto em caso de VerdadeiroPositivo");
+		VerdadeiroPositivo.setToolTipText("Aplicação da regra deteta code smell e a coluna de comparação é TRUE");
 		VerdadeiroPositivo.setBackground(Color.GREEN);
 		VerdadeiroPositivo.setOpaque(true);
 		panel_1_2_1.add(VerdadeiroPositivo);
