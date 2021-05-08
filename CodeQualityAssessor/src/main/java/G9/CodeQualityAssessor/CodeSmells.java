@@ -52,7 +52,7 @@ public class CodeSmells {
 			String equality = condition.get(i+1);
 			String value = condition.get(i+2);
 			
-			boolean smellyHelper = funcao2(metricName, equality, value, metric);
+			boolean smellyHelper = compareLogic(metricName, equality, value, metric);
 			
 			if (isSmelly == null) {
 				isSmelly=smellyHelper;
@@ -82,7 +82,7 @@ public class CodeSmells {
 	 */
 
 
-	private boolean funcao2(String metricName, String equality, String value, Metric metric) {
+	private boolean compareLogic(String metricName, String equality, String value, Metric metric) {
 		switch(equality) {
 			case ">": return (metric.getValueByMetricName(metricName) > Integer.parseInt(value));
 			case "<": return (metric.getValueByMetricName(metricName) < Integer.parseInt(value));
